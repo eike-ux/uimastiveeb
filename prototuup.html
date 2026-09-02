@@ -1,0 +1,1555 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Uimastiveeb — prototüüp</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+/* ============================================================
+   TAI disainisüsteem (design.md) — värvid, tüpograafia, raadiused
+   ============================================================ */
+:root{
+  --c-orange:#ff8200; --c-blue:#10069f; --c-ink:#000; --c-slate:#003b5c; --c-white:#fff;
+  --t-sky:rgba(89,203,232,.2);   --s-sky:rgb(89,203,232);
+  --t-lime:rgba(132,189,0,.2);   --s-lime:rgb(132,189,0);
+  --t-orange:rgba(255,130,0,.2); --s-orange:rgb(255,130,0);
+  --t-forest:rgba(0,119,73,.2);  --s-forest:rgb(0,119,73);
+  --t-plum:rgba(112,47,138,.2);  --s-plum:rgb(112,47,138);
+  --t-yellow:rgba(255,205,0,.2); --s-yellow:rgb(255,205,0);
+  --btn-primary:rgba(255,130,0,.4); --btn-primary-hover:rgba(255,130,0,.6);
+  --c-grey-100:#f4f4f6; --c-grey-200:#d8d9df; --c-grey-400:#99b1be;
+  --c-grey-600:#686b78; --c-disabled:#ccd8de;
+  --c-alert:#b3261e;
+  --r-card:8px; --r-pill:360px; --r-field:5px;
+}
+*{box-sizing:border-box}
+html{font-size:18px}
+body{margin:0;background:var(--c-grey-100);color:var(--c-ink);
+  font-family:Montserrat,Arial,"Helvetica Neue",Helvetica,sans-serif;
+  font-size:1rem;line-height:1.6;-webkit-font-smoothing:antialiased}
+:focus-visible{outline:2px solid var(--c-orange);outline-offset:2px}
+img{max-width:100%}
+
+/* ---------- Prototüübi riba (ei kuulu toote UI hulka) ---------- */
+.proto{position:sticky;top:0;z-index:90;background:#12161c;color:#fff;
+  display:flex;flex-wrap:wrap;gap:8px 20px;align-items:center;padding:10px 16px;font-size:14px}
+.proto b{font-weight:700;letter-spacing:.02em;text-transform:uppercase;font-size:12px;color:#9aa4ae}
+.proto-group{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.proto button{font:inherit;font-weight:600;color:#fff;background:transparent;
+  border:1px solid #3b444e;border-radius:var(--r-pill);padding:6px 14px;cursor:pointer}
+.proto button[aria-pressed="true"]{background:var(--btn-primary);border-color:var(--c-orange);color:#fff}
+.proto :focus-visible{outline-color:var(--c-orange)}
+
+.stage{padding:24px 16px 64px;display:flex;justify-content:center}
+.device{width:100%;background:var(--c-white);border-radius:var(--r-card);overflow:hidden;
+  container-type:inline-size;container-name:site}
+.stage[data-vp="mobile"] .device{width:390px;max-width:100%;height:800px;overflow-y:auto;
+  border:10px solid #12161c;border-radius:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+
+/* ---------- Tüpograafia ---------- */
+h1,h2,h3,h4{margin:0 0 24px;line-height:1.25;text-wrap:pretty}
+h1{font-size:2rem;font-weight:700;line-height:1.2;color:var(--c-ink)}
+h2{font-size:1.556rem;font-weight:700;color:var(--c-ink)}
+h3{font-size:1.222rem;font-weight:700;line-height:1.45;color:var(--c-ink);margin-bottom:12px}
+h4{font-size:1.111rem;font-weight:600;line-height:1.4;margin-bottom:8px}
+p{margin:0 0 16px;max-width:38em}
+.lead{font-size:1.111rem;line-height:1.6}
+.meta{font-size:.889rem;color:var(--c-grey-600)}
+.eyebrow{font-size:.778rem;font-weight:600;line-height:1.5;letter-spacing:.02em;
+  text-transform:uppercase;margin:0 0 8px;display:flex;align-items:center;gap:8px}
+a{color:var(--c-blue);text-underline-offset:2px}
+a:hover{text-decoration-thickness:2px}
+.u-vh{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@container site (min-width:768px){
+  h1{font-size:2.222rem}
+  h2{font-size:1.778rem}
+  .lead{font-size:1.222rem}
+}
+
+/* ---------- Konteiner ja rütm ---------- */
+.wrap{width:1440px;max-width:100%;margin:0 auto;padding:0 20px}
+@container site (min-width:768px){.wrap{padding:0 40px}}
+@container site (min-width:1280px){.wrap{padding:0 96px}}
+section.band{padding:40px 0}
+@container site (min-width:768px){section.band{padding:56px 0}}
+.reading{max-width:720px}
+
+/* ---------- Päis ---------- */
+.hdr{position:sticky;top:0;z-index:40;background:var(--c-white);border-bottom:1px solid var(--c-grey-200)}
+.hdr-in{display:flex;align-items:center;gap:12px;min-height:56px;padding:8px 20px}
+@container site (min-width:768px){.hdr-in{padding:8px 40px;min-height:72px}}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:1.111rem;
+  color:var(--c-blue);text-decoration:none;margin-right:auto}
+.logo .dot{width:28px;height:28px;border-radius:50%;background:var(--c-orange);flex:0 0 auto}
+.hdr nav.main{display:none}
+@container site (min-width:1024px){
+  .hdr nav.main{display:flex;gap:4px;margin-right:auto}
+  .logo{margin-right:32px}
+}
+.hdr nav.main a{padding:10px 14px;border-radius:var(--r-pill);color:var(--c-ink);
+  text-decoration:none;font-weight:600;font-size:.889rem}
+.hdr nav.main a:hover{background:var(--c-grey-100);text-decoration:underline}
+.hdr nav.main a[aria-current="page"]{background:var(--t-orange)}
+.icon-btn{min-width:44px;min-height:44px;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;gap:2px;background:none;border:0;font:inherit;font-size:.611rem;
+  font-weight:600;color:var(--c-ink);cursor:pointer;border-radius:var(--r-field)}
+@container site (min-width:1024px){.menu-only{display:none}}
+.lang{display:flex;align-items:center;gap:2px;font-size:.833rem;font-weight:600}
+.lang a{min-width:36px;min-height:44px;display:flex;align-items:center;justify-content:center;
+  text-decoration:none;color:var(--c-blue)}
+.lang a[aria-current="true"]{color:var(--c-ink);text-decoration:underline}
+.help-btn{display:none}
+@container site (min-width:768px){
+  .help-btn{display:inline-flex}
+}
+
+/* ---------- Nupud ---------- */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:48px;padding:8px 32px;border-radius:var(--r-pill);border:2px solid transparent;
+  font:inherit;font-size:.889rem;font-weight:600;color:var(--c-ink);text-decoration:none;
+  cursor:pointer;transition:background 200ms,border-color 200ms}
+.btn--primary{background:var(--btn-primary)}
+.btn--primary:hover{background:var(--btn-primary-hover)}
+.btn--primary:active{background:var(--c-orange)}
+/* avalehe suunaja-nupp: CVI ploom 20% tumeda äärisega */
+#heroCta{background:var(--t-plum);border-color:var(--s-plum);text-align:center}
+#heroCta:hover{background:rgba(112,47,138,.35)}
+#heroCta:active{background:rgba(112,47,138,.5)}
+.btn--secondary{background:var(--c-white);border-color:var(--btn-primary)}
+.btn--secondary:hover{border-color:#ff9b33}
+.btn--quiet{padding:8px 0;min-height:44px;color:var(--c-blue);text-decoration:underline;
+  background:none;border:0;font-weight:600}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{display:inline-flex;align-items:center;gap:6px;min-height:44px;padding:8px 18px;
+  border-radius:var(--r-pill);background:var(--c-white);border:1px solid var(--c-grey-200);
+  color:var(--c-ink);text-decoration:none;font-size:.889rem;font-weight:600}
+.chip:hover{border-color:var(--c-orange)}
+.tag{display:inline-flex;align-items:center;padding:2px 12px;border-radius:var(--r-pill);
+  font-size:.778rem;font-weight:600;letter-spacing:.02em;background:var(--c-grey-100)}
+.tag--pr{background:var(--t-lime)}
+.tag--deep{background:var(--t-sky)}
+
+/* ---------- Otsing ---------- */
+.search{display:flex;align-items:center;gap:10px;background:var(--c-white);
+  border:2px solid var(--c-grey-200);border-radius:var(--r-field);padding:0 14px;min-height:52px;
+  max-width:520px}
+.search:focus-within{border-color:var(--c-orange)}
+.search input{flex:1;border:0;outline:0;font:inherit;font-size:1rem;background:transparent;min-width:0}
+
+/* ---------- Kaardid ---------- */
+.grid{display:grid;gap:16px}
+/* ovaalsed reaviidad: ikoon vasakul, pealkiri kõrval */
+.pill-list{display:flex;flex-direction:column;gap:12px;max-width:720px}
+.pill-list .card{flex-direction:row;align-items:center;gap:12px;
+  min-height:56px;padding:10px 20px;border-radius:var(--r-pill)}
+.pill-list .card-t{font-size:1rem;line-height:1.3}
+.pill-list .list-ico{width:28px;height:28px}
+
+/* pildiga kaardid kahes veerus ka mobiilis */
+.grid--2up{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.card-cover{margin:-24px -24px 8px;width:calc(100% + 48px);max-width:none;
+  border-radius:8px 8px 0 0;aspect-ratio:3/2}
+@container site (max-width:767px){
+  .grid--2up .card{padding:12px}
+  .grid--2up .card-cover{margin:-12px -12px 8px;width:calc(100% + 24px)}
+  .grid--2up .card-t{font-size:1rem;line-height:1.3}
+}
+
+/* kompaktsed paanid: kaks veergu ka mobiilis */
+.grid--tiles{grid-template-columns:minmax(0,1fr) minmax(0,1fr)}
+.grid--tiles .card{min-height:56px;padding:12px;gap:0;border-radius:var(--r-pill);
+  align-items:center;justify-content:center;text-align:center;
+  background:transparent;border:2px solid var(--c-orange)}
+.grid--tiles a.card:hover{background:var(--t-orange)}
+.grid--tiles .card-t{font-size:.833rem;line-height:1.3}
+@container site (min-width:768px){.grid--2{grid-template-columns:1fr 1fr}.grid--3{grid-template-columns:repeat(3,1fr)}.grid--4{grid-template-columns:repeat(2,1fr)}}
+@container site (min-width:1024px){.grid--4{grid-template-columns:repeat(4,1fr)}.grid{gap:24px}}
+.card{display:flex;flex-direction:column;gap:8px;padding:24px;border-radius:var(--r-card);
+  background:var(--c-white);border:1px solid var(--c-grey-200);color:var(--c-ink);
+  text-decoration:none;transition:transform 200ms}
+a.card:hover{transform:scale(1.01)}
+a.card:hover .card-t{text-decoration:underline}
+.card-t{font-size:1.222rem;font-weight:700;margin:0;color:var(--c-ink)}
+.card p{margin:0;font-size:.889rem;color:var(--c-grey-600);max-width:none}
+.card .arrow{margin-top:auto;padding-top:8px;color:var(--c-blue);font-weight:600;font-size:.889rem}
+.card--sky{background:var(--t-sky);border-color:transparent}
+.card--lime{background:var(--t-lime);border-color:transparent}
+.card--orange{background:var(--t-orange);border-color:transparent}
+.ico{width:32px;height:32px;border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:1rem;flex:0 0 auto}
+
+/* ---------- Olukordade nimekiri ---------- */
+.list{display:flex;flex-direction:column;background:var(--c-white);
+  border:1px solid var(--c-grey-200);border-radius:var(--r-card);overflow:hidden}
+.list a{display:flex;align-items:center;justify-content:space-between;gap:16px;
+  min-height:56px;padding:14px 20px;color:var(--c-ink);text-decoration:none;font-weight:600;
+  border-bottom:1px solid var(--c-grey-200)}
+.list a:last-child{border-bottom:0}
+.list a:hover{background:var(--c-grey-100);text-decoration:underline}
+.list a span[aria-hidden]{color:var(--c-blue);font-weight:700}
+.list-ico{width:32px;height:32px;flex:0 0 auto}
+
+/* ---------- Faktiplokk ja väljakutse ---------- */
+.facts{display:grid;gap:16px}
+@container site (min-width:768px){.facts{grid-template-columns:repeat(3,1fr)}}
+.fact{background:var(--t-sky);border-radius:var(--r-card);padding:24px}
+.fact .n{font-size:2.222rem;font-weight:700;line-height:1.1;display:block;color:var(--c-slate)}
+.callout{display:flex;gap:16px;padding:20px 24px;border-radius:var(--r-card);
+  border-left:4px solid var(--s-lime);background:var(--t-lime);margin:0 0 24px}
+.callout p:last-child{margin-bottom:0}
+.callout--important{border-left-color:var(--s-orange);background:var(--t-orange)}
+.callout--myth{border-left-color:var(--s-yellow);background:var(--t-yellow)}
+.callout--near{border-left-color:var(--s-forest);background:var(--t-forest)}
+.callout--src{border-left-color:var(--s-plum);background:var(--t-plum)}
+.callout--alert{border-left-color:var(--c-alert);background:var(--c-white);
+  border:1px solid var(--c-grey-200);border-left:4px solid var(--c-alert)}
+
+/* ---------- Sihtrühma valik ---------- */
+.seg-q{font-size:1rem;font-weight:700;line-height:1.45;margin:0 0 12px;color:var(--c-ink)}
+.hero-col > .seg-block{margin-top:24px!important;padding:0}
+.hero-col > section.band{padding:24px 0 0;background:none}
+.hero-col > section.band > .wrap{padding:0}
+
+/* ---------- Hoiatusriba (äärest ääreni, päise all) ---------- */
+.alert-bar{background:var(--t-yellow);border-bottom:1px solid var(--s-yellow);font-size:.778rem}
+.alert-bar > .wrap{display:flex;align-items:center;gap:10px;padding-top:10px;padding-bottom:10px}
+.alert-bar p{margin:0;max-width:none}
+.alert-bar .ico{width:24px;height:24px;font-size:.778rem;font-weight:700}
+
+/* ---------- Tabel ---------- */
+.tbl-scroll{overflow-x:auto;border-radius:var(--r-card);border:1px solid var(--c-grey-200)}
+table{border-collapse:collapse;width:100%;font-size:.944rem}
+caption{text-align:left;font-size:.889rem;color:var(--c-grey-600);padding:0 0 8px}
+th,td{text-align:left;padding:12px 16px;border-bottom:1px solid var(--c-grey-200);vertical-align:top}
+thead th{background:var(--t-sky);font-weight:700;white-space:nowrap}
+tbody tr:last-child td{border-bottom:0}
+
+/* ---------- Sammud ---------- */
+ol.steps{list-style:none;counter-reset:s;margin:0;padding:0;display:flex;flex-direction:column;gap:12px}
+ol.steps li{counter-increment:s;display:flex;gap:16px;padding:20px;background:var(--t-lime);
+  border-radius:var(--r-card)}
+ol.steps li::before{content:counter(s);flex:0 0 auto;width:32px;height:32px;border-radius:50%;
+  background:var(--c-white);display:flex;align-items:center;justify-content:center;font-weight:700}
+ol.steps h4{margin-bottom:4px}
+ol.steps p{margin:0;font-size:.944rem}
+ul.check{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;gap:10px}
+ul.check li{display:flex;gap:12px;font-size:.944rem}
+ul.check li::before{content:"✓";color:var(--s-forest);font-weight:700;flex:0 0 auto}
+
+/* ---------- Sisukord ---------- */
+.toc-mob{position:sticky;top:56px;z-index:30;background:var(--c-white);
+  border-bottom:1px solid var(--c-grey-200);display:flex;align-items:center;gap:12px;padding:8px 20px}
+.toc-mob button{flex:0 0 auto}
+.toc-mob .cur{font-size:.889rem;color:var(--c-grey-600);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.layout{display:block}
+.toc-desk{display:none}
+@container site (min-width:1024px){
+  .toc-mob{display:none}
+  .layout{display:grid;grid-template-columns:minmax(220px,3fr) 9fr;gap:24px;align-items:start}
+  .toc-desk{display:block;position:sticky;top:96px}
+}
+.toc-desk ol{list-style:none;margin:0;padding:0}
+.toc-desk a{display:block;padding:8px 16px;border-left:4px solid var(--c-grey-200);
+  color:var(--c-blue);text-decoration:none;font-size:.889rem;font-weight:600}
+.toc-desk a[aria-current="true"]{border-left-color:var(--c-orange);background:var(--c-grey-100)}
+.toc-desk a:hover{text-decoration:underline}
+h2[id],h3[id]{scroll-margin-top:120px}
+
+/* ---------- Akordion ---------- */
+.acc{border:1px solid var(--c-grey-200);border-radius:var(--r-card);overflow:hidden}
+.acc h3{margin:0}
+.acc button{width:100%;min-height:48px;display:flex;align-items:center;justify-content:space-between;
+  gap:16px;padding:12px 20px;background:var(--c-white);border:0;border-bottom:1px solid var(--c-grey-200);
+  font:inherit;font-weight:700;text-align:left;cursor:pointer}
+.acc button:hover{background:var(--c-grey-100)}
+.acc button .chev{transition:transform 200ms}
+.acc button[aria-expanded="true"] .chev{transform:rotate(90deg)}
+.acc .panel{padding:20px;border-bottom:1px solid var(--c-grey-200)}
+.acc .panel:last-child,.acc button:last-of-type{border-bottom:0}
+
+/* ---------- Teekond ---------- */
+.crumbs{padding:16px 0 0;font-size:.889rem}
+.crumbs ol{list-style:none;display:flex;flex-wrap:wrap;gap:8px;margin:0;padding:0;align-items:center}
+.crumbs .full{display:none}
+@container site (min-width:768px){.crumbs .full{display:flex;gap:8px;align-items:center}.crumbs .short{display:none}}
+
+/* ---------- Kiire abi ---------- */
+.sos{position:fixed;right:20px;bottom:20px;z-index:60}
+.stage[data-vp="mobile"] .sos{position:absolute}
+/* Kiire abi nupp — sama välimus kõigis kolmes kohas (päis, mobiilimenüü, parem alanurk) */
+.help-btn{align-items:center;gap:8px;min-height:44px;padding:8px 20px;border-radius:var(--r-pill);
+  font-weight:600;font-size:.889rem;text-decoration:none;white-space:nowrap}
+.help-btn,.sos-btn,.btn--sos{background:var(--c-white);border:2px solid var(--c-alert);color:var(--c-alert)}
+.help-btn:hover,.sos-btn:hover,.btn--sos:hover{background:var(--c-grey-100)}
+.sos-btn{box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.sos-panel{position:absolute;right:0;bottom:60px;width:290px;max-width:calc(100vw - 40px);
+  background:var(--c-white);border:1px solid var(--c-grey-200);border-top:4px solid var(--c-alert);
+  border-radius:var(--r-card);padding:20px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.sos-panel p{font-size:.889rem}
+.sos-panel a{display:block;padding:6px 0;font-weight:600}
+
+/* ---------- Mobiilimenüü / sisukorra leht ---------- */
+.sheet{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.35);display:flex;
+  align-items:flex-start;justify-content:center}
+.stage[data-vp="mobile"] .sheet{position:absolute}
+.sheet-in{background:var(--c-white);width:100%;max-width:520px;max-height:100%;overflow-y:auto;
+  padding:20px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+.sheet-hd{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
+.sheet-in nav ol,.sheet-in nav ul{list-style:none;margin:0;padding:0}
+.sheet-in nav a{display:block;min-height:52px;padding:14px 0;border-bottom:1px solid var(--c-grey-200);
+  color:var(--c-ink);text-decoration:none;font-weight:600}
+
+/* ---------- Jalus ---------- */
+footer.site-f{background:var(--c-slate);color:#fff;padding:40px 0;margin-top:40px}
+footer.site-f a{color:#fff}
+footer.site-f .grid{gap:24px}
+footer.site-f h3{color:#fff;font-size:1rem}
+footer.site-f ul{list-style:none;margin:0;padding:0;font-size:.889rem;line-height:2}
+
+/* ---------- Sisuhalduse annotatsioonid ---------- */
+[data-src]{position:relative}
+.badge{display:none}
+.annotate [data-src]{outline:1px dashed var(--c-grey-400);outline-offset:6px}
+.annotate .badge{display:inline-flex;align-items:center;gap:6px;font-size:.667rem;font-weight:700;
+  letter-spacing:.04em;text-transform:uppercase;padding:2px 10px;border-radius:var(--r-pill);
+  margin-bottom:8px}
+.annotate [data-src="manual"] > .badge{background:var(--t-sky)}
+.annotate [data-src="auto"] > .badge{background:var(--t-lime)}
+
+
+/* --- kitsa mobiili päise korrektuur --- */
+@container site (max-width:479px){
+  .hdr-in{padding:8px 12px;gap:2px}
+  .lang a{min-width:30px}
+  .icon-btn{min-width:40px}
+}
+/* --- kiire abi mobiilivaates jääb nähtavale --- */
+.stage[data-vp="mobile"] .sos{position:sticky;right:auto;bottom:16px;
+  width:max-content;margin:0 16px 16px auto}
+
+/* ---------- Logo ---------- */
+.logo{gap:12px}
+.logo-mark{height:38px;width:auto;display:block;color:var(--c-ink);flex:0 0 auto}
+.logo-div{width:1px;height:28px;background:var(--c-grey-200);flex:0 0 auto}
+.logo-name{font-weight:700;font-size:1rem;color:var(--c-blue);white-space:nowrap}
+@container site (min-width:768px){.logo-mark{height:46px}.logo-name{font-size:1.111rem}}
+@container site (max-width:479px){.logo-mark{height:34px}.logo-div,.logo-name{display:none}
+  h1{font-size:1.778rem}}
+footer.site-f .logo-f{height:52px;width:auto;display:block;color:#fff;margin-bottom:16px}
+
+/* ---------- Pildid ja kohatäited ---------- */
+figure{margin:0}
+.media{display:block;width:100%;height:auto;border-radius:var(--r-card);object-fit:cover}
+.hero-media img{aspect-ratio:4/3;height:auto;object-fit:cover;object-position:50% 30%}
+.ph{display:flex;flex-direction:column;justify-content:flex-end;gap:2px;padding:14px;
+  border-radius:var(--r-card);background:var(--t-sky);border:1px dashed var(--c-grey-400);
+  color:var(--c-slate);font-size:.722rem;font-weight:600;line-height:1.35;overflow:hidden}
+.ph span.k{font-size:.611rem;letter-spacing:.06em;text-transform:uppercase;opacity:.75}
+.ph--16x9{aspect-ratio:16/9}
+.ph--3x2{aspect-ratio:3/2}
+.ph--4x3{aspect-ratio:4/3}
+.ph--1x1{aspect-ratio:1/1}
+.ph--lime{background:var(--t-lime)}
+.ph--orange{background:var(--t-orange)}
+.ph--forest{background:var(--t-forest)}
+.ph--plum{background:var(--t-plum)}
+.card .ph{margin:-24px -24px 8px;border-radius:var(--r-card) var(--r-card) 0 0;border:0;
+  border-bottom:1px dashed var(--c-grey-400)}
+figcaption{font-size:.778rem;color:var(--c-grey-600);padding-top:8px;max-width:38em}
+
+/* ---------- Hero koos ringimotiiviga ---------- */
+.hero-grid{display:block;position:relative;z-index:1}
+@container site (min-width:768px){
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:stretch}
+  .hero-media{display:flex;max-height:480px}
+  .hero-media img{width:100%;height:100%;min-height:420px;object-fit:cover}
+  .hero-col{display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+  .hero-col > *{margin-top:0!important}
+  .hero-col .reading > :last-child{margin-bottom:0}
+}
+@container site (min-width:1280px){
+  .hero-grid{gap:48px}
+  .hero-media{max-height:560px}
+  .hero-media img{min-height:500px}
+}
+/* mobiilis on hero pilt pealkirja taustaks: äärest ääreni, tume kate, valge kiri */
+@container site (max-width:767px){
+  #view-avaleht > section.band.pinned{padding-top:0!important}
+  .hero-col > .reading{
+    position:relative;margin:0 -20px 24px;padding:120px 20px 32px;
+    display:flex;flex-direction:column;justify-content:flex-end;
+    background-image:linear-gradient(rgba(11,15,20,.55),rgba(11,15,20,.65)),
+      url(img/hero-avaleht-mure.jpg);
+    background-size:cover;background-position:50% 22%;color:var(--c-white)}
+  .hero-col > .reading h1{color:var(--c-white);margin-bottom:0}
+  .hero-media{display:none}
+}
+.icon24{width:24px;height:24px;flex:0 0 auto}
+
+/* ============================================================
+   v2 — sihtrühma valik, suunaja, hädaolukord
+   ============================================================ */
+
+/* ---------- Avalehe sihtrühma filter ---------- */
+#view-avaleht{display:flex;flex-direction:column}
+.pinned{order:-10}
+.alt{background:var(--c-grey-100)}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:0}
+.seg button{font:inherit;font-weight:600;font-size:.889rem;min-height:44px;padding:8px 20px;
+  border-radius:var(--r-pill);border:2px solid var(--c-grey-200);background:var(--c-white);
+  color:var(--c-ink);cursor:pointer;transition:background 200ms,border-color 200ms}
+.seg button:hover{border-color:var(--c-orange)}
+.seg button[aria-pressed="true"]{background:var(--btn-primary);border-color:var(--c-orange)}
+
+/* ---------- Suunaja ---------- */
+.wiz{background:var(--c-white);border:1px solid var(--c-grey-200);border-radius:var(--r-card);padding:24px}
+@container site (min-width:768px){.wiz{padding:32px}}
+.wiz-bar{display:flex;gap:6px;margin-bottom:12px}
+.wiz-bar span{height:6px;flex:1;border-radius:var(--r-pill);background:var(--c-grey-200)}
+.wiz-bar span[data-on="true"]{background:var(--c-orange)}
+.wiz h2{font-size:1.333rem;margin-bottom:16px}
+.opts{display:grid;gap:12px;margin:0 0 8px}
+@container site (min-width:768px){.opts{grid-template-columns:1fr 1fr}}
+.opt{display:block;text-align:left;font:inherit;font-weight:600;font-size:.944rem;
+  min-height:64px;padding:14px 20px;border-radius:var(--r-card);border:2px solid var(--c-grey-200);
+  background:var(--c-white);color:var(--c-ink);cursor:pointer;transition:background 200ms,border-color 200ms}
+.opt:hover{border-color:var(--c-orange);background:var(--c-grey-100)}
+.opt[aria-pressed="true"]{border-color:var(--c-orange);background:var(--t-orange)}
+.opt small{display:block;font-weight:400;font-size:.833rem;color:var(--c-grey-600);margin-top:2px}
+.wiz-sum{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 24px}
+.wiz-sum .tag{background:var(--t-sky)}
+
+/* ---------- Hädaolukord ---------- */
+.emg-hd{background:var(--c-alert);color:#fff;padding:32px 0}
+.emg-hd h1{color:#fff}
+.emg-hd p{color:#fff;margin-bottom:24px}
+.emg-actions{display:flex;flex-wrap:wrap;gap:12px}
+.call{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:60px;
+  padding:12px 32px;border-radius:var(--r-pill);background:#fff;color:var(--c-alert);
+  font-weight:700;font-size:1.111rem;text-decoration:none;border:2px solid #fff}
+.call:hover{background:var(--c-grey-100);text-decoration:none}
+.call--out{background:transparent;color:#fff;font-weight:600;font-size:1rem}
+.call--out:hover{background:rgba(255,255,255,.15)}
+ol.steps--emg li{background:var(--c-grey-100)}
+ol.steps--emg li::before{background:var(--c-alert);color:#fff}
+ul.dont{list-style:none;margin:0 0 24px;padding:0;display:flex;flex-direction:column;gap:10px}
+ul.dont li{display:flex;gap:12px;font-size:.944rem}
+ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0 auto}
+.signs{display:grid;gap:16px;margin-bottom:24px}
+@container site (min-width:768px){.signs{grid-template-columns:repeat(3,1fr)}}
+.sign{border:1px solid var(--c-grey-200);border-top:4px solid var(--c-alert);
+  border-radius:var(--r-card);padding:20px;background:var(--c-white)}
+.sign h3{margin-bottom:8px;font-size:1.111rem}
+.sign ul{margin:0;padding-left:20px;font-size:.889rem;line-height:1.7}
+
+/* ---------- Prototüübi märkus: sisu vajab kinnitust ---------- */
+.todo{border:1px dashed var(--c-grey-400);border-radius:var(--r-card);background:var(--c-grey-100);
+  padding:16px 20px;margin:0 0 24px;font-size:.889rem;max-width:720px}
+.todo strong{display:block;font-size:.667rem;letter-spacing:.06em;text-transform:uppercase;
+  color:var(--c-grey-600);margin-bottom:4px}
+.todo p{margin:0;max-width:none}
+
+/* Peidetud mobiilivaates (nähtav alates 768px) */
+@container site (max-width:767px){.u-desktop{display:none!important}}
+
+[hidden]{display:none!important}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;animation:none!important}}
+</style>
+</head>
+<body>
+<style>.device{position:relative}</style>
+
+<!-- ===== Prototüübi juhtriba — ei kuulu toote kasutajaliidesesse ===== -->
+<div class="proto" role="toolbar" aria-label="Prototüübi juhtimine">
+  <b>Uimastiveeb · prototüüp</b>
+  <div class="proto-group" role="group" aria-label="Vaade">
+    <button type="button" data-goto="avaleht" aria-pressed="true">Avaleht</button>
+    <button type="button" data-goto="mureleht" aria-pressed="false">Mureleht</button>
+    <button type="button" data-goto="sisuleht" aria-pressed="false">Sisuleht</button>
+    <button type="button" data-goto="suunaja" aria-pressed="false">Suunaja</button>
+    <button type="button" data-goto="hadaolukord" aria-pressed="false">Hädaolukord</button>
+  </div>
+  <div class="proto-group" role="group" aria-label="Seadme laius">
+    <button type="button" data-vp="desktop" aria-pressed="true">Lauaarvuti</button>
+    <button type="button" data-vp="mobile" aria-pressed="false">Mobiil 390</button>
+  </div>
+  <div class="proto-group">
+    <button type="button" id="annotate" aria-pressed="false">Sisuhalduse loogika</button>
+  </div>
+</div>
+
+<div class="stage" id="stage" data-vp="desktop">
+<div class="device">
+<div class="site">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs>
+<symbol id="logo" viewBox="0 0 263 120"><path d="M147.329 19.7028H141.728C141.45 19.7028 141.22 19.4727 141.22 19.1946V16.3471C141.22 16.069 141.45 15.8389 141.728 15.8389H158.636C158.914 15.8389 159.144 16.069 159.144 16.3471V19.1946C159.144 19.4727 158.914 19.7028 158.636 19.7028H153.064C152.786 19.7028 152.556 19.9329 152.556 20.2109V37.1045C152.556 37.3826 152.326 37.6127 152.047 37.6127H148.355C148.077 37.6127 147.847 37.3826 147.847 37.1045V20.2109C147.847 19.9329 147.617 19.7028 147.338 19.7028H147.329Z" fill="currentColor"/>
+<path d="M161.217 30.4026C160.919 30.4026 160.68 30.6615 160.708 30.9587C160.881 32.79 161.917 34.4391 163.959 34.4391C165.667 34.4391 166.271 33.8159 166.683 32.9721C166.769 32.7996 166.942 32.6941 167.134 32.6941H170.634C170.999 32.6941 171.239 33.0584 171.104 33.394C170.328 35.3787 168.409 37.9865 163.844 37.9865C158.464 37.9865 156.124 33.9597 156.124 29.674C156.124 24.5445 158.752 20.8916 164.007 20.8916C169.618 20.8916 171.526 24.9472 171.526 29.0316C171.526 29.3863 171.526 29.6548 171.507 29.9232C171.488 30.1917 171.267 30.4026 170.999 30.4026H161.207H161.217ZM166.453 27.6318C166.75 27.6318 166.99 27.3729 166.961 27.0757C166.798 25.4266 165.983 24.1323 163.998 24.1323C162.013 24.1323 161.149 25.3403 160.852 27.0469C160.795 27.3537 161.044 27.6414 161.351 27.6414H166.453V27.6318Z" fill="currentColor"/>
+<path d="M174.106 25.7048C174.106 24.2858 174.106 23.001 174.087 21.7834C174.087 21.4957 174.307 21.2656 174.595 21.2656H178.057C178.326 21.2656 178.546 21.467 178.566 21.7354C178.575 21.9272 178.585 22.1477 178.604 22.3874C178.623 22.8476 179.199 23.049 179.496 22.6942C180.34 21.7067 181.615 21.0259 183.332 20.9013C183.629 20.8821 183.888 21.1026 183.888 21.4095V24.6885C183.888 24.9665 183.668 25.1966 183.39 25.1966C180.407 25.2158 178.642 26.2321 178.642 30.4794V37.095C178.642 37.373 178.412 37.6031 178.134 37.6031H174.624C174.346 37.6031 174.116 37.373 174.116 37.095V25.6952L174.106 25.7048Z" fill="currentColor"/>
+<path d="M189.556 21.2656C189.786 21.2656 189.988 21.419 190.045 21.6395C191.56 27.0182 192.798 31.6874 193.114 33.605H193.143C193.594 30.9779 195.118 26.232 196.519 21.6203C196.586 21.4094 196.778 21.256 197.008 21.256H200.422C200.777 21.256 201.017 21.6011 200.901 21.9367L195.483 37.2675C195.416 37.4688 195.224 37.6031 195.003 37.6031H190.966C190.745 37.6031 190.553 37.4688 190.486 37.2579L185.288 21.9271C185.173 21.6011 185.422 21.256 185.768 21.256H189.546L189.556 21.2656Z" fill="currentColor"/>
+<path d="M203.174 14.5638H206.684C206.963 14.5638 207.193 14.7939 207.193 15.0719V18.6002H202.666V15.0719C202.666 14.7939 202.896 14.5638 203.174 14.5638ZM203.174 21.2656H206.684C206.963 21.2656 207.193 21.4957 207.193 21.7737V37.1045C207.193 37.3825 206.963 37.6126 206.684 37.6126H203.174C202.896 37.6126 202.666 37.3825 202.666 37.1045V21.7737C202.666 21.4957 202.896 21.2656 203.174 21.2656Z" fill="currentColor"/>
+<path d="M213.359 32.6942C213.57 32.6942 213.772 32.8092 213.849 33.0106C214.271 34.1131 215.297 34.7268 216.841 34.7268C218.51 34.7268 219.123 34.1227 219.123 33.1352C219.123 32.0901 218.423 31.6779 216.083 31.1026C210.76 29.7891 209.888 28.14 209.888 25.8389C209.888 23.5379 211.585 20.8917 216.515 20.8917C221.041 20.8917 222.835 23.1448 223.218 25.2253C223.276 25.5321 223.027 25.8198 222.72 25.8198H219.373C219.162 25.8198 218.97 25.6951 218.903 25.4938C218.682 24.8802 218.107 24.0748 216.323 24.0748C214.827 24.0748 214.347 24.7363 214.347 25.4746C214.347 26.2896 214.856 26.6827 217.512 27.2963C222.969 28.5618 223.736 30.4314 223.736 32.8284C223.736 35.5321 221.674 37.9962 216.697 37.9962C212.094 37.9962 209.993 35.9348 209.427 33.3174C209.36 33.001 209.6 32.7037 209.926 32.7037H213.388L213.359 32.6942Z" fill="currentColor"/>
+<path d="M230.9 30.4026C230.603 30.4026 230.363 30.6615 230.392 30.9587C230.564 32.79 231.6 34.4391 233.643 34.4391C235.35 34.4391 235.954 33.8159 236.367 32.9721C236.453 32.7996 236.626 32.6941 236.817 32.6941H240.318C240.682 32.6941 240.922 33.0584 240.788 33.394C240.011 35.3787 238.093 37.9865 233.528 37.9865C228.148 37.9865 225.808 33.9597 225.808 29.674C225.808 24.5445 228.435 20.8916 233.691 20.8916C239.301 20.8916 241.21 24.9472 241.21 29.0316C241.21 29.3863 241.21 29.6548 241.191 29.9232C241.172 30.1917 240.951 30.4026 240.682 30.4026H230.891H230.9ZM236.137 27.6318C236.434 27.6318 236.674 27.3729 236.645 27.0757C236.482 25.4266 235.667 24.1323 233.681 24.1323C231.696 24.1323 230.833 25.3403 230.536 27.0469C230.478 27.3537 230.728 27.6414 231.034 27.6414H236.137V27.6318Z" fill="currentColor"/>
+<path d="M148.144 66.6348L146.667 71.0068C146.6 71.1985 146.418 71.3327 146.216 71.3327H142.601C142.275 71.3327 142.044 71.0068 142.15 70.6999L149.218 49.8946C149.285 49.7028 149.467 49.5686 149.669 49.5686H154.905C155.107 49.5686 155.289 49.6932 155.356 49.885L162.731 70.6904C162.846 70.9972 162.606 71.3327 162.28 71.3327H158.348C158.147 71.3327 157.965 71.2081 157.897 71.0163L156.334 66.6252C156.267 66.4334 156.085 66.3088 155.883 66.3088H148.614C148.413 66.3088 148.23 66.443 148.163 66.6348H148.144ZM154.531 62.4545C154.857 62.4545 155.087 62.1285 154.982 61.8217C153.563 57.5935 152.642 54.8323 152.143 52.9722H152.114C151.606 55.0048 150.609 58.1688 149.448 61.8313C149.352 62.1381 149.583 62.4545 149.909 62.4545H154.541H154.531Z" fill="currentColor"/>
+<path d="M164.698 59.4247C164.698 57.9961 164.698 56.7018 164.679 55.4745C164.679 55.2061 164.89 54.9856 165.158 54.9856H168.678C168.927 54.9856 169.138 55.1773 169.157 55.4266C169.167 55.6375 169.186 55.906 169.196 56.184C169.215 56.6155 169.762 56.8072 170.04 56.4717C170.893 55.4362 172.207 54.7363 173.991 54.6212C174.26 54.6021 174.49 54.8322 174.49 55.1006V58.4372C174.49 58.7056 174.269 58.9165 174.01 58.9165C171.018 58.9357 169.244 59.9424 169.244 64.1994V70.8437C169.244 71.1121 169.033 71.3231 168.764 71.3231H165.197C164.928 71.3231 164.717 71.1121 164.717 70.8437V59.4151L164.698 59.4247Z" fill="currentColor"/>
+<path d="M180.713 64.1324C180.435 64.1324 180.205 64.3721 180.234 64.6597C180.397 66.5101 181.432 68.1784 183.494 68.1784C185.211 68.1784 185.806 67.5552 186.228 66.6923C186.304 66.5293 186.477 66.4334 186.65 66.4334H190.208C190.543 66.4334 190.774 66.7786 190.649 67.095C189.882 69.0796 187.973 71.7258 183.37 71.7258C177.989 71.7258 175.649 67.699 175.649 63.4133C175.649 58.2838 178.277 54.6213 183.533 54.6213C189.143 54.6213 191.052 58.6769 191.052 62.7613C191.052 63.1257 191.052 63.4037 191.033 63.6817C191.013 63.9406 190.812 64.142 190.553 64.142H180.704L180.713 64.1324ZM186.017 61.3519C186.295 61.3519 186.525 61.1122 186.496 60.8246C186.343 59.1659 185.528 57.8428 183.523 57.8428C181.519 57.8428 180.656 59.07 180.368 60.7862C180.32 61.0739 180.55 61.3423 180.838 61.3423H186.007L186.017 61.3519Z" fill="currentColor"/>
+<path d="M193.555 59.1083C193.555 57.9003 193.555 56.5964 193.536 55.4746C193.536 55.2061 193.747 54.9856 194.016 54.9856H197.497C197.737 54.9856 197.948 55.1678 197.977 55.4075C197.986 55.5225 198.005 55.6472 198.015 55.7814C198.044 56.1841 198.542 56.3662 198.82 56.0786C199.578 55.302 200.825 54.6021 202.829 54.6021C206.109 54.6021 208.248 56.8169 208.248 60.93V70.8437C208.248 71.1122 208.037 71.3231 207.768 71.3231H204.201C203.932 71.3231 203.721 71.1122 203.721 70.8437V61.4286C203.721 59.5877 203.107 58.2646 201.113 58.2646C199.118 58.2646 198.092 59.3384 198.092 62.2148V70.8437C198.092 71.1122 197.881 71.3231 197.612 71.3231H194.044C193.776 71.3231 193.565 71.1122 193.565 70.8437V59.0988L193.555 59.1083Z" fill="currentColor"/>
+<path d="M226.393 69.348C226.393 74.5925 224.456 77.9099 218.26 77.9099C212.851 77.9099 211.374 75.1774 211.029 73.2886C210.971 73.001 211.211 72.7325 211.499 72.7325H215.22C215.412 72.7325 215.584 72.838 215.661 73.0201C216.035 73.9885 216.86 74.6213 218.452 74.6213C221.387 74.6213 221.943 72.8284 221.943 69.6261V68.8495C221.089 70.2589 219.737 71.1409 217.339 71.1409C213.033 71.1409 210.578 67.6127 210.578 63.2215C210.578 58.1112 213.637 54.6117 217.723 54.6117C219.497 54.6117 220.619 55.139 221.262 55.7239C221.559 55.9923 222.02 55.8293 222.068 55.4267C222.068 55.4267 222.068 55.4171 222.068 55.4075C222.096 55.1678 222.298 54.9856 222.547 54.9856H225.923C226.191 54.9856 226.402 55.2061 226.402 55.465C226.383 56.7977 226.374 58.2742 226.374 59.674V69.3384L226.393 69.348ZM215.239 63.0201C215.239 65.8293 216.649 67.488 218.644 67.488C221.367 67.488 222.096 65.6184 222.096 62.8763C222.096 60.1342 221.607 58.2359 218.74 58.2359C216.774 58.2359 215.239 59.7507 215.239 63.0105V63.0201Z" fill="currentColor"/>
+<path d="M243.973 66.5868C243.973 67.9866 243.973 69.5015 243.992 70.8533C243.992 71.1218 243.781 71.3423 243.512 71.3423H239.993C239.743 71.3423 239.532 71.1506 239.513 70.9013C239.513 70.8533 239.513 70.7958 239.504 70.7383C239.475 70.3356 238.986 70.1343 238.698 70.4219C237.777 71.3423 236.55 71.7162 234.938 71.7162C231.611 71.7162 229.481 69.6932 229.481 65.6376V55.4746C229.481 55.2062 229.692 54.9952 229.961 54.9952H233.529C233.797 54.9952 234.008 55.2062 234.008 55.4746V64.7364C234.008 66.5389 234.564 68.0345 236.53 68.0345C238.592 68.0345 239.446 66.932 239.446 63.7009V55.4842C239.446 55.2158 239.657 55.0048 239.926 55.0048H243.493C243.762 55.0048 243.973 55.2158 243.973 55.4842V66.5964V66.5868Z" fill="currentColor"/>
+<path d="M149.957 83.8064V104.564C149.957 104.842 149.727 105.072 149.449 105.072H145.756C145.478 105.072 145.248 104.842 145.248 104.564V83.8064C145.248 83.5283 145.478 83.2982 145.756 83.2982H149.449C149.727 83.2982 149.957 83.5283 149.957 83.8064Z" fill="currentColor"/>
+<path d="M153.582 92.838C153.582 91.6395 153.582 90.3452 153.562 89.2426C153.562 88.955 153.783 88.7249 154.071 88.7249H157.495C157.754 88.7249 157.974 88.9262 158.003 89.1851C158.003 89.2714 158.022 89.3673 158.032 89.4631C158.07 89.885 158.578 90.0863 158.885 89.7795C159.652 89.0221 160.89 88.351 162.856 88.351C166.136 88.351 168.274 90.5657 168.274 94.6789V104.564C168.274 104.842 168.044 105.072 167.766 105.072H164.256C163.978 105.072 163.748 104.842 163.748 104.564V95.1774C163.748 93.3366 163.134 92.0135 161.139 92.0135C159.144 92.0135 158.118 93.0873 158.118 95.9636V104.564C158.118 104.842 157.888 105.072 157.61 105.072H154.1C153.821 105.072 153.591 104.842 153.591 104.564V92.8476L153.582 92.838Z" fill="currentColor"/>
+<path d="M174.672 100.153C174.883 100.153 175.084 100.268 175.161 100.47C175.583 101.572 176.609 102.186 178.153 102.186C179.822 102.186 180.436 101.582 180.436 100.594C180.436 99.5494 179.736 99.1371 177.396 98.5619C172.073 97.2484 171.2 95.5993 171.2 93.2982C171.2 90.9972 172.898 88.351 177.827 88.351C182.354 88.351 184.147 90.6041 184.531 92.6846C184.589 92.9914 184.339 93.279 184.032 93.279H180.685C180.474 93.279 180.282 93.1544 180.215 92.9531C179.995 92.3395 179.419 91.5341 177.635 91.5341C176.139 91.5341 175.66 92.1956 175.66 92.9339C175.66 93.7488 176.168 94.1419 178.825 94.7555C184.282 96.0211 185.049 97.8907 185.049 100.288C185.049 102.991 182.987 105.455 178.009 105.455C173.406 105.455 171.306 103.394 170.74 100.777C170.673 100.46 170.912 100.163 171.239 100.163H174.701L174.672 100.153Z" fill="currentColor"/>
+<path d="M186.487 88.7248H187.992C188.27 88.7248 188.501 88.4947 188.501 88.2167V84.8034C188.501 84.5254 188.731 84.2953 189.009 84.2953H192.519C192.797 84.2953 193.027 84.5254 193.027 84.8034V88.2167C193.027 88.4947 193.258 88.7248 193.536 88.7248H195.722C196 88.7248 196.231 88.9549 196.231 89.233V91.6203C196.231 91.8984 196 92.1285 195.722 92.1285H193.536C193.258 92.1285 193.027 92.3586 193.027 92.6366V100.192C193.027 101.429 193.411 101.918 194.754 101.918C194.878 101.918 195.061 101.918 195.252 101.918C195.54 101.908 195.78 102.138 195.78 102.426V104.602C195.78 104.842 195.617 105.043 195.377 105.101C194.533 105.292 193.516 105.302 192.73 105.302C189.546 105.302 188.491 103.595 188.491 100.738V92.6462C188.491 92.3682 188.261 92.138 187.983 92.138H186.477C186.199 92.138 185.969 91.9079 185.969 91.6299V89.2426C185.969 88.9645 186.199 88.7344 186.477 88.7344L186.487 88.7248Z" fill="currentColor"/>
+<path d="M199.396 82.0134H202.906C203.184 82.0134 203.414 82.2435 203.414 82.5216V85.5417C203.414 85.8198 203.184 86.0499 202.906 86.0499H199.396C199.118 86.0499 198.888 85.8198 198.888 85.5417V82.5216C198.888 82.2435 199.118 82.0134 199.396 82.0134ZM199.396 88.7248H202.906C203.184 88.7248 203.414 88.9549 203.414 89.233V104.564C203.414 104.842 203.184 105.072 202.906 105.072H199.396C199.118 105.072 198.888 104.842 198.888 104.564V89.233C198.888 88.9549 199.118 88.7248 199.396 88.7248Z" fill="currentColor"/>
+<path d="M206.454 88.7248H207.96C208.238 88.7248 208.468 88.4947 208.468 88.2167V84.8034C208.468 84.5254 208.699 84.2953 208.977 84.2953H212.487C212.765 84.2953 212.995 84.5254 212.995 84.8034V88.2167C212.995 88.4947 213.225 88.7248 213.503 88.7248H215.69C215.968 88.7248 216.198 88.9549 216.198 89.233V91.6203C216.198 91.8984 215.968 92.1285 215.69 92.1285H213.503C213.225 92.1285 212.995 92.3586 212.995 92.6366V100.192C212.995 101.429 213.379 101.918 214.721 101.918C214.846 101.918 215.028 101.918 215.22 101.918C215.508 101.908 215.748 102.138 215.748 102.426V104.602C215.748 104.842 215.585 105.043 215.345 105.101C214.501 105.292 213.484 105.302 212.698 105.302C209.514 105.302 208.459 103.595 208.459 100.738V92.6462C208.459 92.3682 208.229 92.138 207.951 92.138H206.445C206.167 92.138 205.937 91.9079 205.937 91.6299V89.2426C205.937 88.9645 206.167 88.7344 206.445 88.7344L206.454 88.7248Z" fill="currentColor"/>
+<path d="M233.279 100.316C233.279 101.707 233.279 103.212 233.299 104.554C233.299 104.842 233.078 105.072 232.79 105.072H229.328C229.059 105.072 228.839 104.871 228.82 104.602C228.82 104.573 228.82 104.545 228.82 104.525C228.791 104.104 228.273 103.902 227.966 104.199C227.046 105.091 225.837 105.455 224.245 105.455C220.917 105.455 218.788 103.432 218.788 99.3768V89.2425C218.788 88.9645 219.018 88.7344 219.296 88.7344H222.807C223.085 88.7344 223.315 88.9645 223.315 89.2425V98.4755C223.315 100.278 223.871 101.774 225.837 101.774C227.899 101.774 228.753 100.671 228.753 97.44V89.2521C228.753 88.9741 228.983 88.744 229.261 88.744H232.771C233.049 88.744 233.279 88.9741 233.279 89.2521V100.336V100.316Z" fill="currentColor"/>
+<path d="M250.83 100.316C250.83 101.707 250.83 103.212 250.849 104.554C250.849 104.842 250.629 105.072 250.341 105.072H246.879C246.61 105.072 246.39 104.871 246.371 104.602C246.371 104.573 246.371 104.545 246.371 104.525C246.342 104.104 245.824 103.902 245.517 104.199C244.596 105.091 243.388 105.455 241.796 105.455C238.468 105.455 236.339 103.432 236.339 99.3768V89.2425C236.339 88.9645 236.569 88.7344 236.847 88.7344H240.357C240.635 88.7344 240.866 88.9645 240.866 89.2425V98.4755C240.866 100.278 241.422 101.774 243.388 101.774C245.45 101.774 246.303 100.671 246.303 97.44V89.2521C246.303 88.9741 246.534 88.744 246.812 88.744H250.322C250.6 88.744 250.83 88.9741 250.83 89.2521V100.336V100.316Z" fill="currentColor"/>
+<path d="M253.256 88.7248H254.762C255.04 88.7248 255.27 88.4947 255.27 88.2167V84.8034C255.27 84.5254 255.5 84.2953 255.778 84.2953H259.289C259.567 84.2953 259.797 84.5254 259.797 84.8034V88.2167C259.797 88.4947 260.027 88.7248 260.305 88.7248H262.492C262.77 88.7248 263 88.9549 263 89.233V91.6203C263 91.8984 262.77 92.1285 262.492 92.1285H260.305C260.027 92.1285 259.797 92.3586 259.797 92.6366V100.192C259.797 101.429 260.181 101.918 261.523 101.918C261.648 101.918 261.83 101.918 262.022 101.918C262.31 101.908 262.549 102.138 262.549 102.426V104.602C262.549 104.842 262.386 105.043 262.147 105.101C261.303 105.292 260.286 105.302 259.5 105.302C256.316 105.302 255.261 103.595 255.261 100.738V92.6462C255.261 92.3682 255.03 92.138 254.752 92.138H253.247C252.968 92.138 252.738 91.9079 252.738 91.6299V89.2426C252.738 88.9645 252.968 88.7344 253.247 88.7344L253.256 88.7248Z" fill="currentColor"/>
+<path d="M60.0173 120C93.1639 120 120.035 93.1371 120.035 60C120.035 26.8629 93.1639 0 60.0173 0C26.8707 0 0 26.8629 0 60C0 93.1371 26.8707 120 60.0173 120Z" fill="#FF8200"/>
+<path d="M86.4775 34.2569C86.4775 30.7478 89.4122 27.814 92.9223 27.814C96.4325 27.814 99.3672 30.7478 99.3672 34.2569C99.3672 37.7661 96.4325 40.6999 92.9223 40.6999C89.4122 40.6999 86.4775 37.7661 86.4775 34.2569Z" fill="white"/>
+<path d="M97.0176 43.8543H88.8369C88.1271 43.8543 87.5518 44.4295 87.5518 45.139V78.3797C87.5518 79.0892 88.1271 79.6644 88.8369 79.6644H97.0176C97.7273 79.6644 98.3027 79.0892 98.3027 78.3797V45.139C98.3027 44.4295 97.7273 43.8543 97.0176 43.8543Z" fill="white"/>
+<path d="M36.5203 54.0173C37.23 54.0173 37.8055 53.442 37.8055 52.7325V44.9952C37.8055 44.2857 37.23 43.7105 36.5203 43.7105L30.4304 43.7488V35.0336C30.4304 34.3241 29.8741 33.9118 29.1932 34.1131L20.9166 36.5964C20.2357 36.7977 19.6794 37.5456 19.6794 38.255V43.7488L15.2295 43.768C14.5198 43.768 13.9443 44.3432 13.9443 45.0527V52.79C13.9443 53.4995 14.5198 54.0748 15.2295 54.0748L19.6794 54.0556V66.7306C19.6794 75.8581 23.0649 80.1726 34.2474 79.7987L36.3381 79.6357C37.4794 79.511 37.8055 78.6481 37.8055 77.9482V71.0451C37.8055 70.3452 37.1821 69.9233 36.5971 69.885C36.1367 69.9137 35.1105 69.8945 34.5927 69.885C31.8977 69.7699 30.4208 69.0316 30.4208 66.7306V54.0556L36.5108 54.0173H36.5203Z" fill="white"/>
+<path d="M55.5676 68.9453C55.8457 68.7152 56.2389 68.7152 56.5266 68.9261C57.9268 69.9424 59.6531 70.5369 61.5137 70.5369C61.6 70.5369 61.6959 70.5369 61.7822 70.5369C62.1466 70.5273 62.4631 70.767 62.559 71.1121L64.8512 79.5398C64.9758 79.9904 64.6881 80.441 64.2278 80.5273C63.1728 80.7095 62.0987 80.8053 60.9862 80.8053C56.1334 80.8053 51.7122 78.9645 48.3747 75.9444C48.0198 75.6184 48.039 75.0527 48.4131 74.7459L55.558 68.9357L55.5676 68.9453Z" fill="white"/>
+<path d="M45.3152 53.3078L53.1314 58.3605C53.4383 58.5619 53.563 58.9358 53.4479 59.2809C53.1602 60.1438 52.9971 61.0642 52.9971 62.023C52.9971 62.9818 53.1698 63.9885 53.4863 64.8802C53.6109 65.2253 53.4863 65.6088 53.1794 65.8006L45.4015 70.8917C45.0083 71.1505 44.4808 71.0067 44.2698 70.5945C42.9463 68.0249 42.1982 65.1103 42.1982 62.0134C42.1982 58.9933 42.9175 56.1362 44.1835 53.6146C44.3945 53.1927 44.9219 53.0585 45.3152 53.3078Z" fill="white"/>
+<path d="M62.5007 52.7996C62.3857 53.2214 62.002 53.4995 61.5705 53.4995C61.5513 53.4995 61.5417 53.4995 61.5225 53.4995C59.614 53.4995 57.8589 54.1227 56.4396 55.1869C56.1518 55.3978 55.7586 55.3978 55.4709 55.1773L48.2972 49.4151C47.9232 49.1179 47.904 48.5522 48.2493 48.2262C51.5964 45.1294 56.0751 43.2406 60.995 43.2406C62.05 43.2406 63.0858 43.3269 64.0928 43.4995C64.5531 43.5762 64.8408 44.0268 64.7161 44.4774L62.5007 52.8092V52.7996Z" fill="white"/>
+<path d="M70.2887 63.8351C70.0202 63.8159 69.7709 63.9981 69.6941 64.257C69.1475 66.0978 68.0062 67.6798 66.4813 68.7728C66.1936 68.9837 66.0785 69.3577 66.2032 69.6836C66.9896 71.7546 69.6174 78.6673 69.6366 78.6769C69.9147 79.5015 70.7683 79.8658 71.6698 79.8658H78.0379C79.1312 79.8658 79.7258 79.281 79.7258 78.188L79.6682 65.3212C79.6682 64.7747 79.2463 64.3241 78.6996 64.2953L70.2887 63.8351Z" fill="white"/>
+<path d="M70.2887 60.0383C70.0202 60.0575 69.7709 59.8753 69.6941 59.6165C69.1475 57.7756 68.0062 56.1937 66.4813 55.1007C66.1936 54.8897 66.0785 54.5158 66.2032 54.1898C66.9896 52.1189 69.6174 45.2061 69.6366 45.1965C69.9147 44.372 70.7683 44.0077 71.6698 44.0077H78.0379C79.1312 44.0077 79.7258 44.5925 79.7258 45.6855L79.6682 58.5522C79.6682 59.0987 79.2463 59.5494 78.6996 59.5781L70.2887 60.0383Z" fill="white"/></symbol>
+<symbol id="i-pin" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 21s7-6.1 7-11a7 7 0 1 0-14 0c0 4.9 7 11 7 11Z"/><circle cx="12" cy="10" r="2.6"/></symbol>
+<symbol id="i-chat" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 6.5A2.5 2.5 0 0 1 5.5 4h13A2.5 2.5 0 0 1 21 6.5v8a2.5 2.5 0 0 1-2.5 2.5H9l-5 4v-4H5.5A2.5 2.5 0 0 1 3 14.5Z"/></symbol>
+<symbol id="i-test" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 3v7L4.6 18.4A2 2 0 0 0 6.4 21h11.2a2 2 0 0 0 1.8-2.6L15 10V3"/><path d="M8 3h8M7.5 14h9"/></symbol>
+<symbol id="i-people" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="9" cy="8" r="3.2"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 5.4a3.2 3.2 0 0 1 0 5.2M17.5 14.2A6.5 6.5 0 0 1 21.5 20"/></symbol>
+</defs></svg>
+<a class="btn btn--secondary u-vh" href="#main">Liigu põhisisu juurde</a>
+
+<!-- ===================== PÄIS ===================== -->
+<header class="hdr">
+  <div class="hdr-in">
+    <a class="logo" href="#" data-goto="avaleht" aria-label="Tervise Arengu Instituut, uimastiveeb — avalehele">
+      <svg class="logo-mark" viewBox="0 0 263 120" role="img" aria-hidden="true" focusable="false"><use href="#logo"/></svg>
+      <span class="logo-div" aria-hidden="true"></span>
+      <span class="logo-name">uimastiveeb</span>
+    </a>
+    <nav class="main" aria-label="Peamenüü">
+      <a href="#" data-goto="mureleht">Mul on mure</a>
+      <a href="#" data-goto="avaleht">Kuidas aidata?</a>
+      <a href="#" data-goto="avaleht">Kuhu pöörduda?</a>
+      <a href="#" data-goto="sisuleht">Kasulik info</a>
+    </nav>
+    <div class="lang" aria-label="Keel">
+      <a href="#" aria-current="true" hreflang="et">EE</a><span aria-hidden="true">|</span><a href="#" hreflang="ru">RU</a>
+    </div>
+    <button class="icon-btn" type="button" aria-label="Otsing">
+      <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="13" y1="13" x2="18" y2="18" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="u-vh">Otsi</span>
+    </button>
+    <button class="icon-btn menu-only" type="button" id="menuBtn" aria-expanded="false" aria-controls="menuSheet">
+      <svg width="20" height="14" viewBox="0 0 20 14" aria-hidden="true" focusable="false"><line x1="1" y1="2" x2="19" y2="2" stroke="currentColor" stroke-width="2"/><line x1="1" y1="7" x2="19" y2="7" stroke="currentColor" stroke-width="2"/><line x1="1" y1="12" x2="19" y2="12" stroke="currentColor" stroke-width="2"/></svg>
+      <span class="u-vh">Menüü</span>
+    </button>
+    <a class="help-btn" href="#" data-goto="hadaolukord">Kiire abi</a>
+  </div>
+</header>
+
+<main id="main">
+
+<!-- ===================== 1. AVALEHT ===================== -->
+<div class="view" id="view-avaleht">
+
+  <!-- Hoiatus / kiire teade — riba päise all -->
+  <section class="alert-bar pinned" data-src="manual" role="status">
+    <div class="wrap">
+      <span class="badge">Käsitsi hallatav</span>
+      <span class="ico" style="background:var(--c-white)" aria-hidden="true">!</span>
+      <p><strong>Hoiatus:</strong> Eestis on ringluses tugevatoimeline nitaseen. Loe, kuidas üledoosi ära tunda ja mida teha. <a href="#" data-goto="hadaolukord">Vaata juhist</a></p>
+    </div>
+  </section>
+
+  <section class="band pinned" style="padding-top:32px">
+    <div class="wrap">
+    <div class="hero-grid">
+    <div class="hero-col">
+      <div data-src="manual" class="reading">
+        <span class="badge">Käsitsi hallatav</span>
+        <h1>Info ja abi alkoholi, tubaka ja narkootikumide kohta</h1>
+        <p class="lead u-desktop">Siit leiad usaldusväärse info, enesehindamise tööriistad ja abivõimalused — nii endale kui lähedasele.</p>
+        <p class="meta u-desktop" style="display:flex;align-items:center;gap:8px">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M9 1.5 15 4v5c0 3.3-2.4 6.3-6 7.5C5.4 15.3 3 12.3 3 9V4l6-2.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Sisse logima ei pea. Testide vastuseid ei salvestata.
+        </p>
+      </div>
+      <form class="search u-desktop" role="search" onsubmit="return false" style="margin-top:24px">
+        <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="13" y1="13" x2="18" y2="18" stroke="currentColor" stroke-width="2"/></svg>
+        <label class="u-vh" for="q">Otsi infot, tööriista või abi</label>
+        <input id="q" type="search" placeholder="Otsi infot, tööriista või abi">
+      </form>
+      <a class="btn btn--primary" id="heroCta" href="#" data-goto="suunaja" style="margin-top:16px">
+        Ei tea, kust alustada? Vasta kolmele küsimusele</a>
+    </div>
+      <figure class="hero-media"><img class="media" src="img/hero-avaleht-mure.jpg" alt="" width="1064" height="1600" fetchpriority="high"></figure>
+    </div>
+    </div>
+  </section>
+
+  <!-- Sihtrühma valik -->
+  <section class="wrap pinned seg-block" id="segSec" data-src="manual" style="margin-top:32px">
+    <span class="badge">Käsitsi hallatav — vaate seaded</span>
+    <p class="seg-q" id="segLabel">Kellele sa infot otsid?</p>
+    <div class="seg" id="seg" role="group" aria-labelledby="segLabel">
+      <button type="button" data-aud="mina" aria-pressed="true">Endale</button>
+      <button type="button" data-aud="lahedane" aria-pressed="false">Lähedasele</button>
+    </div>
+    <p class="meta u-desktop" id="segNote" role="status" style="margin-top:12px">Näitame sisu, mis on mõeldud sulle endale.</p>
+  </section>
+
+  <section class="band" aria-labelledby="h-mure" data-aud="mina">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne — avaleheks märgitud murelehed</span>
+      <h2 id="h-mure">Mul on mure</h2>
+      <p class="meta u-desktop" style="margin-top:-16px">Vali olukord, mis on sinu omale kõige lähem.</p>
+      <div class="list">
+        <a href="#" data-goto="mureleht">Ma joon rohkem, kui tahaksin <img class="list-ico" src="img/icons/alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Ma ei tea, kas mu tarvitamine on probleem <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Tahan suitsetamise maha jätta <img class="list-ico" src="img/icons/suitsetamine.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Ma tarvitan kanepit iga päev <img class="list-ico" src="img/icons/kanep.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Ma ei saa magada ilma alkoholita <img class="list-ico" src="img/icons/uni.svg" alt="" width="32" height="32" loading="lazy"></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="h-aita" data-aud="lahedane" data-ord-lahedane="-1">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne</span>
+      <h2 id="h-aita">Kuidas aidata?</h2>
+      <p class="meta u-desktop" style="margin-top:-16px">Kui muretsed kellegi teise pärast.</p>
+      <div class="list">
+        <a href="#" data-goto="mureleht">Mu lähedane joob <img class="list-ico" src="img/icons/lahedane-alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Mu laps tarvitab narkootikume <img class="list-ico" src="img/icons/narkootikumid.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Kuidas alustada vestlust <img class="list-ico" src="img/icons/vestlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+      </div>
+      <a class="btn btn--quiet" href="#" data-goto="avaleht">Vaata kõiki olukordi (6) →</a>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="h-abi" data-aud="mina lahedane spets">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne — teenuste registrist</span>
+      <h2 id="h-abi">Kuhu pöörduda?</h2>
+      <p class="meta" style="margin-top:-16px">Abi saab ka siis, kui sa ei taha oma nime öelda.</p>
+      <div class="grid grid--4 grid--tiles">
+        <a class="card" href="#" data-goto="avaleht">
+          <h3 class="card-t">Leia teenus</h3>
+        </a>
+        <a class="card" href="#" data-goto="avaleht">
+          <h3 class="card-t">Tugiliin</h3>
+        </a>
+        <a class="card" href="#" data-goto="avaleht">
+          <h3 class="card-t">Testitulemused</h3>
+        </a>
+        <a class="card" href="#" data-goto="avaleht">
+          <h3 class="card-t">Tugigrupid</h3>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="h-info" data-aud="mina lahedane spets">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne — ainepõhised teemad</span>
+      <h2 id="h-info">Kasulik info ja teadmised</h2>
+      <p class="meta" style="margin-top:-16px">Kontrollitud info ainete ja nende mõju kohta.</p>
+      <div class="grid grid--4 grid--2up">
+        <a class="card" href="#" data-goto="sisuleht"><img class="media card-cover" src="img/teema-alkohol.jpg" alt="" width="900" height="600" loading="lazy"><h3 class="card-t">Alkohol</h3></a>
+        <a class="card" href="#" data-goto="sisuleht"><img class="media card-cover" src="img/teema-nikotiin.jpg" alt="" width="900" height="600" loading="lazy"><h3 class="card-t">Nikotiin ja tubakas</h3></a>
+        <a class="card" href="#" data-goto="sisuleht"><img class="media card-cover" src="img/teema-kanep.jpg" alt="" width="900" height="600" loading="lazy"><h3 class="card-t">Kanep</h3></a>
+        <a class="card" href="#" data-goto="sisuleht"><img class="media card-cover" src="img/teema-muud-ained.jpg" alt="" width="900" height="600" loading="lazy"><h3 class="card-t">Muud uimastid</h3></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="h-test" data-aud="mina spets">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne — avaldatud testid</span>
+      <h2 id="h-test">Testid ja tööriistad</h2>
+      <p class="meta" style="margin-top:-16px">Vastused on anonüümsed ja neid ei salvestata.</p>
+      <div class="pill-list">
+        <a class="card card--sky" href="#" data-goto="mureleht"><img class="list-ico" src="img/icons/alkohol.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">AUDIT</h3></a>
+        <a class="card card--sky" href="#" data-goto="sisuleht"><img class="list-ico" src="img/icons/lahedane-alkohol.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">Alkokalkulaator</h3></a>
+        <a class="card card--sky" href="#" data-goto="mureleht"><img class="list-ico" src="img/icons/suitsetamine.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">Fagerströmi test</h3></a>
+        <a class="card card--sky" href="#" data-goto="mureleht"><img class="list-ico" src="img/icons/kanep.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">CUDIT-R</h3></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="h-prog" data-aud="mina lahedane">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne — avaldatud programmid</span>
+      <h2 id="h-prog">Eneseabiprogrammid</h2>
+      <div class="grid grid--2">
+        <a class="card card--lime" href="#" data-goto="mureleht">
+          <img class="media" src="img/programm-selge.jpg" alt="" width="900" height="600" loading="lazy" style="margin:-24px -24px 8px;width:calc(100% + 48px);max-width:none;border-radius:8px 8px 0 0;aspect-ratio:3/2">
+          <span class="tag tag--pr">Tasuta · anonüümne</span>
+          <h3 class="card-t">SELGE</h3>
+          <p>Kuuenädalane veebiprogramm alkoholi tarvitamise vähendamiseks. Iganädalased ülesanded ja päevik.</p>
+          <span class="arrow" aria-hidden="true">Alusta programmi →</span>
+        </a>
+        <div class="card">
+          <h3 class="card-t">Tulekul</h3>
+          <p>Nikotiinist loobumise ja lähedase toetamise programmid lisanduvad samasse vaatesse ilma avalehte muutmata.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section class="band" aria-labelledby="h-spets" data-aud="spets">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne — spetsialistile märgitud sisu</span>
+      <h2 id="h-spets">Materjalid ja juhendid</h2>
+      <p class="meta" style="margin-top:-16px">Tervishoiu-, sotsiaal- ja haridustöötajale.</p>
+      <div class="grid grid--3">
+        <div class="card"><span class="tag">Tulekul</span><h3 class="card-t">Juhendmaterjalid</h3><p>Lühisekkumise juhend, vestluse alustamise kaardid, trükised tellimiseks.</p></div>
+        <div class="card"><span class="tag">Tulekul</span><h3 class="card-t">Koolitused</h3><p>TAI koolituskalender ja e-kursused.</p></div>
+        <div class="card"><span class="tag">Tulekul</span><h3 class="card-t">Statistika ja seire</h3><p>Uimastitarvitamise andmed ja aastaülevaated.</p></div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===================== 2. MURELEHT ===================== -->
+<div class="view" id="view-mureleht" hidden>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Teekond">
+      <ol class="full">
+        <li><a href="#" data-goto="avaleht">Avaleht</a></li><li aria-hidden="true">›</li>
+        <li><a href="#" data-goto="avaleht">Mul on mure</a></li><li aria-hidden="true">›</li>
+        <li><span aria-current="page">Ma joon rohkem, kui tahaksin</span></li>
+      </ol>
+      <ol class="short"><li><a href="#" data-goto="avaleht">‹ Mul on mure</a></li></ol>
+    </nav>
+  </div>
+
+  <section class="band" style="padding-top:24px">
+    <div class="wrap">
+      <div class="reading" data-src="manual">
+        <span class="badge">Käsitsi hallatav</span>
+        <p class="eyebrow" style="color:var(--c-grey-600)">Olukord</p>
+        <h1>Ma joon rohkem, kui tahaksin</h1>
+        <p class="lead">Sa ei ole selles olukorras üksi. Väga paljud inimesed märkavad mingil hetkel, et alkoholi on nädalas rohkem kui plaanitud. See ei tähenda, et sinuga on midagi valesti — ja see ei tähenda, et pead kohe kõigest loobuma.</p>
+        <p>Sellel lehel saad kontrollida, kas ja kui palju tarvitamine sind puudutab, proovida esimesi samme ning leida abi, kui soovid.</p>
+      </div>
+      <figure style="max-width:720px;margin-top:24px">
+        <div class="ph ph--16x9" aria-hidden="true"><span class="k">Pilt · murelehe juhtpilt</span><span>Rahulik, hinnanguvaba kaader: köögilaud hommikul, jalutuskäik, kaks inimest vestlemas. Nägu ei pea olema äratuntav.</span></div>
+      </figure>
+    </div>
+  </section>
+
+  <section class="band" style="padding-top:0" aria-labelledby="h-arat">
+    <div class="wrap">
+      <div class="reading" data-src="manual">
+        <span class="badge">Käsitsi hallatav</span>
+        <h2 id="h-arat">Kas see puudutab sind?</h2>
+        <div class="callout callout--near" style="flex-direction:column">
+          <p style="margin-bottom:12px">Paljud tunnevad ära ühe või mitu neist. Mida rohkem punkte tuttavad tunduvad, seda kasulikum on olukord üle vaadata.</p>
+          <ul class="check" style="margin-bottom:0">
+            <li>Jood sagedamini või rohkem, kui olid plaaninud.</li>
+            <li>Oled proovinud vähem juua, aga see ei ole õnnestunud.</li>
+            <li>Hommikul on halb olla või mälus on lünki.</li>
+            <li>Keegi lähedastest on su joomise kohta märkuse teinud.</li>
+            <li>Alkohol aitab pinget maandada või uinuda.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="background:var(--c-grey-100)" aria-labelledby="h-test2">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne — lehe juurde seotud tööriistad</span>
+      <h2 id="h-test2">Kontrolli oma olukorda</h2>
+      <div class="grid grid--2">
+        <a class="card card--sky" href="#" data-goto="mureleht">
+          <span class="tag">10 küsimust · 3 min</span>
+          <h3 class="card-t">Tee AUDIT test</h3>
+          <p>Maailma Terviseorganisatsiooni test, mis annab sulle isikliku tagasiside. Vastuseid ei salvestata.</p>
+          <span class="arrow" aria-hidden="true">Alusta testi →</span>
+        </a>
+        <a class="card card--sky" href="#" data-goto="sisuleht">
+          <span class="tag">Kalkulaator</span>
+          <h3 class="card-t">Arvuta oma nädala ühikud</h3>
+          <p>Näed, kui palju alkoholiühikuid nädalas kogunes ja kuidas see suhestub riskipiiridega.</p>
+          <span class="arrow" aria-hidden="true">Ava kalkulaator →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="h-sammud">
+    <div class="wrap">
+      <div class="reading" data-src="manual">
+        <span class="badge">Käsitsi hallatav</span>
+        <h2 id="h-sammud">Esimesed sammud, mida saad ise teha</h2>
+        <ol class="steps">
+          <li><div><h4>Pane kaks nädalat kirja</h4><p>Märgi üles, mida ja kui palju jõid. Enamik inimesi üllatub — kirjapanek üksi vähendab kogust.</p></div></li>
+          <li><div><h4>Lepi kokku alkoholivabad päevad</h4><p>Vali nädalas kaks kindlat päeva. Kindel päev töötab paremini kui üldine plaan „vähem“.</p></div></li>
+          <li><div><h4>Muuda üks harjumus korraga</h4><p>Näiteks: esimene jook alles pärast söömist, või kodus varu ei hoia.</p></div></li>
+          <li><div><h4>Ütle ühele inimesele</h4><p>Sõber, partner või perearst. Ei pea olema pikk jutt — piisab sellest, et keegi teab.</p></div></li>
+        </ol>
+        <figure style="margin-top:24px">
+          <div class="ph ph--16x9 ph--lime" aria-hidden="true"><span class="k">Graafika · nädalapäevik</span><span>Lihtne visuaal: nädalavaade, kus alkoholivabad päevad on märgitud. Toetab sammu 1 ja 2.</span></div>
+          <figcaption>Näidis: kahe nädala märkmik, mille saab ka PDF-ina alla laadida.</figcaption>
+        </figure>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" style="background:var(--c-grey-100)" aria-labelledby="h-abi2">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne — seotud teenused ja programmid</span>
+      <h2 id="h-abi2">Kust saada abi</h2>
+      <p class="meta" style="margin-top:-16px">Abi saamiseks ei pea sa oma nime ütlema ega olema „piisavalt hull“.</p>
+      <div class="grid grid--3">
+        <a class="card card--lime" href="#" data-goto="mureleht">
+          <h3 class="card-t">Programm SELGE</h3>
+          <p>Kuus nädalat samm-sammulist juhendamist alkoholi vähendamiseks. Tasuta ja anonüümne.</p>
+          <span class="arrow" aria-hidden="true">Alusta →</span>
+        </a>
+        <a class="card card--lime" href="#" data-goto="avaleht">
+          <h3 class="card-t">Tugiliin ja vestlus</h3>
+          <p>Räägi inimesega täna. E–P kl 9–21, telefon ja veebivestlus.</p>
+          <span class="arrow" aria-hidden="true">Vaata võimalusi →</span>
+        </a>
+        <a class="card card--lime" href="#" data-goto="avaleht">
+          <h3 class="card-t">Teenused sinu lähedal</h3>
+          <p>Nõustamine ja ravi maakonna kaupa — kaart ja nimekiri.</p>
+          <span class="arrow" aria-hidden="true">Leia teenus →</span>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="band" aria-labelledby="h-loe">
+    <div class="wrap" data-src="auto">
+      <span class="badge">Automaatne — seotud sisulehed</span>
+      <h2 id="h-loe">Seotud lisalugemine</h2>
+      <div class="list">
+        <a href="#" data-goto="sisuleht">Kui palju on liiga palju? Alkoholi riskipiirid <span aria-hidden="true">→</span></a>
+        <a href="#" data-goto="sisuleht">Miks alkohol und rikub <span aria-hidden="true">→</span></a>
+        <a href="#" data-goto="sisuleht">Mis juhtub kehas, kui kuu aega ei joo <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:40px" data-src="manual">
+    <span class="badge">Käsitsi hallatav</span>
+    <div class="callout callout--alert">
+      <span class="ico" style="background:var(--t-orange)" aria-hidden="true">!</span>
+      <div>
+        <h3>Kui vajad abi kohe</h3>
+        <p style="margin-bottom:8px">Kui sinu või kellegi teise elu on ohus — helista <strong>112</strong>. Alkoholi järsul ärajätmisel võivad tekkida ohtlikud võõrutusnähud; sel juhul pöördu arsti poole.</p>
+        <a href="#" data-goto="avaleht">Vaata kõiki kiire abi kontakte</a>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===================== 3. SISULEHT ===================== -->
+<div class="view" id="view-sisuleht" hidden>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Teekond">
+      <ol class="full">
+        <li><a href="#" data-goto="avaleht">Avaleht</a></li><li aria-hidden="true">›</li>
+        <li><a href="#" data-goto="avaleht">Alkohol</a></li><li aria-hidden="true">›</li>
+        <li><span aria-current="page">Alkoholi riskipiirid</span></li>
+      </ol>
+      <ol class="short"><li><a href="#" data-goto="avaleht">‹ Alkohol</a></li></ol>
+    </nav>
+  </div>
+
+  <!-- Mobiili sisukorrariba -->
+  <div class="toc-mob">
+    <button class="btn btn--secondary" type="button" id="tocBtn" aria-expanded="false" aria-controls="tocSheet" style="min-height:44px;padding:8px 20px">Sisukord</button>
+    <span class="cur" id="tocCur">Mis on üks alkoholiühik?</span>
+  </div>
+
+  <section class="band" style="padding-top:24px">
+    <div class="wrap">
+      <div class="layout">
+
+        <aside class="toc-desk" data-src="auto">
+          <span class="badge">Automaatne</span>
+          <nav aria-label="Lehe sisukord">
+            <p class="eyebrow">Lehe sisukord</p>
+            <ol id="tocList">
+              <li><a href="#s1" aria-current="true">Mis on üks alkoholiühik?</a></li>
+              <li><a href="#s2">Kus jooksevad riskipiirid?</a></li>
+              <li><a href="#s3">Miks piirid meestel ja naistel erinevad?</a></li>
+              <li><a href="#s4">Müüt ja fakt</a></li>
+              <li><a href="#s5">Järgmine samm</a></li>
+              <li><a href="#s6">Allikad</a></li>
+            </ol>
+          </nav>
+        </aside>
+
+        <div>
+          <div class="reading">
+            <div data-src="manual">
+              <span class="badge">Käsitsi hallatav</span>
+              <h1>Kui palju on liiga palju? Alkoholi riskipiirid</h1>
+            </div>
+            <p class="meta" data-src="auto" style="display:flex;flex-wrap:wrap;gap:8px 16px;margin-bottom:24px">
+              <span class="badge">Automaatne</span>
+              <span>Lugemisaeg 4 min</span><span aria-hidden="true">·</span>
+              <span>Uuendatud 12.08.2026</span><span aria-hidden="true">·</span>
+              <span>Üle vaadanud TAI ekspert</span>
+            </p>
+            <p class="lead">Riskipiir ei ole joon, mille ületamisel tekib sõltuvus. See on kogus, millest alates kahju tõenäosus hakkab kiiresti kasvama — ja tase, mille juures enamik inimesi ei märka veel midagi.</p>
+
+            <h2 id="s1">Mis on üks alkoholiühik?</h2>
+            <p>Üks alkoholiühik on 10 grammi puhast alkoholi. Ühikutes arvestamine on ainus viis erinevaid jooke omavahel võrrelda.</p>
+            <figure style="margin-bottom:24px">
+              <div class="ph ph--16x9" aria-hidden="true"><span class="k">Graafika 1 · alkoholiühikud</span><span>Kõrvuti joonistatud klaasid ja pudelid koos ühikute arvuga — sama info visuaalselt kui tabelis all.</span></div>
+              <figcaption>Graafika ja tabel esitavad sama info: visuaal skaneerimiseks, tabel ekraanilugejale ja täpsuseks.</figcaption>
+            </figure>
+            <div class="tbl-scroll" style="margin-bottom:24px">
+              <table>
+                <caption>Levinud jookide ühikud</caption>
+                <thead><tr><th scope="col">Jook</th><th scope="col">Kogus</th><th scope="col">Ühikuid</th></tr></thead>
+                <tbody>
+                  <tr><td>Õlu 5%</td><td>0,5 l</td><td>2,0</td></tr>
+                  <tr><td>Siider 4,5%</td><td>0,5 l</td><td>1,8</td></tr>
+                  <tr><td>Vein 12%</td><td>0,12 l (klaas)</td><td>1,1</td></tr>
+                  <tr><td>Vein 12%</td><td>0,75 l (pudel)</td><td>7,1</td></tr>
+                  <tr><td>Viin 40%</td><td>0,04 l (pits)</td><td>1,3</td></tr>
+                </tbody>
+              </table>
+            </div>
+
+            <h2 id="s2">Kus jooksevad riskipiirid?</h2>
+            <p>Piirid kehtivad terve täiskasvanu kohta. Rasedus, ravimid, krooniline haigus ja noor iga tähendavad, et ohutut kogust ei ole.</p>
+            <div class="facts" style="margin-bottom:24px" data-src="manual">
+              <span class="badge">Käsitsi hallatav</span>
+              <div class="fact"><span class="n">7</span> ühikut nädalas — naise riskipiir</div>
+              <div class="fact"><span class="n">14</span> ühikut nädalas — mehe riskipiir</div>
+              <div class="fact"><span class="n">3</span> alkoholivaba päeva nädalas</div>
+            </div>
+            <figure style="margin-bottom:24px">
+              <div class="ph ph--16x9 ph--orange" aria-hidden="true"><span class="k">Graafika 2 · riskipiirid</span><span>Skaala, mis näitab nädala ühikuid ja seda, kus riskipiir jookseb. Ei kasuta ainult värvi — piir on ka märgistatud.</span></div>
+            </figure>
+            <div class="callout callout--important">
+              <span class="ico" style="background:var(--c-white)" aria-hidden="true">i</span>
+              <div><p><strong>Oluline teada:</strong> ühel korral joodud 5 ühikut on riskantsem kui sama kogus jaotatuna nädala peale. Korraga joomine on eraldi riskitegur — õnnetused, vigastused, südamerütmi häired.</p></div>
+            </div>
+
+            <h2 id="s3">Miks piirid meestel ja naistel erinevad?</h2>
+            <p>Naise kehas on keskmiselt vähem vett, milles alkohol jaotub, ja maksaensüümide töö erineb. Sama kogus tekitab seetõttu kõrgema veres sisalduse ja suurema koormuse.</p>
+            <p>Piirid on statistilised, mitte isiklikud lubadused. Kui sul on tervisemure, on sinu piir madalam kui tabelis.</p>
+
+            <h2 id="s4">Müüt ja fakt</h2>
+            <div class="callout callout--myth">
+              <span class="ico" style="background:var(--c-white)" aria-hidden="true">?</span>
+              <div>
+                <p><strong>Müüt:</strong> „Klaas punast veini päevas on südamele kasulik.“</p>
+                <p style="margin-bottom:0"><strong>Fakt:</strong> varasemad uuringud, mis kasulikkust näitasid, ei arvestanud, et võrdlusrühmas oli inimesi, kes olid terviseprobleemide tõttu joomise lõpetanud. Praeguse teadmise järgi ei ole alkoholil südamele kaitsvat toimet.</p>
+              </div>
+            </div>
+
+            <div class="callout callout--near" data-src="auto">
+              <span class="badge">Automaatne — lähedase vaade</span>
+              <span class="ico" style="background:var(--c-white)" aria-hidden="true">♡</span>
+              <div>
+                <p style="margin-bottom:8px"><strong>Lähedasele:</strong> kui muretsed kellegi teise joomise pärast, ei ole ühikute loendamine tema eest tavaliselt kasulik. Alusta vestlusest.</p>
+                <a href="#" data-goto="mureleht">Kuidas alustada vestlust →</a>
+              </div>
+            </div>
+          </div>
+
+          <h2 id="s5">Järgmine samm</h2>
+          <div class="grid grid--3" style="margin-bottom:40px" data-src="auto">
+            <span class="badge">Automaatne — seoste põhjal</span>
+            <a class="card card--sky" href="#" data-goto="mureleht"><h3 class="card-t">Tee AUDIT test</h3><p>10 küsimust, isiklik tagasiside</p><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="card card--sky" href="#" data-goto="sisuleht"><h3 class="card-t">Arvuta oma ühikud</h3><p>Alkokalkulaator</p><span class="arrow" aria-hidden="true">→</span></a>
+            <a class="card card--lime" href="#" data-goto="mureleht"><h3 class="card-t">Vaata olukorda „Ma joon rohkem, kui tahaksin“</h3><p>Sammud, abi ja programmid ühes vaates</p><span class="arrow" aria-hidden="true">→</span></a>
+          </div>
+
+          <h2 id="s6">Allikad</h2>
+          <div class="acc" data-src="manual" style="max-width:720px">
+            <span class="badge">Käsitsi hallatav</span>
+            <h3><button type="button" aria-expanded="false" aria-controls="src1"><span>Allikad (5)</span><span class="chev" aria-hidden="true">›</span></button></h3>
+            <div class="panel" id="src1" hidden>
+              <ol style="margin:0;padding-left:20px;font-size:.889rem;line-height:1.7">
+                <li>Maailma Terviseorganisatsioon. <span lang="en">Global status report on alcohol and health</span>, 2024.</li>
+                <li>Tervise Arengu Instituut. Alkoholi turg, tarbimine ja kahjud Eestis, 2025.</li>
+                <li><span lang="en">Nordic Nutrition Recommendations</span>, 2023.</li>
+                <li>Eesti Haigekassa. Alkoholitarvitamise häire ravijuhend, 2023.</li>
+                <li><span lang="en">The Lancet</span>. <span lang="en">Alcohol use and burden</span>, 2022.</li>
+              </ol>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+</div>
+
+<!-- ===================== 4. SUUNAJA ===================== -->
+<div class="view" id="view-suunaja" hidden>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Teekond">
+      <ol class="full">
+        <li><a href="#" data-goto="avaleht">Avaleht</a></li><li aria-hidden="true">›</li>
+        <li><span aria-current="page">Kust alustada?</span></li>
+      </ol>
+      <ol class="short"><li><a href="#" data-goto="avaleht">← Avaleht</a></li></ol>
+    </nav>
+  </div>
+
+  <section class="band" style="padding-bottom:24px">
+    <div class="wrap">
+      <div class="reading" data-src="manual">
+        <span class="badge">Käsitsi hallatav</span>
+        <h1>Kust alustada?</h1>
+        <p class="lead">Kolm küsimust, siis soovitame, kust edasi minna. Kui tead juba, mida otsid, mine otse <a href="#" data-goto="avaleht">avalehele</a>.</p>
+        <p class="meta" style="display:flex;align-items:center;gap:8px">
+          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M9 1.5 15 4v5c0 3.3-2.4 6.3-6 7.5C5.4 15.3 3 12.3 3 9V4l6-2.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
+          Vastuseid ei salvestata ja nime ei küsita.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="wrap" style="padding-bottom:56px">
+    <div data-src="auto" style="max-width:820px">
+      <span class="badge">Automaatne — soovitused reeglistikust sisuhalduses</span>
+      <div class="wiz" id="wiz">
+
+        <div class="wiz-bar" aria-hidden="true">
+          <span data-on="true"></span><span></span><span></span>
+        </div>
+        <p class="meta" id="wizProgress" role="status" style="margin-bottom:16px">Küsimus 1 / 3</p>
+
+        <div class="wiz-q" data-step="1">
+          <h2>Kelle pärast sa muretsed?</h2>
+          <div class="opts">
+            <button class="opt" type="button" data-step="1" data-tok="mina" data-lbl="enda pärast">Enda pärast</button>
+            <button class="opt" type="button" data-step="1" data-tok="lahedane" data-lbl="lähedase pärast">Lähedase pärast<small>Pereliige, sõber, kolleeg</small></button>
+            <button class="opt" type="button" data-step="1" data-tok="spets" data-lbl="töö tõttu">Töö tõttu<small>Olen spetsialist või õpetaja</small></button>
+            <button class="opt" type="button" data-step="1" data-tok="mina" data-lbl="ei oska öelda">Ei oska öelda</button>
+          </div>
+        </div>
+
+        <div class="wiz-q" data-step="2" hidden>
+          <h2>Millega on tegu?</h2>
+          <div class="opts">
+            <button class="opt" type="button" data-step="2" data-tok="alkohol" data-lbl="alkohol">Alkohol</button>
+            <button class="opt" type="button" data-step="2" data-tok="nikotiin" data-lbl="nikotiin">Nikotiin või tubakas</button>
+            <button class="opt" type="button" data-step="2" data-tok="kanep" data-lbl="kanep">Kanep</button>
+            <button class="opt" type="button" data-step="2" data-tok="muu" data-lbl="muu aine">Muu aine või ravim</button>
+            <button class="opt" type="button" data-step="2" data-tok="muu" data-lbl="ei ole kindel">Ei ole kindel</button>
+          </div>
+        </div>
+
+        <div class="wiz-q" data-step="3" hidden>
+          <h2>Mida sooviksid praegu?</h2>
+          <div class="opts">
+            <button class="opt" type="button" data-step="3" data-tok="teada" data-lbl="saada aru, kas see on probleem">Saada aru, kas see on probleem</button>
+            <button class="opt" type="button" data-step="3" data-tok="vahendada" data-lbl="vähendada või lõpetada">Vähendada või lõpetada</button>
+            <button class="opt" type="button" data-step="3" data-tok="abi" data-lbl="leida abi ja teenused">Leida abi ja teenused</button>
+            <button class="opt" type="button" data-step="3" data-tok="raakida" data-lbl="rääkida kellegagi kohe">Rääkida kellegagi kohe</button>
+          </div>
+        </div>
+
+        <button class="btn btn--quiet" type="button" id="wizBack" hidden>← Eelmine küsimus</button>
+
+        <div id="wizResult" hidden>
+          <h2>Soovitame alustada siit</h2>
+          <div class="wiz-sum" id="wizSum"></div>
+          <div class="grid grid--2" id="wizCards">
+            <a class="card card--orange" href="#" data-goto="mureleht" data-for="lahedane"><h3 class="card-t">Kuidas alustada vestlust</h3><p>Mida öelda ja mida vältida, kui räägid lähedasega tema tarvitamisest.</p><span class="arrow" aria-hidden="true">Loe →</span></a>
+            <a class="card card--orange" href="#" data-goto="avaleht" data-for="spets"><h3 class="card-t">Juhendmaterjalid spetsialistile</h3><p>Lühisekkumise juhend ja trükised.</p><span class="arrow" aria-hidden="true">Vaata →</span></a>
+            <a class="card card--sky" href="#" data-goto="mureleht" data-for="teada alkohol"><h3 class="card-t">Tee AUDIT test</h3><p>10 küsimust alkoholi tarvitamise kohta. Anonüümne.</p><span class="arrow" aria-hidden="true">Tee test →</span></a>
+            <a class="card card--sky" href="#" data-goto="mureleht" data-for="teada nikotiin"><h3 class="card-t">Fagerströmi test</h3><p>Nikotiinisõltuvuse tugevus, 6 küsimust.</p><span class="arrow" aria-hidden="true">Tee test →</span></a>
+            <a class="card card--sky" href="#" data-goto="mureleht" data-for="teada kanep"><h3 class="card-t">CUDIT-R test</h3><p>Kanepi tarvitamise enesehindamine.</p><span class="arrow" aria-hidden="true">Tee test →</span></a>
+            <a class="card card--sky" href="#" data-goto="mureleht" data-for="teada"><h3 class="card-t">Kontrolli oma olukorda</h3><p>Lühike enesehindamine ja selgitus, mida tulemus tähendab.</p><span class="arrow" aria-hidden="true">Alusta →</span></a>
+            <a class="card card--lime" href="#" data-goto="mureleht" data-for="vahendada alkohol"><h3 class="card-t">Programm SELGE</h3><p>Kuuenädalane tasuta veebiprogramm alkoholi vähendamiseks.</p><span class="arrow" aria-hidden="true">Alusta →</span></a>
+            <a class="card card--lime" href="#" data-goto="mureleht" data-for="vahendada"><h3 class="card-t">Esimesed sammud, mida saad ise teha</h3><p>Väikesed muutused, mis päriselt mõjuvad.</p><span class="arrow" aria-hidden="true">Loe →</span></a>
+            <a class="card card--orange" href="#" data-goto="avaleht" data-for="abi"><h3 class="card-t">Leia teenus enda lähedal</h3><p>Nõustamine ja ravi maakonna kaupa.</p><span class="arrow" aria-hidden="true">Ava kaart →</span></a>
+            <a class="card card--orange" href="#" data-goto="avaleht" data-for="raakida"><h3 class="card-t">Tugigrupid</h3><p>Kohtumised üle Eesti, ka lähedastele.</p><span class="arrow" aria-hidden="true">Vaata →</span></a>
+            <a class="card card--orange" href="#" data-goto="avaleht" data-for="raakida"><h3 class="card-t">Veebivestlus nõustajaga</h3><p>E–P kl 9–21, anonüümselt.</p><span class="arrow" aria-hidden="true">Ava vestlus →</span></a>
+            <a class="card card--sky" href="#" data-goto="sisuleht" data-for="muu"><h3 class="card-t">Ainete info</h3><p>Mõju, riskid ja koostoimed.</p><span class="arrow" aria-hidden="true">Loe →</span></a>
+            <a class="card" href="#" data-goto="avaleht" data-for="alati"><h3 class="card-t">Tugiliin 1707</h3><p>Tasuta ja anonüümne. Ka siis, kui sa ei tea, mida küsida.</p><span class="arrow" aria-hidden="true">Helista →</span></a>
+          </div>
+          <p style="margin-top:24px">
+            <button class="btn btn--secondary" type="button" id="wizAgain">Alusta uuesti</button>
+          </p>
+        </div>
+
+      </div>
+
+      <div class="todo" style="margin-top:24px">
+        <strong>Prototüübi märkus</strong>
+        <p>Soovitused on siin näidisloogikaga (vastuse silt → kaart). Päris lahenduses on see reeglimaatriks sisuhalduses, kus toimetaja seob olukorra, aine ja soovi konkreetse sisu või teenusega. Vaja on kokku leppida, mitu soovitust korraga näidatakse ja mis järjekorras.</p>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<!-- ===================== 5. HÄDAOLUKORD ===================== -->
+<div class="view" id="view-hadaolukord" hidden>
+
+  <div class="emg-hd">
+    <div class="wrap" data-src="manual">
+      <span class="badge">Käsitsi hallatav</span>
+      <h1>Kui keegi on üledoosis</h1>
+      <p class="lead">Kui inimene ei reageeri, hingab raskelt või ei hinga — helista kohe. Ära jäta teda üksi.</p>
+      <div class="emg-actions">
+        <a class="call" href="tel:112">Helista 112</a>
+        <a class="call call--out" href="tel:16662">Mürgistusteabeliin 16662</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <nav class="crumbs" aria-label="Teekond">
+      <ol class="full">
+        <li><a href="#" data-goto="avaleht">Avaleht</a></li><li aria-hidden="true">›</li>
+        <li><span aria-current="page">Kui keegi on üledoosis</span></li>
+      </ol>
+      <ol class="short"><li><a href="#" data-goto="avaleht">← Avaleht</a></li></ol>
+    </nav>
+  </div>
+
+  <section class="band" style="padding-top:24px">
+    <div class="wrap">
+      <div class="todo">
+        <strong>Prototüübi märkus</strong>
+        <p>Kogu selle lehe kliiniline sisu on näidistekst. Enne kasutamist peavad selle kinnitama TAI, Häirekeskus ja Mürgistusteabekeskus. Eraldi tuleb õiguslikult kontrollida lõik „Kas ma satun politsei huviorbiiti?“.</p>
+      </div>
+
+      <div class="reading" data-src="manual">
+        <h2>Mida teha, samm-sammult</h2>
+      </div>
+      <ol class="steps steps--emg" style="max-width:820px">
+        <li><div><h4>Helista 112</h4><p>Ütle aadress, mis ainet arvad, et inimene tarvitas, ja kas ta hingab. Räägi kõik ära — see ei too talle karistust, vaid aitab kiirabil õigesti tegutseda.</p></div></li>
+        <li><div><h4>Kontrolli, kas ta reageerib</h4><p>Kõneta valjult, raputa õlast. Kui ei reageeri, kontrolli hingamist: kas rindkere liigub, kas hingamine on norisev või katkendlik.</p></div></li>
+        <li><div><h4>Ei reageeri, aga hingab → küliliasend</h4><p>Keera inimene küljele, et ta oksendades ei lämbuks. Jälgi hingamist kuni kiirabi tuleb.</p></div></li>
+        <li><div><h4>Ei hinga → alusta elustamist</h4><p>Häirekeskuse töötaja juhendab sind telefoni teel. Pane telefon valjuhääldile ja järgi juhiseid.</p></div></li>
+        <li><div><h4>Opioidi kahtlusel anna naloksoon</h4><p>Ninasprei mõjub mõne minutiga, kuid ainult 30–90 minutit. Helista 112 ka siis, kui inimene ärkab. Kust naloksooni saab — vaata <a href="#" data-goto="avaleht">teenuste kaarti</a>.</p></div></li>
+        <li><div><h4>Jää tema juurde</h4><p>Inimese seisund võib uuesti halveneda. Ära lase tal üksi magama jääda.</p></div></li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="band alt" aria-labelledby="h-margid">
+    <div class="wrap" data-src="manual">
+      <span class="badge">Käsitsi hallatav</span>
+      <h2 id="h-margid">Kuidas üledoosi ära tunda</h2>
+      <div class="signs">
+        <div class="sign">
+          <h3>Opioidid</h3>
+          <ul><li>ei ärka, ei reageeri</li><li>aeglane, norisev või seisev hingamine</li><li>sinakad huuled ja küüned</li><li>väga väikesed pupillid</li></ul>
+        </div>
+        <div class="sign">
+          <h3>Stimulandid</h3>
+          <ul><li>ülekuumenemine, kuiv kuum nahk</li><li>krambid, tugev peavalu</li><li>valu rinnus, väga kiire pulss</li><li>segasus või agressiivsus</li></ul>
+        </div>
+        <div class="sign">
+          <h3>Alkohol</h3>
+          <ul><li>oksendab teadvusetuna</li><li>külm, kahvatu või sinakas nahk</li><li>harv hingamine, alla 8 korra minutis</li><li>ei ärka äratamise peale</li></ul>
+        </div>
+      </div>
+      <p class="meta">Kahtluse korral helista alati. Vale häirekõne on parem kui hilinenud abi.</p>
+    </div>
+  </section>
+
+  <section class="band">
+    <div class="wrap" data-src="manual">
+      <div class="reading">
+        <h2>Mida mitte teha</h2>
+        <ul class="dont">
+          <li>Ära pane inimest külma duši alla ega vanni.</li>
+          <li>Ära lase tal „välja magada“.</li>
+          <li>Ära anna juua, süüa ega uut ainet „kainestamiseks“.</li>
+          <li>Ära kutsu oksendama, kui inimene on poolteadvusel.</li>
+          <li>Ära jäta teda üksi, ka mitte lühikeseks ajaks.</li>
+        </ul>
+
+        <h2 id="h-politsei">Kas ma satun politsei huviorbiiti?</h2>
+        <div class="callout callout--alert">
+          <span class="ico" style="background:var(--c-white);color:var(--c-alert)" aria-hidden="true">!</span>
+          <div><p>Siia tuleb TAI ja Justiitsministeeriumiga kokku lepitud sõnastus selle kohta, mis juhtub, kui kutsud abi. See on inimeste jaoks üks peamisi helistamise takistusi, seega peab vastus olema aus, lühike ja kontrollitud.</p></div>
+        </div>
+
+        <h2>Kui oled ise ohus või hirmul</h2>
+        <p>Sa ei pea nime ütlema. Nõustajaga saab rääkida ka siis, kui midagi hullu veel ei juhtunud.</p>
+        <div class="chips">
+          <a class="chip" href="tel:1707">Tugiliin 1707</a>
+          <a class="chip" href="#" data-goto="avaleht">Veebivestlus</a>
+          <a class="chip" href="#" data-goto="avaleht">Leia teenus enda lähedal</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+</main>
+
+<!-- ===================== JALUS ===================== -->
+<footer class="site-f">
+  <div class="wrap">
+    <div class="grid grid--4">
+      <div>
+        <svg class="logo-f" viewBox="0 0 263 120" role="img" aria-label="Tervise Arengu Instituut"><use href="#logo"/></svg>
+        <h3>Uimastiveeb</h3>
+        <p style="font-size:.889rem">Tervise Arengu Instituudi info- ja abikeskkond alkoholi, tubaka ja narkootikumide teemadel.</p>
+      </div>
+      <div><h3>Sisu</h3><ul><li><a href="#" data-goto="avaleht">Mul on mure</a></li><li><a href="#" data-goto="avaleht">Kuidas aidata?</a></li><li><a href="#" data-goto="avaleht">Kuhu pöörduda?</a></li><li><a href="#" data-goto="sisuleht">Kasulik info</a></li></ul></div>
+      <div><h3>Abi</h3><ul><li><a href="#" data-goto="avaleht">Tugiliin 1707</a></li><li><a href="#" data-goto="avaleht">Veebivestlus</a></li><li><a href="#" data-goto="avaleht">Teenuste kaart</a></li><li><a href="#" data-goto="hadaolukord">Mida teha üledoosi korral</a></li></ul></div>
+      <div><h3>Keskkonnast</h3><ul><li><a href="#" data-goto="avaleht">Ligipääsetavus</a></li><li><a href="#" data-goto="avaleht">Privaatsus ja anonüümsus</a></li><li><a href="#" data-goto="avaleht">Kontakt</a></li><li><a href="#" data-goto="avaleht">Русский</a></li></ul></div>
+    </div>
+    <div style="display:flex;flex-wrap:wrap;gap:16px;align-items:center;margin-top:32px;padding-top:24px;border-top:1px solid rgba(255,255,255,.25)">
+      <span class="ph" style="width:150px;height:56px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4);color:#fff" aria-hidden="true"><span class="k">Logo · rahastaja</span></span>
+      <span class="ph" style="width:150px;height:56px;background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4);color:#fff" aria-hidden="true"><span class="k">Logo · partner</span></span>
+    </div>
+  </div>
+</footer>
+
+<!-- ===================== KIIRE ABI ===================== -->
+<div class="sos">
+  <div class="sos-panel" id="sosPanel" hidden>
+    <h3 style="font-size:1rem;margin-bottom:8px">Kiire abi</h3>
+    <p>Kui elu on ohus, helista kohe 112.</p>
+    <a href="tel:112">Hädaabi 112</a>
+    <a href="tel:16662">Mürgistusteabeliin 16662</a>
+    <a href="tel:1220">Perearsti nõuandeliin 1220</a>
+    <a href="tel:1707">Tugiliin 1707</a>
+    <a href="#" data-goto="hadaolukord">Mida teha üledoosi korral →</a>
+    <a href="#" data-goto="avaleht">Veebivestlus (E–P 9–21)</a>
+  </div>
+  <button class="btn sos-btn" type="button" id="sosBtn" aria-expanded="false" aria-controls="sosPanel">Kiire abi</button>
+</div>
+
+</div><!-- /site -->
+</div><!-- /device -->
+</div><!-- /stage -->
+
+<!-- ===================== Mobiilimenüü ja sisukorra leht ===================== -->
+<div class="sheet" id="menuSheet" hidden>
+  <div class="sheet-in" role="dialog" aria-modal="true" aria-label="Menüü">
+    <div class="sheet-hd">
+      <strong>Menüü</strong>
+      <button class="btn btn--secondary" type="button" data-close="menuSheet" style="min-height:44px;padding:8px 20px">Sulge</button>
+    </div>
+    <form class="search" role="search" onsubmit="return false" style="margin-bottom:16px;max-width:none">
+      <label class="u-vh" for="q2">Otsi</label><input id="q2" type="search" placeholder="Otsi infot, tööriista või abi">
+    </form>
+    <nav aria-label="Peamenüü">
+      <ul>
+        <li><a href="#" data-goto="suunaja">Kust alustada?</a></li>
+        <li><a href="#" data-goto="mureleht">Mul on mure</a></li>
+        <li><a href="#" data-goto="avaleht">Kuidas aidata?</a></li>
+        <li><a href="#" data-goto="avaleht">Kuhu pöörduda?</a></li>
+        <li><a href="#" data-goto="sisuleht">Kasulik info ja teadmised</a></li>
+        <li><a href="#" data-goto="avaleht">Testid ja tööriistad</a></li>
+        <li><a href="#" data-goto="avaleht">Eneseabiprogrammid</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn--sos" href="#" data-goto="hadaolukord" style="margin-top:16px;width:100%">Kiire abi</a>
+  </div>
+</div>
+
+<div class="sheet" id="tocSheet" hidden>
+  <div class="sheet-in" role="dialog" aria-modal="true" aria-label="Lehe sisukord">
+    <div class="sheet-hd">
+      <strong>Lehe sisukord</strong>
+      <button class="btn btn--secondary" type="button" data-close="tocSheet" style="min-height:44px;padding:8px 20px">Sulge</button>
+    </div>
+    <nav aria-label="Lehe sisukord">
+      <ol>
+        <li><a href="#s1">Mis on üks alkoholiühik?</a></li>
+        <li><a href="#s2">Kus jooksevad riskipiirid?</a></li>
+        <li><a href="#s3">Miks piirid meestel ja naistel erinevad?</a></li>
+        <li><a href="#s4">Müüt ja fakt</a></li>
+        <li><a href="#s5">Järgmine samm</a></li>
+        <li><a href="#s6">Allikad</a></li>
+      </ol>
+    </nav>
+  </div>
+</div>
+
+<script>
+(function(){
+  var stage = document.getElementById('stage');
+
+  /* --- vaadete vahetus --- */
+  var VIEWS = [].slice.call(document.querySelectorAll('.view')).map(function(v){
+    return v.id.replace('view-','');
+  });
+  function show(view){
+    VIEWS.forEach(function(v){
+      document.getElementById('view-'+v).hidden = (v !== view);
+    });
+    document.querySelectorAll('.proto [data-goto]').forEach(function(b){
+      b.setAttribute('aria-pressed', String(b.dataset.goto === view));
+    });
+    document.querySelectorAll('.hdr nav.main a').forEach(function(a){
+      a.removeAttribute('aria-current');
+    });
+    closeSheet('menuSheet'); closeSheet('tocSheet');
+    var scroller = stage.dataset.vp === 'mobile' ? document.querySelector('.device') : window;
+    scroller.scrollTo({top:0});
+    document.getElementById('main').focus();
+  }
+  document.getElementById('main').tabIndex = -1;
+  document.addEventListener('click', function(e){
+    var t = e.target.closest('[data-goto]');
+    if (t){ e.preventDefault(); show(t.dataset.goto); }
+  });
+
+  /* --- seadme laius --- */
+  document.querySelectorAll('.proto [data-vp]').forEach(function(b){
+    b.addEventListener('click', function(){
+      stage.dataset.vp = b.dataset.vp;
+      document.querySelectorAll('.proto [data-vp]').forEach(function(o){
+        o.setAttribute('aria-pressed', String(o === b));
+      });
+      /* prototüübi seadmelüliti muudab .device laiust — arvutame paigutuse
+         kohe ümber, ootamata ResizeObserverit (see ei tööda peidetud vahekaardil) */
+      if (window.__relayoutAud) window.__relayoutAud();
+    });
+  });
+
+  /* --- sisuhalduse annotatsioonid --- */
+  var ann = document.getElementById('annotate');
+  ann.addEventListener('click', function(){
+    var on = ann.getAttribute('aria-pressed') === 'true';
+    ann.setAttribute('aria-pressed', String(!on));
+    document.querySelector('.site').classList.toggle('annotate', !on);
+  });
+
+  /* --- lehed (menüü, sisukord) --- */
+  function openSheet(id, trigger){
+    var s = document.getElementById(id);
+    s.hidden = false; s.dataset.trigger = trigger.id;
+    trigger.setAttribute('aria-expanded','true');
+    var f = s.querySelector('button, a, input'); if (f) f.focus();
+  }
+  function closeSheet(id){
+    var s = document.getElementById(id);
+    if (!s || s.hidden) return;
+    s.hidden = true;
+    var t = document.getElementById(s.dataset.trigger || '');
+    if (t){ t.setAttribute('aria-expanded','false'); t.focus(); }
+  }
+  var menuBtn = document.getElementById('menuBtn');
+  menuBtn.addEventListener('click', function(){
+    menuBtn.getAttribute('aria-expanded') === 'true' ? closeSheet('menuSheet') : openSheet('menuSheet', menuBtn);
+  });
+  var tocBtn = document.getElementById('tocBtn');
+  tocBtn.addEventListener('click', function(){
+    tocBtn.getAttribute('aria-expanded') === 'true' ? closeSheet('tocSheet') : openSheet('tocSheet', tocBtn);
+  });
+  document.querySelectorAll('[data-close]').forEach(function(b){
+    b.addEventListener('click', function(){ closeSheet(b.dataset.close); });
+  });
+  document.querySelectorAll('.sheet').forEach(function(s){
+    s.addEventListener('click', function(e){ if (e.target === s) closeSheet(s.id); });
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape'){ closeSheet('menuSheet'); closeSheet('tocSheet'); closeSos(); }
+  });
+
+  /* --- ankrud sisulehel --- */
+  document.querySelectorAll('a[href^="#s"]').forEach(function(a){
+    a.addEventListener('click', function(e){
+      e.preventDefault();
+      var el = document.querySelector(a.getAttribute('href'));
+      if (!el) return;
+      closeSheet('tocSheet');
+      el.scrollIntoView({behavior:'smooth', block:'start'});
+      el.tabIndex = -1; el.focus({preventScroll:true});
+      mark(a.getAttribute('href'));
+    });
+  });
+  function mark(hash){
+    document.querySelectorAll('#tocList a').forEach(function(l){
+      if (l.getAttribute('href') === hash) l.setAttribute('aria-current','true');
+      else l.removeAttribute('aria-current');
+      if (l.getAttribute('href') === hash) document.getElementById('tocCur').textContent = l.textContent;
+    });
+  }
+  if ('IntersectionObserver' in window){
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(en){ if (en.isIntersecting) mark('#'+en.target.id); });
+    }, {rootMargin:'-120px 0px -70% 0px'});
+    ['s1','s2','s3','s4','s5','s6'].forEach(function(id){
+      var el = document.getElementById(id); if (el) io.observe(el);
+    });
+  }
+
+  /* --- akordion --- */
+  document.querySelectorAll('.acc button').forEach(function(b){
+    b.addEventListener('click', function(){
+      var open = b.getAttribute('aria-expanded') === 'true';
+      b.setAttribute('aria-expanded', String(!open));
+      document.getElementById(b.getAttribute('aria-controls')).hidden = open;
+    });
+  });
+
+  /* --- avalehe sihtrühma filter --- */
+  var NOTE = {
+    mina: 'Näitame sisu, mis on mõeldud sulle endale.',
+    lahedane: 'Näitame sisu, mis aitab kellegi teise pärast muretsedes.',
+    spets: 'Näitame sisu, mida kasutatakse töös: materjalid, teenused, tööriistad.'
+  };
+  var seg = document.getElementById('seg');
+
+  /* mobiilis tõstetakse sihtrühma valik ja sellele vastav esimene sisuplokk
+     hero sisse — pealkirja ja "Ei tea, kust alustada?" nupu vahele */
+  var segSec  = document.getElementById('segSec');
+  var heroCta = document.getElementById('heroCta');
+  var heroCol = heroCta ? heroCta.parentNode : null;
+  var deviceEl = document.querySelector('.device');
+  var AUD_SECTIONS = [].slice.call(
+    document.querySelectorAll('#view-avaleht section[data-aud]'));
+
+  /* iga liigutatava elemendi algne koht märgitakse kommentaariga, et
+     lauaarvutivaates saaks ta täpselt tagasi panna */
+  [segSec].concat(AUD_SECTIONS).forEach(function(el){
+    if (!el) return;
+    el._slot = document.createComment('slot');
+    el.parentNode.insertBefore(el._slot, el);
+  });
+  function restore(el){
+    if (el && el.parentNode !== el._slot.parentNode){
+      el._slot.parentNode.insertBefore(el, el._slot);
+    }
+  }
+
+  var curAud = 'mina';
+  function setAud(aud){
+    curAud = aud;
+    document.querySelectorAll('#seg button').forEach(function(b){
+      b.setAttribute('aria-pressed', String(b.dataset.aud === aud));
+    });
+    var vis = [];
+    AUD_SECTIONS.forEach(function(sec){
+      var on = sec.dataset.aud.split(' ').indexOf(aud) > -1;
+      sec.hidden = !on;
+      sec.style.order = sec.dataset['ord' + aud.charAt(0).toUpperCase() + aud.slice(1)] || '';
+      if (on) vis.push(sec);
+    });
+    vis.sort(function(a, b){ return (Number(a.style.order) || 0) - (Number(b.style.order) || 0); });
+
+    var mobile = deviceEl && heroCol && deviceEl.clientWidth < 768;
+    var hoist = mobile ? vis[0] : null;
+    AUD_SECTIONS.forEach(function(sec){ if (sec !== hoist) restore(sec); });
+    if (mobile){
+      if (segSec.parentNode !== heroCol) heroCol.insertBefore(segSec, heroCta);
+      if (hoist) heroCol.insertBefore(hoist, heroCta);
+    } else {
+      restore(segSec);
+    }
+
+    /* vahelduv taust arvutatakse alles pärast filtreerimist ja ümberjärjestamist,
+       et hall/valge rütm ei katkeks peidetud sektsioonide kohalt */
+    if (hoist) hoist.classList.remove('alt');
+    vis.filter(function(sec){ return sec !== hoist; })
+       .forEach(function(sec, i){ sec.classList.toggle('alt', i % 2 === 1); });
+    document.getElementById('segNote').textContent = NOTE[aud];
+  }
+  if (seg){
+    seg.addEventListener('click', function(e){
+      var b = e.target.closest('button[data-aud]');
+      if (b) setAud(b.dataset.aud);
+    });
+    setAud('mina');
+  }
+  window.__relayoutAud = function(){ setAud(curAud); };
+  if (deviceEl) new ResizeObserver(function(){ setAud(curAud); }).observe(deviceEl);
+
+  /* --- suunaja --- */
+  var wiz = document.getElementById('wiz');
+  if (wiz){
+    var ans = {}, lbl = {}, step = 1, TOTAL = 3;
+    function render(){
+      wiz.querySelectorAll('.wiz-q').forEach(function(q){
+        q.hidden = (Number(q.dataset.step) !== step);
+      });
+      wiz.querySelectorAll('.wiz-bar span').forEach(function(sp, i){
+        sp.setAttribute('data-on', String(i < step));
+      });
+      document.getElementById('wizResult').hidden = true;
+      document.getElementById('wizProgress').hidden = false;
+      document.getElementById('wizProgress').textContent = 'Küsimus ' + step + ' / ' + TOTAL;
+      document.getElementById('wizBack').hidden = (step === 1);
+      wiz.querySelectorAll('.opt').forEach(function(o){
+        o.setAttribute('aria-pressed', String(ans[o.dataset.step] === o.dataset.tok && o.dataset.lbl === lbl[o.dataset.step]));
+      });
+    }
+    function result(){
+      wiz.querySelectorAll('.wiz-q').forEach(function(q){ q.hidden = true; });
+      document.getElementById('wizBack').hidden = false;
+      document.getElementById('wizProgress').hidden = true;
+      wiz.querySelectorAll('.wiz-bar span').forEach(function(sp){ sp.setAttribute('data-on','true'); });
+      var sum = document.getElementById('wizSum');
+      sum.innerHTML = '';
+      [1,2,3].forEach(function(i){
+        if (!lbl[i]) return;
+        var t = document.createElement('span');
+        t.className = 'tag'; t.textContent = lbl[i];
+        sum.appendChild(t);
+      });
+      var toks = [ans[1], ans[2], ans[3]];
+      var shown = 0;
+      document.querySelectorAll('#wizCards [data-for]').forEach(function(c){
+        var f = c.dataset['for'].split(' ');
+        /* mitme sildiga kaart nõuab kõiki silte korraga (nt „teada“ + „alkohol“) */
+        var hit = f.indexOf('alati') > -1 || f.every(function(x){ return toks.indexOf(x) > -1; });
+        /* kuni kolm tingimuslikku soovitust + tugiliin alati viimasena */
+        if (hit && f.indexOf('alati') === -1 && shown >= 3) hit = false;
+        if (hit && f.indexOf('alati') === -1) shown++;
+        c.hidden = !hit;
+      });
+      document.getElementById('wizResult').hidden = false;
+    }
+    wiz.addEventListener('click', function(e){
+      var o = e.target.closest('.opt');
+      if (!o) return;
+      ans[o.dataset.step] = o.dataset.tok;
+      lbl[o.dataset.step] = o.dataset.lbl;
+      if (step < TOTAL){ step++; render(); }
+      else result();
+      wiz.scrollIntoView({block:'nearest'});
+    });
+    document.getElementById('wizBack').addEventListener('click', function(){
+      if (step > 1 && document.getElementById('wizResult').hidden) step--;
+      render();
+    });
+    document.getElementById('wizAgain').addEventListener('click', function(){
+      ans = {}; lbl = {}; step = 1; render();
+    });
+    render();
+  }
+
+  /* --- kiire abi --- */
+  var sosBtn = document.getElementById('sosBtn'), sosPanel = document.getElementById('sosPanel');
+  function closeSos(){ sosPanel.hidden = true; sosBtn.setAttribute('aria-expanded','false'); }
+  sosBtn.addEventListener('click', function(){
+    var open = sosBtn.getAttribute('aria-expanded') === 'true';
+    sosPanel.hidden = open; sosBtn.setAttribute('aria-expanded', String(!open));
+  });
+})();
+</script>
+</body>
+</html>
