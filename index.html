@@ -165,6 +165,31 @@ section.band{padding:40px 0}
   background:transparent;border:2px solid var(--c-orange)}
 .grid--tiles a.card:hover{background:var(--t-orange)}
 .grid--tiles .card-t{font-size:.833rem;line-height:1.3}
+
+/* kokkuklapitavad paanid: pill avab valikute nimekirja */
+.grid--tiles .tile{min-width:0}
+.tile>summary{display:flex;align-items:center;justify-content:center;gap:8px;
+  min-height:56px;padding:12px 16px;border-radius:var(--r-pill);
+  border:2px solid var(--c-orange);background:transparent;
+  font-size:.833rem;line-height:1.3;font-weight:700;color:var(--c-ink);
+  text-align:center;cursor:pointer;list-style:none}
+.tile>summary::-webkit-details-marker{display:none}
+.tile>summary:hover{background:var(--t-orange)}
+.tile>summary::after{content:"";flex:0 0 auto;width:8px;height:8px;
+  border-right:2px solid var(--c-orange);border-bottom:2px solid var(--c-orange);
+  transform:translateY(-2px) rotate(45deg);transition:transform 200ms}
+.tile[open]>summary{background:var(--t-orange)}
+.tile[open]>summary::after{transform:translateY(2px) rotate(225deg)}
+.tile-panel{margin-top:8px;display:flex;flex-direction:column;
+  background:var(--c-white);border:1px solid var(--c-grey-200);
+  border-radius:var(--r-card);overflow:hidden}
+.tile-panel a{padding:12px 16px;color:var(--c-ink);text-decoration:none;
+  font-size:.833rem;font-weight:600;border-bottom:1px solid var(--c-grey-200)}
+.tile-panel a:last-child{border-bottom:0}
+.tile-panel a:hover{background:var(--c-grey-100);text-decoration:underline}
+.tile-panel .tile-num{display:block;font-weight:400;color:var(--c-grey-600)}
+/* mobiilis on kahes veerus paneel liiga kitsas — avatud paan võtab terve rea */
+@container site (max-width:767px){.grid--tiles .tile[open]{grid-column:1/-1}}
 @container site (min-width:768px){.grid--2{grid-template-columns:1fr 1fr}.grid--3{grid-template-columns:repeat(3,1fr)}.grid--4{grid-template-columns:repeat(2,1fr)}}
 @container site (min-width:1024px){.grid--4{grid-template-columns:repeat(4,1fr)}.grid{gap:24px}}
 .card{display:flex;flex-direction:column;gap:8px;padding:24px;border-radius:var(--r-card);
@@ -636,18 +661,49 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
       <h2 id="h-abi">Kuhu pöörduda?</h2>
       <p class="meta" style="margin-top:-16px">Abi saab ka siis, kui sa ei taha oma nime öelda.</p>
       <div class="grid grid--4 grid--tiles">
-        <a class="card" href="#" data-goto="avaleht">
-          <h3 class="card-t">Leia teenus</h3>
-        </a>
-        <a class="card" href="#" data-goto="avaleht">
-          <h3 class="card-t">Tugiliin</h3>
-        </a>
-        <a class="card" href="#" data-goto="avaleht">
-          <h3 class="card-t">Testitulemused</h3>
-        </a>
-        <a class="card" href="#" data-goto="avaleht">
-          <h3 class="card-t">Tugigrupid</h3>
-        </a>
+        <details class="tile" name="abi">
+          <summary>Leia teenus</summary>
+          <div class="tile-panel">
+            <a href="#" data-goto="avaleht">Teenused minu lähedal</a>
+            <a href="#" data-goto="avaleht">Nõustamine ja psühholoogiline abi</a>
+            <a href="#" data-goto="avaleht">Võõrutusravi</a>
+            <a href="#" data-goto="avaleht">Asendusravi</a>
+            <a href="#" data-goto="avaleht">Rehabilitatsioon ja järelravi</a>
+            <a href="#" data-goto="avaleht">Kahjude vähendamise keskused</a>
+            <a href="#" data-goto="avaleht">Abi lastele ja noortele</a>
+          </div>
+        </details>
+        <details class="tile" name="abi">
+          <summary>Tugiliin</summary>
+          <div class="tile-panel">
+            <a href="tel:1707">Nõuandeliin 1707<span class="tile-num">Ööpäev läbi, tasuta</span></a>
+            <a href="tel:116111">Lasteabi 116 111<span class="tile-num">Ööpäev läbi, tasuta</span></a>
+            <a href="tel:116006">Ohvriabi kriisitelefon 116 006<span class="tile-num">Ööpäev läbi, tasuta</span></a>
+            <a href="#" data-goto="avaleht">Veebivestlus nõustajaga</a>
+            <a href="tel:112">Hädaabi 112<span class="tile-num">Elu või tervis on ohus</span></a>
+          </div>
+        </details>
+        <details class="tile" name="abi">
+          <summary>Kuidas testida</summary>
+          <div class="tile-panel">
+            <a href="#" data-goto="avaleht">AUDIT — alkoholi tarvitamise test</a>
+            <a href="#" data-goto="avaleht">Fagerströmi test — nikotiinisõltuvus</a>
+            <a href="#" data-goto="avaleht">DUDIT — narkootikumide test</a>
+            <a href="#" data-goto="avaleht">Test lähedasele</a>
+            <a href="#" data-goto="avaleht">Anonüümne HIV- ja hepatiiditestimine</a>
+          </div>
+        </details>
+        <details class="tile" name="abi">
+          <summary>Tugigrupid</summary>
+          <div class="tile-panel">
+            <a href="#" data-goto="avaleht">AA — Anonüümsed Alkohoolikud</a>
+            <a href="#" data-goto="avaleht">NA — Anonüümsed Narkomaanid</a>
+            <a href="#" data-goto="avaleht">Al-Anon — lähedastele</a>
+            <a href="#" data-goto="avaleht">Nar-Anon — lähedastele</a>
+            <a href="#" data-goto="avaleht">Alateen — noortele peres</a>
+            <a href="#" data-goto="avaleht">Kõik tugigrupid kaardil</a>
+          </div>
+        </details>
       </div>
     </div>
   </section>
