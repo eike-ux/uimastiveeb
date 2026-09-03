@@ -596,19 +596,17 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
   <!-- Sihtrühma valik -->
   <section class="wrap pinned seg-block" id="segSec" data-src="manual" style="margin-top:32px">
     <span class="badge">Käsitsi hallatav — vaate seaded</span>
-    <p class="seg-q" id="segLabel">Kellele sa infot otsid?</p>
-    <div class="seg" id="seg" role="group" aria-labelledby="segLabel">
+    <div class="seg" id="seg" role="group" aria-label="Kellele sa infot otsid?">
       <button type="button" data-aud="mina" aria-pressed="true">Mul on mure</button>
       <button type="button" data-aud="lahedane" aria-pressed="false">Kuidas aidata?</button>
     </div>
     <p class="meta u-desktop" id="segNote" role="status" style="margin-top:12px">Näitame sisu, mis on mõeldud sulle endale.</p>
   </section>
 
-  <section class="band" aria-labelledby="h-mure" data-aud="mina">
+  <section class="band" aria-label="Mul on mure" data-aud="mina">
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne — avaleheks märgitud murelehed</span>
-      <h2 id="h-mure">Mul on mure</h2>
-      <p class="meta u-desktop" style="margin-top:-16px">Vali olukord, mis on sinu omale kõige lähem.</p>
+      <p class="meta u-desktop">Vali olukord, mis on sinu omale kõige lähem.</p>
       <div class="list">
         <a href="#" data-goto="mureleht">Ma joon rohkem, kui tahaksin <img class="list-ico" src="img/icons/alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
         <a href="#" data-goto="mureleht">Ma ei tea, kas mu tarvitamine on probleem <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
@@ -619,11 +617,10 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     </div>
   </section>
 
-  <section class="band" aria-labelledby="h-aita" data-aud="lahedane" data-ord-lahedane="-1">
+  <section class="band" aria-label="Kuidas aidata?" data-aud="lahedane" data-ord-lahedane="-1">
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne</span>
-      <h2 id="h-aita">Kuidas aidata?</h2>
-      <p class="meta u-desktop" style="margin-top:-16px">Kui muretsed kellegi teise pärast.</p>
+      <p class="meta u-desktop">Kui muretsed kellegi teise pärast.</p>
       <div class="list">
         <a href="#" data-goto="mureleht">Mu lähedane joob <img class="list-ico" src="img/icons/lahedane-alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
         <a href="#" data-goto="mureleht">Mu laps tarvitab narkootikume <img class="list-ico" src="img/icons/narkootikumid.svg" alt="" width="32" height="32" loading="lazy"></a>
