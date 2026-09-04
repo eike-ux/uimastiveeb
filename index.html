@@ -463,6 +463,12 @@ figcaption{font-size:.778rem;color:var(--c-grey-600);padding-top:8px;max-width:3
     background-size:cover;background-position:50% 22%;color:var(--c-white)}
   .hero-col > .reading h1{color:var(--c-white);margin-bottom:0}
   .hero-media{display:none}
+  /* sihtrühma valik jääb päise alla kinni seniks, kuni murede plokk kerib
+     mööda (töötab ka avatud "Vaata veel" loendiga, sest kinnitus lõpeb
+     hero-veeru lõpus) */
+  .hero-col > .seg-block{position:sticky;top:var(--hdr-h,56px);z-index:30;
+    width:auto;max-width:none;margin:12px -20px 0!important;padding:12px 20px;
+    background:var(--c-white)}
 }
 .icon24{width:24px;height:24px;flex:0 0 auto}
 
@@ -1554,6 +1560,17 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     ['s1','s2','s3','s4','s5','s6'].forEach(function(id){
       var el = document.getElementById(id); if (el) io.observe(el);
     });
+  }
+
+  /* --- päise kõrgus muutujasse, et kleepuv sihtrühma valik jääks selle alla --- */
+  var hdrEl = document.querySelector('.hdr');
+  if (hdrEl){
+    var setHdrH = function(){
+      document.documentElement.style.setProperty('--hdr-h', hdrEl.offsetHeight + 'px');
+    };
+    setHdrH();
+    window.addEventListener('resize', setHdrH);
+    if (window.ResizeObserver) new ResizeObserver(setHdrH).observe(hdrEl);
   }
 
   /* --- "Vaata veel": loend avab ülejäänud read --- */
