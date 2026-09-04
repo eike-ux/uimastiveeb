@@ -115,7 +115,12 @@ section.band{padding:40px 0}
 .btn--primary:hover{background:var(--btn-primary-hover)}
 .btn--primary:active{background:var(--c-orange)}
 /* avalehe suunaja-nupp: CVI ploom 20% tumeda äärisega */
-#heroCta{background:var(--t-plum);border-color:var(--s-plum);text-align:center}
+#heroCta{background:var(--t-plum);border-color:var(--s-plum);text-align:center;margin-top:16px}
+/* kitsas vaates jääb nupp ülemise ploki ja järgmise sektsiooni vahele keskele */
+@container site (max-width:767px){
+  #heroCta{margin-top:40px}
+  #heroSec{padding-bottom:0}
+}
 #heroCta:hover{background:rgba(112,47,138,.35)}
 #heroCta:active{background:rgba(112,47,138,.5)}
 .btn--secondary{background:var(--c-white);border-color:var(--btn-primary)}
@@ -141,6 +146,34 @@ section.band{padding:40px 0}
 
 /* ---------- Kaardid ---------- */
 .grid{display:grid;gap:16px}
+/* kerimisrea navigeerimistäpid (nähtavad ainult kitsas vaates) */
+.hscroll-dots{display:none;justify-content:center;gap:8px;margin-top:16px}
+.hscroll-dots button{width:8px;height:8px;padding:0;border:0;border-radius:50%;
+  background:var(--c-grey-200);cursor:pointer;transition:background 200ms,transform 200ms}
+.hscroll-dots button[aria-current="true"]{background:var(--c-orange);transform:scale(1.375)}
+/* mobiilis kerib kaardirida horisontaalselt: esimene kaart tervikuna,
+   järgmine paremast servast paistmas */
+@container site (max-width:767px){
+  .grid--hscroll{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;
+    margin:0 -20px;padding:0 20px 4px;scroll-padding-left:20px;
+    scrollbar-width:none;-webkit-overflow-scrolling:touch}
+  .grid--hscroll::-webkit-scrollbar{display:none}
+  .grid--hscroll>*{flex:0 0 calc(100% - 32px);scroll-snap-align:start}
+  .hscroll-dots{display:flex}
+}
+/* kaartide arv pealkirja järel */
+.h-count{font-weight:400;color:var(--c-grey-600)}
+/* kitsas vaates väiksem pealkiri, et arv mahuks samale reale */
+@container site (max-width:767px){#h-prog{font-size:1.222rem}}
+/* selgitus vasakul, loend paremal (kitsas vaates üksteise all) */
+.split{display:grid;gap:24px}
+.split-text p:last-child{margin-bottom:0}
+.split-text p{font-size:.944rem;color:var(--c-grey-600);max-width:44em}
+@container site (min-width:768px){
+  .split{grid-template-columns:1fr 1fr;gap:40px;align-items:start}
+  /* --rev: kitsas vaates on tekst enne, laias paremal veerus */
+  .split--rev .split-text{order:2}
+}
 /* ovaalsed reaviidad: ikoon vasakul, pealkiri kõrval */
 .pill-list{display:flex;flex-direction:column;gap:12px;max-width:720px}
 .pill-list .card{flex-direction:row;align-items:center;gap:12px;
@@ -173,7 +206,8 @@ section.band{padding:40px 0}
   min-height:56px;padding:16px 20px;cursor:pointer;list-style:none;
   font-size:1rem;font-weight:700;line-height:1.3;color:var(--c-ink)}
 .acc summary::-webkit-details-marker{display:none}
-.acc summary:hover{color:var(--c-orange)}
+.acc summary:hover{text-decoration:underline;text-underline-offset:3px}
+.acc summary:hover::after{text-decoration:none}
 .acc summary::after{content:"";flex:0 0 auto;width:9px;height:9px;
   border-right:2px solid var(--c-orange);border-bottom:2px solid var(--c-orange);
   transform:translateY(-3px) rotate(45deg);transition:transform 200ms}
@@ -209,6 +243,21 @@ a.card:hover .card-t{text-decoration:underline}
 .list a:hover{background:var(--c-grey-100);text-decoration:underline}
 .list a span[aria-hidden]{color:var(--c-blue);font-weight:700}
 .list-ico{width:32px;height:32px;flex:0 0 auto}
+/* algul on nähtaval 5 rida, ülejäänud avab "Vaata veel" */
+.list[data-collapsed="true"] a:nth-child(n+6){display:none}
+.list-more{display:inline-flex;align-items:center;gap:8px;margin-top:8px}
+.list-more-i{width:9px;height:9px;flex:0 0 auto;
+  border-right:2px solid currentColor;border-bottom:2px solid currentColor;
+  transform:translateY(-3px) rotate(45deg);transition:transform 200ms}
+.list-more[aria-expanded="true"] .list-more-i{transform:translateY(2px) rotate(225deg)}
+/* kitsas vaates ainult allapoole osutav nool loendi paremas allservas */
+@container site (max-width:767px){
+  .list-more{display:flex;width:100%;justify-content:flex-end;
+    padding:8px 4px;min-height:44px;text-decoration:none;color:var(--c-orange)}
+  .list-more-t{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .list-more-i{width:11px;height:11px;border-width:2.5px}
+}
 
 /* ---------- Faktiplokk ja väljakutse ---------- */
 .facts{display:grid;gap:16px}
@@ -380,18 +429,28 @@ figcaption{font-size:.778rem;color:var(--c-grey-600);padding-top:8px;max-width:3
 
 /* ---------- Hero koos ringimotiiviga ---------- */
 .hero-grid{display:block;position:relative;z-index:1}
+/* laias vaates on pildirida hero taustaks: kolm pilti kõrvuti, tume kate,
+   valge kiri vasakus veerus */
 @container site (min-width:768px){
-  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:stretch}
-  .hero-media{display:flex;max-height:480px}
-  .hero-media img{width:100%;height:100%;min-height:420px;object-fit:cover}
-  .hero-col{display:flex;flex-direction:column;justify-content:space-between;gap:24px}
+  #heroSec{position:relative;padding:0;overflow:hidden;background:var(--c-ink)}
+  .hero-grid{display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:center;
+    position:static;min-height:480px;padding:56px 0}
+  .hero-media{position:absolute;inset:0;margin:0;display:flex;max-height:none}
+  .hero-media img{flex:1 1 0;min-width:0;width:auto;height:100%;min-height:0;object-fit:cover}
+  .hero-media::after{content:"";position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(11,15,20,.7) 0%,rgba(11,15,20,.5) 45%,rgba(11,15,20,.28) 100%)}
+  .hero-col{position:relative;z-index:1;display:flex;flex-direction:column;gap:24px;
+    color:var(--c-white)}
   .hero-col > *{margin-top:0!important}
+  .hero-col h1{color:var(--c-white)}
   .hero-col .reading > :last-child{margin-bottom:0}
+  /* ploomikas nupp tumedal taustal: läbipaistmatu heleploom, tume kiri */
+  #heroCta{background:#e2d5e8}
+  #heroCta:hover{background:#cdb6d6}
+  #heroCta:active{background:#bb9cc9}
 }
 @container site (min-width:1280px){
-  .hero-grid{gap:48px}
-  .hero-media{max-height:560px}
-  .hero-media img{min-height:500px}
+  .hero-grid{gap:48px;min-height:560px}
 }
 /* mobiilis on hero pilt pealkirja taustaks: äärest ääreni, tume kate, valge kiri */
 @container site (max-width:767px){
@@ -415,10 +474,18 @@ figcaption{font-size:.778rem;color:var(--c-grey-600);padding-top:8px;max-width:3
 #view-avaleht{display:flex;flex-direction:column}
 .pinned{order:-10}
 .alt{background:var(--c-grey-100)}
-.seg{display:flex;flex-wrap:wrap;gap:8px;margin:0}
-.seg button{font:inherit;font-weight:600;font-size:.889rem;min-height:44px;padding:8px 20px;
+.seg{display:flex;gap:8px;margin:0}
+/* nupud jäävad kõrvuti ja võrdse laiusega ka kitsas vaates */
+.seg button{flex:1 1 0;min-width:0;font:inherit;font-weight:600;font-size:.889rem;min-height:44px;padding:8px 12px;
   border-radius:var(--r-pill);border:2px solid var(--c-grey-200);background:var(--c-white);
   color:var(--c-ink);cursor:pointer;transition:background 200ms,border-color 200ms}
+/* laias vaates ei venita nuppe üle terve veeru ja suunaja-nupp on sama rea
+   paremas ääres */
+@container site (min-width:768px){
+  .seg{max-width:520px;flex:1 1 520px}
+  .seg-block{display:flex;align-items:center;justify-content:space-between;gap:24px}
+  .seg-block #heroCta{flex:0 0 auto;margin:0}
+}
 .seg button:hover{border-color:var(--c-orange)}
 .seg button[aria-pressed="true"]{background:var(--btn-primary);border-color:var(--c-orange)}
 
@@ -585,7 +652,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     </div>
   </section>
 
-  <section class="band pinned" style="padding-top:32px">
+  <section class="band pinned" id="heroSec">
     <div class="wrap">
     <div class="hero-grid">
     <div class="hero-col">
@@ -593,20 +660,20 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
         <span class="badge">Käsitsi hallatav</span>
         <h1>Info ja abi alkoholi, tubaka ja narkootikumide kohta</h1>
         <p class="lead u-desktop">Siit leiad usaldusväärse info, enesehindamise tööriistad ja abivõimalused — nii endale kui lähedasele.</p>
-        <p class="meta u-desktop" style="display:flex;align-items:center;gap:8px">
-          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M9 1.5 15 4v5c0 3.3-2.4 6.3-6 7.5C5.4 15.3 3 12.3 3 9V4l6-2.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-          Sisse logima ei pea. Testide vastuseid ei salvestata.
-        </p>
       </div>
       <form class="search u-desktop" role="search" onsubmit="return false" style="margin-top:24px">
         <svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true" focusable="false"><circle cx="8.5" cy="8.5" r="6" fill="none" stroke="currentColor" stroke-width="2"/><line x1="13" y1="13" x2="18" y2="18" stroke="currentColor" stroke-width="2"/></svg>
         <label class="u-vh" for="q">Otsi infot, tööriista või abi</label>
         <input id="q" type="search" placeholder="Otsi infot, tööriista või abi">
       </form>
-      <a class="btn btn--primary" id="heroCta" href="#" data-goto="suunaja" style="margin-top:16px">
-        Ei tea, kust alustada? Vasta kolmele küsimusele</a>
+      <a class="btn btn--primary" id="heroCta" href="#" data-goto="suunaja">
+        Ei tea, kust alustada? Vasta küsimustele <span aria-hidden="true">&rarr;</span></a>
     </div>
-      <figure class="hero-media"><img class="media" src="img/hero-avaleht-mure.jpg" alt="" width="1064" height="1600" fetchpriority="high"></figure>
+      <figure class="hero-media" aria-hidden="true">
+        <img class="media" src="img/hero-avaleht-mees.jpg" alt="" width="1600" height="1068" fetchpriority="high">
+        <img class="media" src="img/hero-avaleht-kaed.jpg" alt="" width="1600" height="1067" loading="lazy">
+        <img class="media" src="img/hero-avaleht-mure.jpg" alt="" width="1064" height="1600" loading="lazy">
+      </figure>
     </div>
     </div>
   </section>
@@ -618,20 +685,32 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
       <button type="button" data-aud="mina" aria-pressed="true">Mul on mure</button>
       <button type="button" data-aud="lahedane" aria-pressed="false">Kuidas aidata?</button>
     </div>
-    <p class="meta u-desktop" id="segNote" role="status" style="margin-top:12px">Näitame sisu, mis on mõeldud sulle endale.</p>
   </section>
 
   <section class="band" aria-label="Mul on mure" data-aud="mina">
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne — avaleheks märgitud murelehed</span>
-      <p class="meta u-desktop">Vali olukord, mis on sinu omale kõige lähem.</p>
-      <div class="list">
+      <div class="list" data-collapsed="true">
         <a href="#" data-goto="mureleht">Ma joon rohkem, kui tahaksin <img class="list-ico" src="img/icons/alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
         <a href="#" data-goto="mureleht">Ma ei tea, kas mu tarvitamine on probleem <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
         <a href="#" data-goto="mureleht">Tahan suitsetamise maha jätta <img class="list-ico" src="img/icons/suitsetamine.svg" alt="" width="32" height="32" loading="lazy"></a>
         <a href="#" data-goto="mureleht">Ma tarvitan kanepit iga päev <img class="list-ico" src="img/icons/kanep.svg" alt="" width="32" height="32" loading="lazy"></a>
         <a href="#" data-goto="mureleht">Ma ei saa magada ilma alkoholita <img class="list-ico" src="img/icons/uni.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Tahan nikotiinist täielikult loobuda <img class="list-ico" src="img/icons/suitsetamine.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Ma tarvitan narkootikume peol <img class="list-ico" src="img/icons/narkootikumid.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Ma joon üksi ja teiste eest varjates <img class="list-ico" src="img/icons/alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Ärkan pohmelliga tööpäeva hommikul <img class="list-ico" src="img/icons/alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Tahan teha pausi, aga ei suuda <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Kasutan rahusteid või valuvaigisteid ilma retseptita <img class="list-ico" src="img/icons/narkootikumid.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Tunnen ärevust, kui ainet ei saa <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Tahan teada, kui palju on liiga palju <img class="list-ico" src="img/icons/alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Tarvitamine on rikkunud mu suhteid või töö <img class="list-ico" src="img/icons/vestlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Vajan abi, aga ei taha oma nime öelda <img class="list-ico" src="img/icons/vestlus.svg" alt="" width="32" height="32" loading="lazy"></a>
       </div>
+      <button class="btn btn--quiet list-more" type="button" aria-expanded="false">
+        <span class="list-more-t">Vaata veel</span>
+        <span class="list-more-i" aria-hidden="true"></span>
+      </button>
     </div>
   </section>
 
@@ -639,12 +718,27 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne</span>
       <p class="meta u-desktop">Kui muretsed kellegi teise pärast.</p>
-      <div class="list">
+      <div class="list" data-collapsed="true">
         <a href="#" data-goto="mureleht">Mu lähedane joob <img class="list-ico" src="img/icons/lahedane-alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
         <a href="#" data-goto="mureleht">Mu laps tarvitab narkootikume <img class="list-ico" src="img/icons/narkootikumid.svg" alt="" width="32" height="32" loading="lazy"></a>
         <a href="#" data-goto="mureleht">Kuidas alustada vestlust <img class="list-ico" src="img/icons/vestlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Mu partner joob liiga palju <img class="list-ico" src="img/icons/lahedane-alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Mu sõber tarvitab kanepit <img class="list-ico" src="img/icons/kanep.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Kuidas aidata, kui ta ise abi ei taha <img class="list-ico" src="img/icons/vestlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Mu vanem joob <img class="list-ico" src="img/icons/lahedane-alkohol.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Mu laps suitsetab või vapib <img class="list-ico" src="img/icons/suitsetamine.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Kuidas tarvitamise märke ära tunda <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Ma ei maga murest lähedase pärast <img class="list-ico" src="img/icons/uni.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Kuidas rääkida lapsega uimastitest <img class="list-ico" src="img/icons/vestlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Mida teha üledoosi kahtluse korral <img class="list-ico" src="img/icons/narkootikumid.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Kust leida tuge iseendale <img class="list-ico" src="img/icons/vestlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Mu lähedane naasis ravilt <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
+        <a href="#" data-goto="mureleht">Kuidas seada piire ja mitte võimendada <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
       </div>
-      <a class="btn btn--quiet" href="#" data-goto="avaleht">Vaata kõiki olukordi (6) →</a>
+      <button class="btn btn--quiet list-more" type="button" aria-expanded="false">
+        <span class="list-more-t">Vaata veel</span>
+        <span class="list-more-i" aria-hidden="true"></span>
+      </button>
     </div>
   </section>
 
@@ -653,50 +747,60 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
       <span class="badge">Automaatne — teenuste registrist</span>
       <h2 id="h-abi">Kuhu pöörduda?</h2>
       <p class="meta" style="margin-top:-16px">Abi saab ka siis, kui sa ei taha oma nime öelda.</p>
-      <div class="acc">
-        <details name="abi">
-          <summary>Leia teenus</summary>
-          <div class="acc-panel">
-            <a href="#" data-goto="avaleht">Teenused minu lähedal</a>
-            <a href="#" data-goto="avaleht">Nõustamine ja psühholoogiline abi</a>
-            <a href="#" data-goto="avaleht">Võõrutusravi</a>
-            <a href="#" data-goto="avaleht">Asendusravi</a>
-            <a href="#" data-goto="avaleht">Rehabilitatsioon ja järelravi</a>
-            <a href="#" data-goto="avaleht">Kahjude vähendamise keskused</a>
-            <a href="#" data-goto="avaleht">Abi lastele ja noortele</a>
-          </div>
-        </details>
-        <details name="abi">
-          <summary>Tugiliin</summary>
-          <div class="acc-panel">
-            <a href="tel:1707">Nõuandeliin 1707<span class="tile-num">Ööpäev läbi, tasuta</span></a>
-            <a href="tel:116111">Lasteabi 116 111<span class="tile-num">Ööpäev läbi, tasuta</span></a>
-            <a href="tel:116006">Ohvriabi kriisitelefon 116 006<span class="tile-num">Ööpäev läbi, tasuta</span></a>
-            <a href="#" data-goto="avaleht">Veebivestlus nõustajaga</a>
-            <a href="tel:112">Hädaabi 112<span class="tile-num">Elu või tervis on ohus</span></a>
-          </div>
-        </details>
-        <details name="abi">
-          <summary>Kuidas testida</summary>
-          <div class="acc-panel">
-            <a href="#" data-goto="avaleht">AUDIT — alkoholi tarvitamise test</a>
-            <a href="#" data-goto="avaleht">Fagerströmi test — nikotiinisõltuvus</a>
-            <a href="#" data-goto="avaleht">DUDIT — narkootikumide test</a>
-            <a href="#" data-goto="avaleht">Test lähedasele</a>
-            <a href="#" data-goto="avaleht">Anonüümne HIV- ja hepatiiditestimine</a>
-          </div>
-        </details>
-        <details name="abi">
-          <summary>Tugigrupid</summary>
-          <div class="acc-panel">
-            <a href="#" data-goto="avaleht">AA — Anonüümsed Alkohoolikud</a>
-            <a href="#" data-goto="avaleht">NA — Anonüümsed Narkomaanid</a>
-            <a href="#" data-goto="avaleht">Al-Anon — lähedastele</a>
-            <a href="#" data-goto="avaleht">Nar-Anon — lähedastele</a>
-            <a href="#" data-goto="avaleht">Alateen — noortele peres</a>
-            <a href="#" data-goto="avaleht">Kõik tugigrupid kaardil</a>
-          </div>
-        </details>
+      <div class="split split--rev">
+        <div class="split-text">
+          <p>Abi ei pea alustama arstist ega saatekirjast. Tugiliinile või nõustamisse
+            saab pöörduda ka siis, kui sa alles kaalud muutust või muretsed kellegi teise pärast.</p>
+          <p>Nõuandeliinid vastavad ööpäev läbi ja on tasuta — sealt saab nii esmase nõu
+            kui ka suunamise õige teenuse juurde. Teenused leiad maakonna kaupa,
+            testimine on anonüümne ja tugigrupid on avatud nii tarvitajale kui lähedasele.</p>
+          <p>Kui elu või tervis on ohus, helista 112.</p>
+        </div>
+        <div class="acc">
+          <details name="abi">
+            <summary>Leia teenus</summary>
+            <div class="acc-panel">
+              <a href="#" data-goto="avaleht">Teenused minu lähedal</a>
+              <a href="#" data-goto="avaleht">Nõustamine ja psühholoogiline abi</a>
+              <a href="#" data-goto="avaleht">Võõrutusravi</a>
+              <a href="#" data-goto="avaleht">Asendusravi</a>
+              <a href="#" data-goto="avaleht">Rehabilitatsioon ja järelravi</a>
+              <a href="#" data-goto="avaleht">Kahjude vähendamise keskused</a>
+              <a href="#" data-goto="avaleht">Abi lastele ja noortele</a>
+            </div>
+          </details>
+          <details name="abi">
+            <summary>Tugiliin</summary>
+            <div class="acc-panel">
+              <a href="tel:1707">Nõuandeliin 1707<span class="tile-num">Ööpäev läbi, tasuta</span></a>
+              <a href="tel:116111">Lasteabi 116 111<span class="tile-num">Ööpäev läbi, tasuta</span></a>
+              <a href="tel:116006">Ohvriabi kriisitelefon 116 006<span class="tile-num">Ööpäev läbi, tasuta</span></a>
+              <a href="#" data-goto="avaleht">Veebivestlus nõustajaga</a>
+              <a href="tel:112">Hädaabi 112<span class="tile-num">Elu või tervis on ohus</span></a>
+            </div>
+          </details>
+          <details name="abi">
+            <summary>Kuidas testida</summary>
+            <div class="acc-panel">
+              <a href="#" data-goto="avaleht">AUDIT — alkoholi tarvitamise test</a>
+              <a href="#" data-goto="avaleht">Fagerströmi test — nikotiinisõltuvus</a>
+              <a href="#" data-goto="avaleht">DUDIT — narkootikumide test</a>
+              <a href="#" data-goto="avaleht">Test lähedasele</a>
+              <a href="#" data-goto="avaleht">Anonüümne HIV- ja hepatiiditestimine</a>
+            </div>
+          </details>
+          <details name="abi">
+            <summary>Tugigrupid</summary>
+            <div class="acc-panel">
+              <a href="#" data-goto="avaleht">AA — Anonüümsed Alkohoolikud</a>
+              <a href="#" data-goto="avaleht">NA — Anonüümsed Narkomaanid</a>
+              <a href="#" data-goto="avaleht">Al-Anon — lähedastele</a>
+              <a href="#" data-goto="avaleht">Nar-Anon — lähedastele</a>
+              <a href="#" data-goto="avaleht">Alateen — noortele peres</a>
+              <a href="#" data-goto="avaleht">Kõik tugigrupid kaardil</a>
+            </div>
+          </details>
+        </div>
       </div>
     </div>
   </section>
@@ -705,7 +809,6 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne — ainepõhised teemad</span>
       <h2 id="h-info">Kasulik info ja teadmised</h2>
-      <p class="meta" style="margin-top:-16px">Kontrollitud info ainete ja nende mõju kohta.</p>
       <div class="grid grid--4 grid--2up">
         <a class="card" href="#" data-goto="sisuleht"><img class="media card-cover" src="img/teema-alkohol.jpg" alt="" width="900" height="600" loading="lazy"><h3 class="card-t">Alkohol</h3></a>
         <a class="card" href="#" data-goto="sisuleht"><img class="media card-cover" src="img/teema-nikotiin.jpg" alt="" width="900" height="600" loading="lazy"><h3 class="card-t">Nikotiin ja tubakas</h3></a>
@@ -719,12 +822,21 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne — avaldatud testid</span>
       <h2 id="h-test">Testid ja tööriistad</h2>
-      <p class="meta" style="margin-top:-16px">Vastused on anonüümsed ja neid ei salvestata.</p>
-      <div class="pill-list">
-        <a class="card card--sky" href="#" data-goto="mureleht"><img class="list-ico" src="img/icons/alkohol.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">AUDIT</h3></a>
-        <a class="card card--sky" href="#" data-goto="sisuleht"><img class="list-ico" src="img/icons/lahedane-alkohol.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">Alkokalkulaator</h3></a>
-        <a class="card card--sky" href="#" data-goto="mureleht"><img class="list-ico" src="img/icons/suitsetamine.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">Fagerströmi test</h3></a>
-        <a class="card card--sky" href="#" data-goto="mureleht"><img class="list-ico" src="img/icons/kanep.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">CUDIT-R</h3></a>
+      <div class="split">
+        <div class="split-text">
+          <p>Testid on lühikesed enesehindamise küsimustikud, mis aitavad aru saada,
+            kas ja kuidas alkohol, nikotiin või kanep sinu igapäevaelu ja tervist mõjutab.</p>
+          <p>Iga test võtab paar minutit. Lõpus näed selgitust, mida tulemus tähendab,
+            ja soovitust, mida edasi teha — sina otsustad, kas ja kellega seda jagad.</p>
+          <p>Alkokalkulaator ei ole test, vaid tööriist: see arvutab, kui palju
+            alkoholiühikuid sinu joodu sisaldab.</p>
+        </div>
+        <div class="pill-list">
+          <a class="card card--sky" href="#" data-goto="mureleht"><img class="list-ico" src="img/icons/alkohol.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">AUDIT</h3></a>
+          <a class="card card--sky" href="#" data-goto="sisuleht"><img class="list-ico" src="img/icons/lahedane-alkohol.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">Alkokalkulaator</h3></a>
+          <a class="card card--sky" href="#" data-goto="mureleht"><img class="list-ico" src="img/icons/suitsetamine.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">Fagerströmi test</h3></a>
+          <a class="card card--sky" href="#" data-goto="mureleht"><img class="list-ico" src="img/icons/kanep.svg" alt="" width="32" height="32" loading="lazy"><h3 class="card-t">CUDIT-R</h3></a>
+        </div>
       </div>
     </div>
   </section>
@@ -733,7 +845,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne — avaldatud programmid</span>
       <h2 id="h-prog">Eneseabiprogrammid</h2>
-      <div class="grid grid--2">
+      <div class="grid grid--2 grid--hscroll" id="progGrid">
         <a class="card card--lime" href="#" data-goto="mureleht">
           <img class="media" src="img/programm-selge.jpg" alt="" width="900" height="600" loading="lazy" style="margin:-24px -24px 8px;width:calc(100% + 48px);max-width:none;border-radius:8px 8px 0 0;aspect-ratio:3/2">
           <span class="tag tag--pr">Tasuta · anonüümne</span>
@@ -746,6 +858,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
           <p>Nikotiinist loobumise ja lähedase toetamise programmid lisanduvad samasse vaatesse ilma avalehte muutmata.</p>
         </div>
       </div>
+      <div class="hscroll-dots" id="progDots" role="group" aria-label="Programmide navigeerimine"></div>
     </div>
   </section>
 
@@ -1443,6 +1556,61 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     });
   }
 
+  /* --- "Vaata veel": loend avab ülejäänud read --- */
+  document.querySelectorAll('.list-more').forEach(function(btn){
+    var list = btn.previousElementSibling;
+    if (!list || !list.classList.contains('list')) return;
+    var label = btn.querySelector('.list-more-t');
+    btn.addEventListener('click', function(){
+      var open = list.dataset.collapsed !== 'true';
+      list.dataset.collapsed = String(open);
+      btn.setAttribute('aria-expanded', String(!open));
+      if (label) label.textContent = open ? 'Vaata veel' : 'Vaata vähem';
+    });
+  });
+
+  /* --- programmide arv pealkirja järel + kerimisrea täpid --- */
+  var progGrid = document.getElementById('progGrid');
+  var progH2 = document.getElementById('h-prog');
+  var progDots = document.getElementById('progDots');
+  var resetProgScroll = function(){};
+  if (progGrid && progH2){
+    progH2.insertAdjacentHTML('beforeend',
+      ' <span class="h-count">(' + progGrid.children.length + ')</span>');
+  }
+  if (progGrid && progDots){
+    var progCards = [].slice.call(progGrid.children);
+    progCards.forEach(function(card, i){
+      var d = document.createElement('button');
+      d.type = 'button';
+      d.setAttribute('aria-label', 'Programm ' + (i + 1));
+      d.setAttribute('aria-current', String(i === 0));
+      d.addEventListener('click', function(){
+        progGrid.scrollTo({left: card.offsetLeft - progGrid.offsetLeft, behavior: 'smooth'});
+      });
+      progDots.appendChild(d);
+    });
+    function syncProgDots(){
+      var mid = progGrid.scrollLeft + progGrid.clientWidth / 2;
+      var best = 0, bestD = Infinity;
+      progCards.forEach(function(card, i){
+        var c = card.offsetLeft - progGrid.offsetLeft + card.offsetWidth / 2;
+        var d = Math.abs(c - mid);
+        if (d < bestD){ bestD = d; best = i; }
+      });
+      [].slice.call(progDots.children).forEach(function(d, i){
+        d.setAttribute('aria-current', String(i === best));
+      });
+    }
+    progGrid.addEventListener('scroll', syncProgDots, {passive:true});
+    /* rida algab alati esimeselt programmilt — paigutuse muutused (pildi
+       laadimine, sihtrühma vahetus) ei tohi kerimiskohta nihutada */
+    resetProgScroll = function(){ progGrid.scrollLeft = 0; syncProgDots(); };
+    resetProgScroll();
+    window.addEventListener('load', resetProgScroll);
+    window.addEventListener('resize', resetProgScroll);
+  }
+
   /* --- akordion --- */
   document.querySelectorAll('.acc button').forEach(function(b){
     b.addEventListener('click', function(){
@@ -1501,10 +1669,15 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     var hoist = mobile ? vis[0] : null;
     AUD_SECTIONS.forEach(function(sec){ if (sec !== hoist) restore(sec); });
     if (mobile){
+      /* mobiilis: suunaja-nupp jääb hero lõppu, sihtrühma valik ja esimene
+         sisuplokk tõstetakse tema ette */
+      if (heroCta && heroCta.parentNode !== heroCol) heroCol.appendChild(heroCta);
       if (segSec.parentNode !== heroCol) heroCol.insertBefore(segSec, heroCta);
       if (hoist) heroCol.insertBefore(hoist, heroCta);
     } else {
       restore(segSec);
+      /* laias vaates on suunaja-nupp sihtrühma nuppude reas paremas ääres */
+      if (heroCta && heroCta.parentNode !== segSec) segSec.appendChild(heroCta);
     }
 
     /* vahelduv taust arvutatakse alles pärast filtreerimist ja ümberjärjestamist,
@@ -1512,7 +1685,9 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     if (hoist) hoist.classList.remove('alt');
     vis.filter(function(sec){ return sec !== hoist; })
        .forEach(function(sec, i){ sec.classList.toggle('alt', i % 2 === 1); });
-    document.getElementById('segNote').textContent = NOTE[aud];
+    var segNote = document.getElementById('segNote');
+    if (segNote) segNote.textContent = NOTE[aud];
+    resetProgScroll();
   }
   if (seg){
     seg.addEventListener('click', function(e){
