@@ -246,9 +246,9 @@ a.card:hover .card-t{text-decoration:underline}
 .list a:hover{background:var(--c-grey-100);text-decoration:underline}
 .list a span[aria-hidden]{color:var(--c-blue);font-weight:700}
 .list-ico{width:32px;height:32px;flex:0 0 auto}
-/* algul on nähtaval 5 rida, ülejäänud avab "Lae rohkem" */
+/* algul on nähtaval 5 rida, ülejäänud avab "Näita rohkem" */
 .list[data-collapsed="true"] a:nth-child(n+6){display:none}
-.list-more{display:inline-flex;align-items:center;gap:8px;margin-top:8px}
+.list-more{display:inline-flex;align-items:center;gap:8px;margin-top:0}
 .list-more-i{width:9px;height:9px;flex:0 0 auto;
   border-right:2px solid currentColor;border-bottom:2px solid currentColor;
   transform:translateY(-3px) rotate(45deg);transition:transform 200ms}
@@ -256,7 +256,7 @@ a.card:hover .card-t{text-decoration:underline}
 /* kitsas vaates keskel: tekst ja selle järel allapoole osutav nool */
 @container site (max-width:767px){
   .list-more{display:flex;width:100%;justify-content:center;
-    padding:8px 4px;min-height:44px;color:var(--c-orange)}
+    padding:4px;min-height:44px;color:var(--c-orange)}
   .list-more-i{width:11px;height:11px;border-width:2.5px}
 }
 
@@ -488,7 +488,7 @@ figcaption{font-size:.778rem;color:var(--c-grey-600);padding-top:8px;max-width:3
   .hero-col > .reading h1{color:var(--c-white);margin-bottom:0}
   .hero-media{display:none}
   /* sihtrühma valik jääb päise alla kinni seniks, kuni murede plokk kerib
-     mööda (töötab ka avatud "Lae rohkem" loendiga, sest kinnitus lõpeb
+     mööda (töötab ka avatud "Näita rohkem" loendiga, sest kinnitus lõpeb
      hero-veeru lõpus) */
   .hero-col > .seg-block{position:sticky;top:var(--hdr-h,56px);z-index:30;
     width:auto;max-width:none;margin:12px -20px 0!important;padding:12px 20px;
@@ -741,7 +741,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
         <a href="#" data-goto="mureleht">Vajan abi, aga ei taha oma nime öelda <img class="list-ico" src="img/icons/vestlus.svg" alt="" width="32" height="32" loading="lazy"></a>
       </div>
       <button class="btn btn--quiet list-more" type="button" aria-expanded="false">
-        <span class="list-more-t">Lae rohkem</span>
+        <span class="list-more-t">Näita rohkem</span>
         <span class="list-more-i" aria-hidden="true"></span>
       </button>
     </div>
@@ -769,7 +769,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
         <a href="#" data-goto="mureleht">Kuidas seada piire ja mitte võimendada <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
       </div>
       <button class="btn btn--quiet list-more" type="button" aria-expanded="false">
-        <span class="list-more-t">Lae rohkem</span>
+        <span class="list-more-t">Näita rohkem</span>
         <span class="list-more-i" aria-hidden="true"></span>
       </button>
     </div>
@@ -1608,7 +1608,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     if (window.ResizeObserver) new ResizeObserver(setHdrH).observe(hdrEl);
   }
 
-  /* --- "Lae rohkem": loend avab ülejäänud read --- */
+  /* --- "Näita rohkem": loend avab ülejäänud read --- */
   document.querySelectorAll('.list-more').forEach(function(btn){
     var list = btn.previousElementSibling;
     if (!list || !list.classList.contains('list')) return;
@@ -1617,7 +1617,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
       var open = list.dataset.collapsed !== 'true';
       list.dataset.collapsed = String(open);
       btn.setAttribute('aria-expanded', String(!open));
-      if (label) label.textContent = open ? 'Lae rohkem' : 'Näita vähem';
+      if (label) label.textContent = open ? 'Näita rohkem' : 'Näita vähem';
     });
   });
 
