@@ -364,10 +364,17 @@ h2[id],h3[id]{scroll-margin-top:120px}
 
 /* ---------- Mobiilimenüü / sisukorra leht ---------- */
 .sheet{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.35);display:flex;
-  align-items:flex-start;justify-content:center}
-.stage[data-vp="mobile"] .sheet{position:absolute}
-.sheet-in{background:var(--c-white);width:100%;max-width:520px;max-height:100%;overflow-y:auto;
-  padding:20px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
+  align-items:stretch;justify-content:flex-end}
+/* prototüübi mobiilivaates jääb paneel seadme raami sisse (position:fixed
+   viitaks brauseriaknale); ülaserv seatakse JS-is kerimiskoha järgi */
+.stage[data-vp="mobile"] .sheet{position:absolute;inset:auto 0 auto 0;height:100%}
+/* paneel tuleb paremast servast sisse ja katab kogu kõrguse */
+.sheet-in{background:var(--c-white);width:min(420px,88%);height:100%;overflow-y:auto;
+  padding:20px;box-shadow:-8px 0 24px rgba(0,0,0,.18)}
+@keyframes sheet-fade{from{opacity:0}to{opacity:1}}
+@keyframes sheet-slide{from{transform:translateX(100%)}to{transform:translateX(0)}}
+.sheet:not([hidden]){animation:sheet-fade 160ms ease-out}
+.sheet:not([hidden]) > .sheet-in{animation:sheet-slide 240ms cubic-bezier(.22,.61,.36,1)}
 .sheet-hd{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:16px}
 .sheet-in nav ol,.sheet-in nav ul{list-style:none;margin:0;padding:0}
 .sheet-in nav a{display:block;min-height:52px;padding:14px 0;border-bottom:1px solid var(--c-grey-200);
@@ -1429,8 +1436,6 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
 </div>
 
 </div><!-- /site -->
-</div><!-- /device -->
-</div><!-- /stage -->
 
 <!-- ===================== Mobiilimenüü ja sisukorra leht ===================== -->
 <div class="sheet" id="menuSheet" hidden>
@@ -1475,6 +1480,9 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     </nav>
   </div>
 </div>
+</div><!-- /device -->
+</div><!-- /stage -->
+
 
 <script>
 (function(){
@@ -1529,6 +1537,9 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
   /* --- lehed (menüü, sisukord) --- */
   function openSheet(id, trigger){
     var s = document.getElementById(id);
+    var dev = document.querySelector('.device');
+    /* mobiiliraamis on paneel absoluutne — tõsta ta praegusele kerimiskohale */
+    s.style.top = (stage.dataset.vp === 'mobile' && dev) ? dev.scrollTop + 'px' : '';
     s.hidden = false; s.dataset.trigger = trigger.id;
     trigger.setAttribute('aria-expanded','true');
     var f = s.querySelector('button, a, input'); if (f) f.focus();
