@@ -44,9 +44,11 @@ img{max-width:100%}
 .proto :focus-visible{outline-color:var(--c-orange)}
 
 .stage{padding:24px 16px 64px;display:flex;justify-content:center}
-.device{width:100%;background:var(--c-white);border-radius:var(--r-card);overflow:hidden;
+/* overflow:clip lõikab nurgad, kuid ei tee kerimiskonteinerit — nii toimib
+   position:sticky (päis, sisukord) ka prototüübi lauaarvutivaates */
+.device{width:100%;background:var(--c-white);border-radius:var(--r-card);overflow:clip;
   container-type:inline-size;container-name:site}
-.stage[data-vp="mobile"] .device{width:390px;max-width:100%;height:800px;overflow-y:auto;
+.stage[data-vp="mobile"] .device{width:390px;max-width:100%;height:800px;overflow:hidden auto;
   border:10px solid #12161c;border-radius:36px;box-shadow:0 4px 16px rgba(0,0,0,.1)}
 
 /* ---------- Tüpograafia ---------- */
@@ -159,6 +161,7 @@ section.band{padding:40px 0}
     scrollbar-width:none;-webkit-overflow-scrolling:touch}
   .grid--hscroll::-webkit-scrollbar{display:none}
   .grid--hscroll>*{flex:0 0 calc(100% - 32px);scroll-snap-align:start}
+  .signs.grid--hscroll{display:flex;margin-bottom:0}
   .hscroll-dots{display:flex}
 }
 /* kaartide arv pealkirja järel */
@@ -243,19 +246,17 @@ a.card:hover .card-t{text-decoration:underline}
 .list a:hover{background:var(--c-grey-100);text-decoration:underline}
 .list a span[aria-hidden]{color:var(--c-blue);font-weight:700}
 .list-ico{width:32px;height:32px;flex:0 0 auto}
-/* algul on nähtaval 5 rida, ülejäänud avab "Vaata veel" */
+/* algul on nähtaval 5 rida, ülejäänud avab "Lae rohkem" */
 .list[data-collapsed="true"] a:nth-child(n+6){display:none}
 .list-more{display:inline-flex;align-items:center;gap:8px;margin-top:8px}
 .list-more-i{width:9px;height:9px;flex:0 0 auto;
   border-right:2px solid currentColor;border-bottom:2px solid currentColor;
   transform:translateY(-3px) rotate(45deg);transition:transform 200ms}
 .list-more[aria-expanded="true"] .list-more-i{transform:translateY(2px) rotate(225deg)}
-/* kitsas vaates ainult allapoole osutav nool loendi paremas allservas */
+/* kitsas vaates keskel: tekst ja selle järel allapoole osutav nool */
 @container site (max-width:767px){
-  .list-more{display:flex;width:100%;justify-content:flex-end;
-    padding:8px 4px;min-height:44px;text-decoration:none;color:var(--c-orange)}
-  .list-more-t{position:absolute;width:1px;height:1px;padding:0;margin:-1px;
-    overflow:hidden;clip-path:inset(50%);white-space:nowrap}
+  .list-more{display:flex;width:100%;justify-content:center;
+    padding:8px 4px;min-height:44px;color:var(--c-orange)}
   .list-more-i{width:11px;height:11px;border-width:2.5px}
 }
 
@@ -307,7 +308,7 @@ ul.check li{display:flex;gap:12px;font-size:.944rem}
 ul.check li::before{content:"✓";color:var(--s-forest);font-weight:700;flex:0 0 auto}
 
 /* ---------- Sisukord ---------- */
-.toc-mob{position:sticky;top:56px;z-index:30;background:var(--c-white);
+.toc-mob{position:sticky;top:var(--hdr-h,56px);z-index:30;background:var(--c-white);
   border-bottom:1px solid var(--c-grey-200);display:flex;align-items:center;gap:12px;padding:8px 20px}
 .toc-mob button{flex:0 0 auto}
 .toc-mob .cur{font-size:.889rem;color:var(--c-grey-600);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
@@ -316,7 +317,10 @@ ul.check li::before{content:"✓";color:var(--s-forest);font-weight:700;flex:0 0
 @container site (min-width:1024px){
   .toc-mob{display:none}
   .layout{display:grid;grid-template-columns:minmax(220px,3fr) 9fr;gap:24px;align-items:start}
-  .toc-desk{display:block;position:sticky;top:96px}
+  /* .layout > tõstab spetsiifilisust, et [data-src]{position:relative} ei kaotaks
+     kleepuvust ära */
+  .layout > .toc-desk{display:block;position:sticky;top:calc(var(--hdr-h,56px) + 24px);
+    max-height:calc(100vh - var(--hdr-h,56px) - 48px);overflow-y:auto}
 }
 .toc-desk ol{list-style:none;margin:0;padding:0}
 .toc-desk a{display:block;padding:8px 16px;border-left:4px solid var(--c-grey-200);
@@ -452,6 +456,19 @@ figcaption{font-size:.778rem;color:var(--c-grey-600);padding-top:8px;max-width:3
 @container site (min-width:1280px){
   .hero-grid{gap:48px;min-height:560px}
 }
+/* alamlehe päis: pilt taustaks, tume kate, valge kiri (sama loogika mis avalehel) */
+.page-hero{position:relative;padding:0;background:var(--c-ink) 50% 35%/cover no-repeat;
+  color:var(--c-white);overflow:hidden}
+.page-hero::before{content:"";position:absolute;inset:0;
+  background:linear-gradient(90deg,rgba(11,15,20,.8) 0%,rgba(11,15,20,.62) 45%,rgba(11,15,20,.4) 100%)}
+.page-hero > .wrap{position:relative;z-index:1;padding-top:40px;padding-bottom:40px}
+.page-hero h1,.page-hero h2,.page-hero .lead,.page-hero p,.page-hero a{color:var(--c-white)}
+.page-hero .eyebrow{color:rgba(255,255,255,.75)}
+.page-hero .reading > :last-child{margin-bottom:0}
+@container site (min-width:768px){
+  .page-hero > .wrap{padding-top:56px;padding-bottom:56px}
+}
+
 /* mobiilis on hero pilt pealkirja taustaks: äärest ääreni, tume kate, valge kiri */
 @container site (max-width:767px){
   #view-avaleht > section.band.pinned{padding-top:0!important}
@@ -464,7 +481,7 @@ figcaption{font-size:.778rem;color:var(--c-grey-600);padding-top:8px;max-width:3
   .hero-col > .reading h1{color:var(--c-white);margin-bottom:0}
   .hero-media{display:none}
   /* sihtrühma valik jääb päise alla kinni seniks, kuni murede plokk kerib
-     mööda (töötab ka avatud "Vaata veel" loendiga, sest kinnitus lõpeb
+     mööda (töötab ka avatud "Lae rohkem" loendiga, sest kinnitus lõpeb
      hero-veeru lõpus) */
   .hero-col > .seg-block{position:sticky;top:var(--hdr-h,56px);z-index:30;
     width:auto;max-width:none;margin:12px -20px 0!important;padding:12px 20px;
@@ -514,10 +531,13 @@ figcaption{font-size:.778rem;color:var(--c-grey-600);padding-top:8px;max-width:3
 .wiz-sum .tag{background:var(--t-sky)}
 
 /* ---------- Hädaolukord ---------- */
-.emg-hd{background:var(--c-alert);color:#fff;padding:32px 0}
+.emg-hd{background:var(--c-alert);color:#fff;padding:40px 0}
+@container site (min-width:768px){.emg-hd{padding:56px 0}}
 .emg-hd h1{color:#fff}
 .emg-hd p{color:#fff;margin-bottom:24px}
 .emg-actions{display:flex;flex-wrap:wrap;gap:12px}
+/* kitsas vaates on hädaabinupud kõrvuti loetamatud — üksteise all, võrdse laiusega */
+@container site (max-width:767px){.emg-actions{display:grid;grid-template-columns:1fr}}
 .call{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:60px;
   padding:12px 32px;border-radius:var(--r-pill);background:#fff;color:var(--c-alert);
   font-weight:700;font-size:1.111rem;text-decoration:none;border:2px solid #fff}
@@ -714,7 +734,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
         <a href="#" data-goto="mureleht">Vajan abi, aga ei taha oma nime öelda <img class="list-ico" src="img/icons/vestlus.svg" alt="" width="32" height="32" loading="lazy"></a>
       </div>
       <button class="btn btn--quiet list-more" type="button" aria-expanded="false">
-        <span class="list-more-t">Vaata veel</span>
+        <span class="list-more-t">Lae rohkem</span>
         <span class="list-more-i" aria-hidden="true"></span>
       </button>
     </div>
@@ -742,7 +762,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
         <a href="#" data-goto="mureleht">Kuidas seada piire ja mitte võimendada <img class="list-ico" src="img/icons/kahtlus.svg" alt="" width="32" height="32" loading="lazy"></a>
       </div>
       <button class="btn btn--quiet list-more" type="button" aria-expanded="false">
-        <span class="list-more-t">Vaata veel</span>
+        <span class="list-more-t">Lae rohkem</span>
         <span class="list-more-i" aria-hidden="true"></span>
       </button>
     </div>
@@ -850,7 +870,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
   <section class="band" aria-labelledby="h-prog" data-aud="mina lahedane">
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne — avaldatud programmid</span>
-      <h2 id="h-prog">Eneseabiprogrammid</h2>
+      <h2 id="h-prog" data-count-for="progGrid">Eneseabiprogrammid</h2>
       <div class="grid grid--2 grid--hscroll" id="progGrid">
         <a class="card card--lime" href="#" data-goto="mureleht">
           <img class="media" src="img/programm-selge.jpg" alt="" width="900" height="600" loading="lazy" style="margin:-24px -24px 8px;width:calc(100% + 48px);max-width:none;border-radius:8px 8px 0 0;aspect-ratio:3/2">
@@ -864,7 +884,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
           <p>Nikotiinist loobumise ja lähedase toetamise programmid lisanduvad samasse vaatesse ilma avalehte muutmata.</p>
         </div>
       </div>
-      <div class="hscroll-dots" id="progDots" role="group" aria-label="Programmide navigeerimine"></div>
+      <div class="hscroll-dots" id="progDots" role="group" aria-label="Programmide navigeerimine" data-label="Programm"></div>
     </div>
   </section>
 
@@ -898,18 +918,15 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     </nav>
   </div>
 
-  <section class="band" style="padding-top:24px">
+  <section class="band page-hero" style="background-image:url(img/teema-alkohol.jpg)">
     <div class="wrap">
       <div class="reading" data-src="manual">
         <span class="badge">Käsitsi hallatav</span>
-        <p class="eyebrow" style="color:var(--c-grey-600)">Olukord</p>
+        <p class="eyebrow">Olukord</p>
         <h1>Ma joon rohkem, kui tahaksin</h1>
         <p class="lead">Sa ei ole selles olukorras üksi. Väga paljud inimesed märkavad mingil hetkel, et alkoholi on nädalas rohkem kui plaanitud. See ei tähenda, et sinuga on midagi valesti — ja see ei tähenda, et pead kohe kõigest loobuma.</p>
         <p>Sellel lehel saad kontrollida, kas ja kui palju tarvitamine sind puudutab, proovida esimesi samme ning leida abi, kui soovid.</p>
       </div>
-      <figure style="max-width:720px;margin-top:24px">
-        <div class="ph ph--16x9" aria-hidden="true"><span class="k">Pilt · murelehe juhtpilt</span><span>Rahulik, hinnanguvaba kaader: köögilaud hommikul, jalutuskäik, kaks inimest vestlemas. Nägu ei pea olema äratuntav.</span></div>
-      </figure>
     </div>
   </section>
 
@@ -936,7 +953,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne — lehe juurde seotud tööriistad</span>
       <h2 id="h-test2">Kontrolli oma olukorda</h2>
-      <div class="grid grid--2">
+      <div class="grid grid--2 grid--hscroll" id="mureTestGrid">
         <a class="card card--sky" href="#" data-goto="mureleht">
           <span class="tag">10 küsimust · 3 min</span>
           <h3 class="card-t">Tee AUDIT test</h3>
@@ -950,6 +967,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
           <span class="arrow" aria-hidden="true">Ava kalkulaator →</span>
         </a>
       </div>
+      <div class="hscroll-dots" role="group" aria-label="Tööriistade navigeerimine" data-label="Tööriist"></div>
     </div>
   </section>
 
@@ -975,9 +993,9 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
   <section class="band" style="background:var(--c-grey-100)" aria-labelledby="h-abi2">
     <div class="wrap" data-src="auto">
       <span class="badge">Automaatne — seotud teenused ja programmid</span>
-      <h2 id="h-abi2">Kust saada abi</h2>
+      <h2 id="h-abi2" data-count-for="mureAbiGrid">Kust saada abi</h2>
       <p class="meta" style="margin-top:-16px">Abi saamiseks ei pea sa oma nime ütlema ega olema „piisavalt hull“.</p>
-      <div class="grid grid--3">
+      <div class="grid grid--3 grid--hscroll" id="mureAbiGrid">
         <a class="card card--lime" href="#" data-goto="mureleht">
           <h3 class="card-t">Programm SELGE</h3>
           <p>Kuus nädalat samm-sammulist juhendamist alkoholi vähendamiseks. Tasuta ja anonüümne.</p>
@@ -994,6 +1012,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
           <span class="arrow" aria-hidden="true">Leia teenus →</span>
         </a>
       </div>
+      <div class="hscroll-dots" role="group" aria-label="Abivõimaluste navigeerimine" data-label="Abivõimalus"></div>
     </div>
   </section>
 
@@ -1037,6 +1056,17 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     </nav>
   </div>
 
+  <section class="band page-hero" style="background-image:url(img/hero-avaleht-mure.jpg)">
+    <div class="wrap">
+      <div class="reading" data-src="manual">
+        <span class="badge">Käsitsi hallatav</span>
+        <p class="eyebrow">Kasulik info</p>
+        <h1>Kui palju on liiga palju? Alkoholi riskipiirid</h1>
+        <p class="lead">Riskipiir ei ole joon, mille ületamisel tekib sõltuvus. See on kogus, millest alates kahju tõenäosus hakkab kiiresti kasvama — ja tase, mille juures enamik inimesi ei märka veel midagi.</p>
+      </div>
+    </div>
+  </section>
+
   <!-- Mobiili sisukorrariba -->
   <div class="toc-mob">
     <button class="btn btn--secondary" type="button" id="tocBtn" aria-expanded="false" aria-controls="tocSheet" style="min-height:44px;padding:8px 20px">Sisukord</button>
@@ -1064,17 +1094,12 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
 
         <div>
           <div class="reading">
-            <div data-src="manual">
-              <span class="badge">Käsitsi hallatav</span>
-              <h1>Kui palju on liiga palju? Alkoholi riskipiirid</h1>
-            </div>
             <p class="meta" data-src="auto" style="display:flex;flex-wrap:wrap;gap:8px 16px;margin-bottom:24px">
               <span class="badge">Automaatne</span>
               <span>Lugemisaeg 4 min</span><span aria-hidden="true">·</span>
               <span>Uuendatud 12.08.2026</span><span aria-hidden="true">·</span>
               <span>Üle vaadanud TAI ekspert</span>
             </p>
-            <p class="lead">Riskipiir ei ole joon, mille ületamisel tekib sõltuvus. See on kogus, millest alates kahju tõenäosus hakkab kiiresti kasvama — ja tase, mille juures enamik inimesi ei märka veel midagi.</p>
 
             <h2 id="s1">Mis on üks alkoholiühik?</h2>
             <p>Üks alkoholiühik on 10 grammi puhast alkoholi. Ühikutes arvestamine on ainus viis erinevaid jooke omavahel võrrelda.</p>
@@ -1136,12 +1161,13 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
           </div>
 
           <h2 id="s5">Järgmine samm</h2>
-          <div class="grid grid--3" style="margin-bottom:40px" data-src="auto">
-            <span class="badge">Automaatne — seoste põhjal</span>
+          <span class="badge" data-src="auto">Automaatne — seoste põhjal</span>
+          <div class="grid grid--3 grid--hscroll" id="s5Grid">
             <a class="card card--sky" href="#" data-goto="mureleht"><h3 class="card-t">Tee AUDIT test</h3><p>10 küsimust, isiklik tagasiside</p><span class="arrow" aria-hidden="true">→</span></a>
             <a class="card card--sky" href="#" data-goto="sisuleht"><h3 class="card-t">Arvuta oma ühikud</h3><p>Alkokalkulaator</p><span class="arrow" aria-hidden="true">→</span></a>
             <a class="card card--lime" href="#" data-goto="mureleht"><h3 class="card-t">Vaata olukorda „Ma joon rohkem, kui tahaksin“</h3><p>Sammud, abi ja programmid ühes vaates</p><span class="arrow" aria-hidden="true">→</span></a>
           </div>
+          <div class="hscroll-dots" role="group" aria-label="Soovituste navigeerimine" data-label="Soovitus" style="margin-bottom:40px"></div>
 
           <h2 id="s6">Allikad</h2>
           <div class="acc" data-src="manual" style="max-width:720px">
@@ -1177,16 +1203,13 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     </nav>
   </div>
 
-  <section class="band" style="padding-bottom:24px">
+  <section class="band page-hero" style="background-image:url(img/hero-avaleht-kaed.jpg)">
     <div class="wrap">
       <div class="reading" data-src="manual">
         <span class="badge">Käsitsi hallatav</span>
+        <p class="eyebrow">Suunaja</p>
         <h1>Kust alustada?</h1>
         <p class="lead">Kolm küsimust, siis soovitame, kust edasi minna. Kui tead juba, mida otsid, mine otse <a href="#" data-goto="avaleht">avalehele</a>.</p>
-        <p class="meta" style="display:flex;align-items:center;gap:8px">
-          <svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true" focusable="false"><path d="M9 1.5 15 4v5c0 3.3-2.4 6.3-6 7.5C5.4 15.3 3 12.3 3 9V4l6-2.5Z" fill="none" stroke="currentColor" stroke-width="1.6"/></svg>
-          Vastuseid ei salvestata ja nime ei küsita.
-        </p>
       </div>
     </div>
   </section>
@@ -1318,7 +1341,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     <div class="wrap" data-src="manual">
       <span class="badge">Käsitsi hallatav</span>
       <h2 id="h-margid">Kuidas üledoosi ära tunda</h2>
-      <div class="signs">
+      <div class="signs grid--hscroll" id="signsGrid">
         <div class="sign">
           <h3>Opioidid</h3>
           <ul><li>ei ärka, ei reageeri</li><li>aeglane, norisev või seisev hingamine</li><li>sinakad huuled ja küüned</li><li>väga väikesed pupillid</li></ul>
@@ -1332,6 +1355,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
           <ul><li>oksendab teadvusetuna</li><li>külm, kahvatu või sinakas nahk</li><li>harv hingamine, alla 8 korra minutis</li><li>ei ärka äratamise peale</li></ul>
         </div>
       </div>
+      <div class="hscroll-dots" role="group" aria-label="Ainerühmade navigeerimine" data-label="Ainerühm"></div>
       <p class="meta">Kahtluse korral helista alati. Vale häirekõne on parem kui hilinenud abi.</p>
     </div>
   </section>
@@ -1573,7 +1597,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
     if (window.ResizeObserver) new ResizeObserver(setHdrH).observe(hdrEl);
   }
 
-  /* --- "Vaata veel": loend avab ülejäänud read --- */
+  /* --- "Lae rohkem": loend avab ülejäänud read --- */
   document.querySelectorAll('.list-more').forEach(function(btn){
     var list = btn.previousElementSibling;
     if (!list || !list.classList.contains('list')) return;
@@ -1582,51 +1606,58 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
       var open = list.dataset.collapsed !== 'true';
       list.dataset.collapsed = String(open);
       btn.setAttribute('aria-expanded', String(!open));
-      if (label) label.textContent = open ? 'Vaata veel' : 'Vaata vähem';
+      if (label) label.textContent = open ? 'Lae rohkem' : 'Näita vähem';
     });
   });
 
-  /* --- programmide arv pealkirja järel + kerimisrea täpid --- */
-  var progGrid = document.getElementById('progGrid');
-  var progH2 = document.getElementById('h-prog');
-  var progDots = document.getElementById('progDots');
-  var resetProgScroll = function(){};
-  if (progGrid && progH2){
-    progH2.insertAdjacentHTML('beforeend',
-      ' <span class="h-count">(' + progGrid.children.length + ')</span>');
-  }
-  if (progGrid && progDots){
-    var progCards = [].slice.call(progGrid.children);
-    progCards.forEach(function(card, i){
-      var d = document.createElement('button');
-      d.type = 'button';
-      d.setAttribute('aria-label', 'Programm ' + (i + 1));
-      d.setAttribute('aria-current', String(i === 0));
-      d.addEventListener('click', function(){
-        progGrid.scrollTo({left: card.offsetLeft - progGrid.offsetLeft, behavior: 'smooth'});
+  /* --- horisontaalselt keritavad kaardiread: täpid ja algusesse tagasi --- */
+  var resetHScrolls = function(){};
+  (function(){
+    var resets = [];
+    document.querySelectorAll('.grid--hscroll').forEach(function(grid){
+      var dots = grid.nextElementSibling;
+      if (!dots || !dots.classList.contains('hscroll-dots')) return;
+      var cards = [].slice.call(grid.children);
+      var label = dots.dataset.label || 'Kaart';
+      cards.forEach(function(card, i){
+        var d = document.createElement('button');
+        d.type = 'button';
+        d.setAttribute('aria-label', label + ' ' + (i + 1));
+        d.setAttribute('aria-current', String(i === 0));
+        d.addEventListener('click', function(){
+          grid.scrollTo({left: card.offsetLeft - grid.offsetLeft, behavior: 'smooth'});
+        });
+        dots.appendChild(d);
       });
-      progDots.appendChild(d);
+      function sync(){
+        var mid = grid.scrollLeft + grid.clientWidth / 2;
+        var best = 0, bestD = Infinity;
+        cards.forEach(function(card, i){
+          var c = card.offsetLeft - grid.offsetLeft + card.offsetWidth / 2;
+          var d = Math.abs(c - mid);
+          if (d < bestD){ bestD = d; best = i; }
+        });
+        [].slice.call(dots.children).forEach(function(d, i){
+          d.setAttribute('aria-current', String(i === best));
+        });
+      }
+      grid.addEventListener('scroll', sync, {passive:true});
+      /* rida algab alati esimeselt kaardilt — paigutuse muutused (pildi
+         laadimine, sihtrühma vahetus, vaate vahetus) ei tohi seda nihutada */
+      resets.push(function(){ grid.scrollLeft = 0; sync(); });
     });
-    function syncProgDots(){
-      var mid = progGrid.scrollLeft + progGrid.clientWidth / 2;
-      var best = 0, bestD = Infinity;
-      progCards.forEach(function(card, i){
-        var c = card.offsetLeft - progGrid.offsetLeft + card.offsetWidth / 2;
-        var d = Math.abs(c - mid);
-        if (d < bestD){ bestD = d; best = i; }
-      });
-      [].slice.call(progDots.children).forEach(function(d, i){
-        d.setAttribute('aria-current', String(i === best));
-      });
-    }
-    progGrid.addEventListener('scroll', syncProgDots, {passive:true});
-    /* rida algab alati esimeselt programmilt — paigutuse muutused (pildi
-       laadimine, sihtrühma vahetus) ei tohi kerimiskohta nihutada */
-    resetProgScroll = function(){ progGrid.scrollLeft = 0; syncProgDots(); };
-    resetProgScroll();
-    window.addEventListener('load', resetProgScroll);
-    window.addEventListener('resize', resetProgScroll);
-  }
+    resetHScrolls = function(){ resets.forEach(function(f){ f(); }); };
+    resetHScrolls();
+    window.addEventListener('load', resetHScrolls);
+    window.addEventListener('resize', resetHScrolls);
+  })();
+
+  /* --- kaartide arv pealkirja järel --- */
+  document.querySelectorAll('[data-count-for]').forEach(function(h){
+    var box = document.getElementById(h.dataset.countFor);
+    if (box) h.insertAdjacentHTML('beforeend',
+      ' <span class="h-count">(' + box.children.length + ')</span>');
+  });
 
   /* --- akordion --- */
   document.querySelectorAll('.acc button').forEach(function(b){
@@ -1704,7 +1735,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
        .forEach(function(sec, i){ sec.classList.toggle('alt', i % 2 === 1); });
     var segNote = document.getElementById('segNote');
     if (segNote) segNote.textContent = NOTE[aud];
-    resetProgScroll();
+    resetHScrolls();
   }
   if (seg){
     seg.addEventListener('click', function(e){
