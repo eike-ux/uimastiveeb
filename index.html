@@ -377,6 +377,35 @@ h2[id],h3[id]{scroll-margin-top:120px}
 .sos-panel p{font-size:.889rem}
 .sos-panel a{display:block;padding:6px 0;font-weight:600}
 
+/* ---------- Vestlusrobot ---------- */
+.chat{position:fixed;left:20px;bottom:20px;z-index:60}
+.stage[data-vp="mobile"] .chat{position:absolute}
+.chat-btn{display:flex;align-items:center;justify-content:center;width:56px;height:56px;padding:0;
+  border-radius:50%;background:var(--c-blue);border:none;color:var(--c-white);cursor:pointer;
+  box-shadow:0 4px 16px rgba(0,0,0,.18);transition:background 200ms}
+.chat-btn:hover{background:#0a044f}
+.chat-btn svg{width:26px;height:26px;flex:0 0 auto}
+.chat-panel{position:absolute;left:0;bottom:68px;width:320px;max-width:calc(100vw - 40px);
+  background:var(--c-white);border:1px solid var(--c-grey-200);border-top:4px solid var(--c-blue);
+  border-radius:var(--r-card);box-shadow:0 4px 16px rgba(0,0,0,.15);
+  display:flex;flex-direction:column;max-height:min(480px,70vh)}
+.chat-hd{display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 16px;border-bottom:1px solid var(--c-grey-200)}
+.chat-hd strong{font-size:.944rem}
+.chat-hd p{margin:2px 0 0;font-size:.778rem;color:var(--c-grey-600)}
+.chat-close{background:none;border:none;font-size:1.222rem;line-height:1;padding:4px;cursor:pointer;color:var(--c-grey-600)}
+.chat-close:hover{color:var(--c-ink)}
+.chat-msgs{flex:1 1 auto;overflow-y:auto;padding:16px;display:flex;flex-direction:column;gap:10px}
+.chat-msg{max-width:80%;padding:8px 12px;border-radius:14px;font-size:.889rem;line-height:1.4}
+.chat-msg--bot{align-self:flex-start;background:var(--c-grey-100);color:var(--c-ink);border-bottom-left-radius:4px}
+.chat-msg--me{align-self:flex-end;background:var(--t-sky);color:var(--c-ink);border-bottom-right-radius:4px}
+.chat-form{display:flex;gap:8px;padding:12px;border-top:1px solid var(--c-grey-200)}
+.chat-form input{flex:1 1 auto;min-height:40px;padding:8px 12px;border:1px solid var(--c-grey-200);
+  border-radius:var(--r-field);font:inherit;font-size:.889rem}
+.chat-form button{flex:0 0 auto;min-height:40px;padding:8px 16px;border-radius:var(--r-pill);
+  border:none;background:var(--c-blue);color:var(--c-white);font-weight:600;font-size:.889rem;cursor:pointer}
+.chat-form button:hover{background:#0a044f}
+
 /* ---------- Mobiilimenüü / sisukorra leht ---------- */
 .sheet{position:fixed;inset:0;z-index:80;background:rgba(0,0,0,.35);display:flex;
   align-items:stretch;justify-content:flex-end}
@@ -1508,6 +1537,30 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
   <button class="btn sos-btn" type="button" id="sosBtn" aria-expanded="false" aria-controls="sosPanel">Kiire abi</button>
 </div>
 
+<!-- ===================== VESTLUSROBOT ===================== -->
+<div class="chat">
+  <div class="chat-panel" id="chatPanel" hidden role="dialog" aria-modal="false" aria-label="Vestlusabi">
+    <div class="chat-hd">
+      <div>
+        <strong>Vestlusabi</strong>
+        <p>Prototüüp — see vestlus ei ole päriselt aktiivne</p>
+      </div>
+      <button type="button" class="chat-close" id="chatClose" aria-label="Sulge vestlus">✕</button>
+    </div>
+    <div class="chat-msgs" id="chatMsgs">
+      <div class="chat-msg chat-msg--bot">Tere! Kuidas saan sind täna aidata?</div>
+    </div>
+    <form class="chat-form" id="chatForm">
+      <label class="u-vh" for="chatInput">Kirjuta sõnum</label>
+      <input id="chatInput" type="text" placeholder="Kirjuta oma sõnum…" autocomplete="off">
+      <button type="submit">Saada</button>
+    </form>
+  </div>
+  <button class="chat-btn" type="button" id="chatBtn" aria-expanded="false" aria-controls="chatPanel" aria-label="Ava vestlusabi">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5h16a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H9l-4.4 3.3A.5.5 0 0 1 4 20V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/><circle cx="8.5" cy="11" r="1.1" fill="currentColor"/><circle cx="12" cy="11" r="1.1" fill="currentColor"/><circle cx="15.5" cy="11" r="1.1" fill="currentColor"/></svg>
+  </button>
+</div>
+
 </div><!-- /site -->
 
 <!-- ===================== Mobiilimenüü ja sisukorra leht ===================== -->
@@ -1901,6 +1954,44 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
   sosBtn.addEventListener('click', function(){
     var open = sosBtn.getAttribute('aria-expanded') === 'true';
     sosPanel.hidden = open; sosBtn.setAttribute('aria-expanded', String(!open));
+  });
+
+  /* --- vestlusrobot (ainult visuaalne, ei saada midagi kuhugi) --- */
+  var chatBtn = document.getElementById('chatBtn'), chatPanel = document.getElementById('chatPanel'),
+      chatClose = document.getElementById('chatClose'), chatMsgs = document.getElementById('chatMsgs'),
+      chatForm = document.getElementById('chatForm'), chatInput = document.getElementById('chatInput');
+  function setChat(open){
+    chatPanel.hidden = !open; chatBtn.setAttribute('aria-expanded', String(open));
+    if (open) chatInput.focus();
+  }
+  chatBtn.addEventListener('click', function(){
+    setChat(chatBtn.getAttribute('aria-expanded') !== 'true');
+  });
+  chatClose.addEventListener('click', function(){ setChat(false); chatBtn.focus(); });
+  var CHAT_REPLIES = [
+    'Täname sõnumi eest! See on prototüüp, siin toimuvad vestlused ei jõua kuhugi päriselt.',
+    'Kui vajad kohe abi, vali „Kiire abi“ nupp lehe teises nurgas.',
+    'Hea küsimus — päriskeskkonnas vastaks siia nõustaja mõne minuti jooksul.'
+  ];
+  var chatReplyI = 0;
+  chatForm.addEventListener('submit', function(e){
+    e.preventDefault();
+    var text = chatInput.value.trim();
+    if (!text) return;
+    var me = document.createElement('div');
+    me.className = 'chat-msg chat-msg--me';
+    me.textContent = text;
+    chatMsgs.appendChild(me);
+    chatInput.value = '';
+    chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    window.setTimeout(function(){
+      var bot = document.createElement('div');
+      bot.className = 'chat-msg chat-msg--bot';
+      bot.textContent = CHAT_REPLIES[chatReplyI % CHAT_REPLIES.length];
+      chatReplyI++;
+      chatMsgs.appendChild(bot);
+      chatMsgs.scrollTop = chatMsgs.scrollHeight;
+    }, 600);
   });
 })();
 </script>
