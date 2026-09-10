@@ -1176,8 +1176,61 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
               <div class="fact"><span class="n">14</span> ühikut nädalas — mehe riskipiir</div>
               <div class="fact"><span class="n">3</span> alkoholivaba päeva nädalas</div>
             </div>
-            <figure style="margin-bottom:24px">
-              <div class="ph ph--16x9 ph--orange" aria-hidden="true"><span class="k">Graafika 2 · riskipiirid</span><span>Skaala, mis näitab nädala ühikuid ja seda, kus riskipiir jookseb. Ei kasuta ainult värvi — piir on ka märgistatud.</span></div>
+            <figure style="margin-bottom:24px;background:var(--c-grey-100);border-radius:var(--r-card);padding:24px">
+              <svg viewBox="0 0 800 250" role="img" aria-labelledby="g2-title g2-desc" style="width:100%;height:auto;display:block">
+                <title id="g2-title">Riskipiirid alkoholiühikutes nädalas</title>
+                <desc id="g2-desc">Skaala 0 kuni 16 ühikut nädalas. Nulli ja 7 ühiku vahel on naise riskipiir, 7 ja 14 ühiku vahel mehe riskipiir, 14 ühikust edasi on kõrge riski ala. Piirid on lisaks värvile märgistatud ka katkendjoone ja numbritega.</desc>
+
+                <g clip-path="url(#g2-clip)">
+                  <rect x="70" y="110" width="301" height="36" fill="var(--t-forest)"></rect>
+                  <rect x="371" y="110" width="301" height="36" fill="var(--t-orange)"></rect>
+                  <rect x="672" y="110" width="86" height="36" fill="#f8d7d5"></rect>
+                </g>
+                <clipPath id="g2-clip"><rect x="70" y="110" width="688" height="36" rx="6"></rect></clipPath>
+                <rect x="70" y="110" width="688" height="36" rx="6" fill="none" stroke="var(--c-grey-200)" stroke-width="1"></rect>
+
+                <line x1="371" y1="30" x2="371" y2="146" stroke="var(--c-ink)" stroke-width="2" stroke-dasharray="4 4"></line>
+                <circle cx="371" cy="30" r="4" fill="var(--c-ink)"></circle>
+                <text x="371" y="16" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-size="15" font-weight="700" fill="var(--c-ink)">Naise piir</text>
+
+                <line x1="672" y1="30" x2="672" y2="146" stroke="var(--c-ink)" stroke-width="2" stroke-dasharray="4 4"></line>
+                <circle cx="672" cy="30" r="4" fill="var(--c-ink)"></circle>
+                <text x="672" y="16" text-anchor="middle" font-family="Montserrat,Arial,sans-serif" font-size="15" font-weight="700" fill="var(--c-ink)">Mehe piir</text>
+
+                <g font-family="Montserrat,Arial,sans-serif" font-size="14" fill="var(--c-grey-600)">
+                  <line x1="70" y1="146" x2="70" y2="152" stroke="var(--c-grey-400)"></line>
+                  <text x="70" y="170" text-anchor="middle">0</text>
+                  <line x1="156" y1="146" x2="156" y2="152" stroke="var(--c-grey-400)"></line>
+                  <text x="156" y="170" text-anchor="middle">2</text>
+                  <line x1="242" y1="146" x2="242" y2="152" stroke="var(--c-grey-400)"></line>
+                  <text x="242" y="170" text-anchor="middle">4</text>
+                  <line x1="328" y1="146" x2="328" y2="152" stroke="var(--c-grey-400)"></line>
+                  <text x="328" y="170" text-anchor="middle">6</text>
+                  <line x1="371" y1="146" x2="371" y2="152" stroke="var(--c-ink)" stroke-width="2"></line>
+                  <text x="371" y="170" text-anchor="middle" font-weight="700" fill="var(--c-ink)">7</text>
+                  <line x1="414" y1="146" x2="414" y2="152" stroke="var(--c-grey-400)"></line>
+                  <text x="414" y="170" text-anchor="middle">8</text>
+                  <line x1="500" y1="146" x2="500" y2="152" stroke="var(--c-grey-400)"></line>
+                  <text x="500" y="170" text-anchor="middle">10</text>
+                  <line x1="586" y1="146" x2="586" y2="152" stroke="var(--c-grey-400)"></line>
+                  <text x="586" y="170" text-anchor="middle">12</text>
+                  <line x1="672" y1="146" x2="672" y2="152" stroke="var(--c-ink)" stroke-width="2"></line>
+                  <text x="672" y="170" text-anchor="middle" font-weight="700" fill="var(--c-ink)">14</text>
+                  <line x1="758" y1="146" x2="758" y2="152" stroke="var(--c-grey-400)"></line>
+                  <text x="758" y="170" text-anchor="middle">16</text>
+                </g>
+                <text x="414" y="192" font-family="Montserrat,Arial,sans-serif" font-size="13" fill="var(--c-grey-600)">ühikut nädalas</text>
+
+                <g font-family="Montserrat,Arial,sans-serif" font-size="14" fill="var(--c-ink)">
+                  <rect x="70" y="218" width="16" height="16" rx="3" fill="var(--s-forest)"></rect>
+                  <text x="92" y="230">0–7: naise riskipiir</text>
+                  <rect x="300" y="218" width="16" height="16" rx="3" fill="var(--s-orange)"></rect>
+                  <text x="322" y="230">7–14: mehe riskipiir</text>
+                  <rect x="560" y="218" width="16" height="16" rx="3" fill="#d64b41"></rect>
+                  <text x="582" y="230">14+: kõrge risk</text>
+                </g>
+              </svg>
+              <figcaption style="margin-top:12px;font-size:.889rem;color:var(--c-grey-600)">Skaala näitab nädala alkoholiühikuid 0–16. Riskipiirid on märgistatud nii värvi, katkendjoone kui numbriga.</figcaption>
             </figure>
             <div class="callout callout--important">
               <span class="ico" style="background:var(--c-white)" aria-hidden="true">i</span>
