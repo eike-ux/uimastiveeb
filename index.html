@@ -521,16 +521,21 @@ figcaption{font-size:.778rem;color:var(--c-grey-600);padding-top:8px;max-width:3
 .pinned{order:-10}
 .alt{background:var(--c-grey-100)}
 .seg{display:flex;gap:8px;margin:0}
+.seg-label{display:none}
 /* nupud jäävad kõrvuti ja võrdse laiusega ka kitsas vaates */
 .seg button{flex:1 1 0;min-width:0;font:inherit;font-weight:600;font-size:.889rem;min-height:44px;padding:8px 12px;
   border-radius:var(--r-pill);border:2px solid var(--c-grey-200);background:var(--c-white);
   color:var(--c-ink);cursor:pointer;transition:background 200ms,border-color 200ms}
-/* laias vaates ei venita nuppe üle terve veeru ja suunaja-nupp on sama rea
-   paremas ääres */
+/* laias vaates on nupud kompaktsed (mitte üle terve veeru venitatud) ja
+   kogu riba saab tausta, et nuppude ja suunaja-nupu vahele jääv ruum
+   näeks välja disainitud tööriistaribana, mitte tühja kohana */
 @container site (min-width:768px){
-  .seg{max-width:520px;flex:1 1 520px}
-  .seg-block{display:flex;align-items:center;justify-content:space-between;gap:24px}
-  .seg-block #heroCta{flex:0 0 auto;margin:0}
+  .seg-block{display:flex;align-items:center;gap:16px;
+    background:var(--c-grey-100);border-radius:var(--r-card);padding:12px 20px}
+  .seg-label{display:block;font-weight:600;font-size:.889rem;color:var(--c-ink);white-space:nowrap}
+  .seg{flex:0 1 auto}
+  .seg button{flex:0 0 auto;padding:8px 20px}
+  .seg-block #heroCta{flex:0 0 auto;margin:0 0 0 auto}
 }
 .seg button:hover{border-color:var(--c-orange)}
 .seg button[aria-pressed="true"]{background:var(--btn-primary);border-color:var(--c-orange)}
@@ -730,6 +735,7 @@ ul.dont li::before{content:"\2715";color:var(--c-alert);font-weight:700;flex:0 0
   <!-- Sihtrühma valik -->
   <section class="wrap pinned seg-block" id="segSec" data-src="manual" style="margin-top:32px">
     <span class="badge">Käsitsi hallatav — vaate seaded</span>
+    <span class="seg-label" aria-hidden="true">Kellele otsid infot?</span>
     <div class="seg" id="seg" role="group" aria-label="Kellele sa infot otsid?">
       <button type="button" data-aud="mina" aria-pressed="true">Mul on mure</button>
       <button type="button" data-aud="lahedane" aria-pressed="false">Kuidas aidata?</button>
